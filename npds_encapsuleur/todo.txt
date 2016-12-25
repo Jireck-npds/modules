@@ -1,0 +1,4 @@
+A voir la page pour impression qui n'a pas été traitée.
+Fonction de la mise en place d'une bibliothèqye pdf dans le core
+A suivre don
+phr le 12/04/2016

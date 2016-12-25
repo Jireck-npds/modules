@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+ <title> #TITRE </title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="modele/defaut/petition.css">
+ <script>
+  function Valid(t) {
+   if ( t.courriel.value != t.courriel2.value) {
+    alert("Adresses non concordantes ");
+    return false;
+   }
+   return true;
+  }
+ </script>
+<!-- <link rel="stylesheet" type="text/css" href="modele/#REPERTOIRE/petition.css"> -->
+</head>
+
+<body>
+
+<div class="letitre">
+ <h2>#TITRE</h2>
+ <h3>#SOUS_TITRE</h3>
+</div>
+
+#LANG
+
+<div class="lemessage">
+
+<p>
+#:PourSignerRemplissez:#
+</p>
+
+ <form method="POST" onSubmit="return Valid(this)">
+ <table class="formulaire">
+  <tr>
+   <td> <span class=\"champ_obligatoire\">*</span> #:Form_Nom:#</td>
+   <td>
+    <input type="text" name='nom' value=''></td>
+   </tr><tr>
+   <td> <span class=\"champ_obligatoire\">*</span> #:Form_Prenom:#</td>
+    <td><input type="text" name='prenom' value=''></td>
+   </tr> <tr>
+   <td> <span class=\"champ_obligatoire\">*</span> #:Form_Mel:#</td>
+    <td> <input type="text" name='courriel' value=''></td>
+   </tr><tr>
+   <td> <span class=\"champ_obligatoire\">*</span> #:Form_Mel2:#</td>
+    <td> <input type="text" name='courriel2' value=''></td>
+   </tr><tr>
+    <td class="form_nouveau_bloc">#:Form_Infos:#</td>
+    <td><input type="text" name='info' value='' size="30" maxlength="60"></td>
+   </tr> <tr>
+    <td>#:Form_Recevoir_Infos_Campagne:#</td>
+    <td> <input type="checkbox" name='liste' value='#:Form_Oui:#' checked> #:Form_Oui:#</td>
+   </tr><tr>
+    <td colspan="3" align="center"> 
+     <input type="hidden" name='petition' value='#IDE'>
+     <input type="hidden" name='a_signe' value='oui'>
+     <p></p>
+     <input type="submit" value=">> #:Form_Signer:# <<">
+    </td>
+   </tr>
+  </table>
+ </form>
+
+<p class="adresse_ip">
+#:Form_Votre_Adresse_Est:# #IP
+</p>
+<p class="adresses_campagne">
+#:Form_Adresses_Campagne:#
+</p>
+
+</div>
+
+<div class="lelogiciel">
+ #:phpPetitions:#
+</div>
+
+
+</body>
+</html>

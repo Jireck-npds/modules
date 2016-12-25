@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article>
+  <title>Héberger des pétitions au R.A.S.</title>
+
+  <section>
+    <title>Ça veut dire quoi "héberger une pétition au R.A.S."&nbsp;?</title>
+
+    <para>Proposer une pétition ligne, c'est beaucoup plus que mettre en place
+    une page Web contenant le texte de la pétition. Il faut traiter les
+    demandes de signature, les vérifier, ajouter des signatures collectées
+    manuellement, etc.</para>
+
+    <para>Nous vous proposons donc un système complet, rendant la mise en
+    ligne de pétitions accessible à toute personne sachant ajouter une page
+    "statique" à un son site Web. Une fois installée, votre pétition,
+    apparaîtra comme une partie de votre espace Web hébergé au R.A.S.</para>
+  </section>
+
+  <section>
+    <title>Que faut-il faire pour héberger une pétition au
+    R.A.S.&nbsp;?</title>
+
+    <para>L'hébergement de pétitions est possible pour tout adhérent du R.A.S.
+    Vous devez juste vous assurer que vous disposez bien d'un espace Web mais
+    aussi d'une base de données (ainsi que les mots de passe permettant de
+    gérer l'un et l'autre)..</para>
+
+    <para>Une fois ces pré-requis remplis, vous devez installer votre système
+    personnalisé de gestion des pétitions. Une documentation explique comment
+    il faut procéder. Une fois ce système installé, vous pourrez créer autant
+    de pétitions que vous le voudrez.</para>
+  </section>
+
+  <section>
+    <title>Comment se procurer le système de gestion des
+    pétitions&nbsp;?</title>
+
+    <para>Nous vous conseillons de commencer par <emphasis role="bold">lire la
+    documentation</emphasis>&nbsp;: <ulink
+    url="http://crras.ras.eu.org/petitions/DocUtilisateur.html">http://crras.ras.eu.org/petitions/DocUtilisateur.html.</ulink>
+    Ce n'est parce que les auteurs de cette page oublient parfois de le faire
+    qu'il faut les imiter ;-)</para>
+
+    <para>Vous devrez également vous procurer la dernière version du système,
+    sous forme d'une archive compactée adaptée à votre ordi (.tgz ou
+    .zip)&nbsp;: <ulink
+    url="ftp://ftp.ras.eu.org/public/petitions/">ftp://ftp.ras.eu.org/public/petitions/</ulink>.
+    Cette archive contient également une documentation complète que vous
+    pourrez consulter <emphasis>hors ligne</emphasis> (pratique pour les
+    personnes ne disposant pas d'un accès internet au forfait).</para>
+  </section>
+
+  <section>
+    <title>Pourquoi ne pas utiliser les <emphasis>pétitions</emphasis> de
+    <emphasis>SPIP</emphasis>&nbsp;?</title>
+
+    <para>Pour utiliser les pétitions de SPIP... il faut installer SPIP ;-)
+    Or, SPIP n'est pas l'alpha et l'oméga du Web. Il n'a, d'ailleurs, jamais
+    prétendu l'être. On peut donc souhaiter ajouter à son site (non SPIP) la
+    possibilité de mise en ligne de pétitions, sans devoir changer de
+    système.</para>
+
+    <para>Pour les utilisateurs de SPIP, le choix est moins évident. Nous ne
+    pouvons que leur conseiller de consulter les fonctionnalités (forcément
+    évolutives) proposées par les deux systèmes pour voir si l'outil du R.A.S.
+    présente, à leurs yeux, un avantage décisif justifiant son
+    installation.</para>
+  </section>
+</article>

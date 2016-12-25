@@ -1,0 +1,39 @@
+Les variables disponibles pour les modèles...
+
+#A1AMI					: le formulaire d'envoi à un ami
+#COMPTE					: le nombre de signataires
+#COMPTE_TOTAL				: le nombre de signataires y compris les signatures papiers
+#DATE					: la date du jour
+#DATE_INIT				: la date de démarage de la pétition
+#DIFFDATE				: le nombre de jour entre aujourd'hui et la date initiale
+#HEURE					: l'heure du moment
+#IDE					: le numero de la pétition
+#IP					: l'ip du visiteur
+#INITIATEURS				: la listes des initiateurs
+#LIEN_PETITION				: l'URI de la pétition
+#LISTE_PETITIONS_EC			: la liste des pétition en cours
+#PAPIER					: le nombres de signatures papiers recueillies
+#SIGNATAIRES				: la liste des signataires
+#SIGNER					: un lien complet vers le formulaire signer
+#SOUS_TITRE				: le sous-titre de la pétition
+#TEXTE					: le texte de la pétition
+#TITRE					: le titre de la pétition
+#URLSIGNER				: la balise <a> de l'url pour signer
+#URLVOIR				: la balse <a> pour voir les signature
+#VOIR					: un lien complet vers 'voir les signatures
+
+# variables pour les petitions
+#LISTE_PETITIONS_EC			: liste des numéros des pétitions en cours de signature
+#LISTE_PETITIONS_ARCHIVE		: liste des numéros des pétitions archivées.
+
+# variables pour le message de demande de confirmation
+# elles sont récupérée dans le formulaire
+#COURRIEL				: l'adresse mail
+#INFO					: les informations complémentaires
+#LIEN					: le lien pour confirmer
+#NOM					: le nom
+#PRENOM					: le prénom
+
+Depuis la version 1.3, toute autre combinaison #[A-Z]* (un # suivi de majuscules)
+appelle une fonction - si elle existe - du même nom avec comme argument le texte de la page, et renvoyant
+le nouveau texte de celle-ci.

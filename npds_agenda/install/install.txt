@@ -1,0 +1,57 @@
+######################################################################################
+##
+## Nom:  Agenda
+## Version: 1.0
+## Date:  2008
+## Auteurs: Oim
+## 
+## Description: Module d'agenda
+## 
+## Niveau d'installation : Facile
+## Temps d'installation : 1 minutes
+## Minimum Requis : NPDS SABLE
+##
+#######################################################################################
+##
+## INSTALLATION AUTOMATIQUE (RECOMMANDEE)
+## 1. Décompresser l'archive dans le dossier modules de votre site
+## 2. Via l'administration du portail aller dans Gestion/Installation Modules
+## 3. En face de agenda, cliquer sur installer le module et suivez la procédure
+## 4. Copier le fichier install/agenda.css dans le dossier style de vos themes
+## 5. Copier le dossier install/agenda dans themes/VO(TRE)(s) THEME(s)/html/modules/
+##
+## INSTALLATION MANUELLE
+## 1. Décompresser l'archive dans le dossier modules de votre site
+## 2. Créer la base de données à l'aide du fichier install/table.txt
+## 3. Copier le contenu de install/extend-modules.txt dans votre admin/extend-modules.txt
+## 4. Copier le fichier install/agenda.css dans le dossier style de votre theme
+## 5. Copier le dossier install/agenda dans themes/VO(TRE)(s) THEME(s)/html/modules/
+##
+## CHMOD
+## 1. Mettez un CHMOD 777 ou 755 sur les dossiers
+## 2. Mettez un CHMOD 766 sur le fichier admin/config.php et cache.timings.php
+## 3. Mettez un CHMOD 666 sur les fichiers .html
+##
+## ADMINISTRATION DU MODULE
+## Via Admin-Plugins de NPDS. 
+##
+## UTILISATION DU MODULE
+## Appel grace à une URL du type : 
+## <a href=modules.php?ModPath=agenda&amp;ModStart=calendrier>Agenda</a>
+##
+## BLOC
+## Affiche un mini-calendrier du mois en cours avec naviguation
+## include#modules/agenda/bloc/agbloc.php
+##
+## COMMUNAUTE: 
+## Support NPDS : http://modules.npds.org/
+## Support Auteur :
+## ## Fiche du module : http://www.modnpds.tuxfamily.org/modules.php?ModPath=sectionsbis&ModStart=article&rubid=1&secid=1&artid=9
+## ## Rapport de bug : http://modnpds.tuxfamily.org/modules.php?ModPath=bug&ModStart=bug&subop=fiche&id_cat=3
+## ## Demonstration : http://modnpds.tuxfamily.org/modules.php?ModPath=agenda&ModStart=calendrier
+##
+#######################################################################################
+##
+## Tutorial Agenda 1.0
+## Realisation : Oim
+#######################################################################################

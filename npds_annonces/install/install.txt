@@ -1,0 +1,104 @@
+<?php
+/************************************************************************/
+/* NPDS V : Net Portal Dynamic System                                   */
+/* ===========================                                          */
+/*                                                                      */
+/* This version name NPDS Copyright (c) 2001-2010 by Philippe Brunier   */
+/*                                                                      */
+/* Module GS-annonces 2.2                                              */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
+// Basé sur
+/************************************************************************
+                          gadjo_annonces v 1.2
+    application de gestion de petites annonces permettant
+    des utilisateurs enregistrés ou pas et comprennant
+    une zone d'administration des annonces et des utilisateurs.
+    -----------------------------------------------------------
+    copyright            : (C) 2001 christopher wait
+    email                : chris.wait@gadjodrom.com
+*************************************************************************/
+// Adaptation 2008 par Jireck et lopez 
+// Normalisation du module pour sable-evolution et retro-compatibilité avec sable 5.10
+// Mise à jour du module au niveau conformité XHTML pour REvolution 10.02 par jpb/phr en mars 2010
+//*************************************************************************/
+
+
+----------------------------------------------------------------------
+Support sur http://modules.npds.org/
+----------------------------------------------------------------------
+
+Module simple de petites annonces interfacé et complètement intégré au portail NPDS.
+
+Fonctionalités:
+  Inscription comme membre du site obligatoire pour les visiteurs avant de pouvoir déposer une annonce
+  Les utilisateurs peuvent modifier/supprimer leurs annonces
+  Validité des annonces paramétrable (nombre de fois 30 jours) par l'administrateur
+  Possibilité d'avoir plusieurs catégories et sous-catégories d'annonces
+  Administration des annonces depuis le module Plugins du menu administration de NPDS (GS-Annonces)
+  Deux tables sql seulement (g_categories, g_annonces) leur création est automatique à la première connexion au  plugin d'administration
+  Moteur de recherche intégré (spécifique aux annonces)
+  Récupération des informations utilisateurs inscrits
+  Envoi d'un mail à l'administrateur à chaque dépot d'annonces
+  Et enfin la validation des annonces avant parution
+
+  Le fichier annonce.conf.php permet de configurer un certain nombre de chose :
+   - nom des tables,
+   - utilisation des editeurs
+   - affichage de la zone de prix
+   - ...)
+
+  3 fichiers .html.option (intro, corps et pied) permettent de particulariser votre système d'annonce (message d'intro, conditions générales ...)
+
+  Il est possible d'utiliser simultanement plusieur module GS-annonces sur un même site
+
+----------------------------------------------------------------------
+Installation
+----------------------------------------------------------------------
+Automatique via Module-Install (Admin/Gestion installation des modules)
+ou 
+Manuelle:
+ - Créer un sous répertoire [GS-annonces] dans le répertoire modules y copier la totalité des fichiers en respectant l'arborescence 
+ - Copier le fichier extend-modules.txt (ou rajouter intégralement les quatre lignes de description du module dans ce
+   fichier si il existe dèjà) dans le répertoire admin principal de NPDS (votre_site/admin)
+
+----------------------------------------------------------------------
+Lancement :
+----------------------------------------------------------------------
+   Via une url de type : http://www.xxxxx.xxx/modules.php?ModPath=GS-annonces&ModStart=index
+                 (xxxxx.xxx à remplacer par le nom de votre site)
+
+----------------------------------------------------------------------
+Administration :
+----------------------------------------------------------------------
+ Via l'administration des Plugins - GS-annonce (les tables seront crées automatiquement à la 1ere connexion)
+
+ Quelques paramètrages possibles dans  le fichier annonce_conf.php
+   $obsol => nombre de fois trente jours avant destruction auto des annonces (les annonces modifiées par les utilisateurs ou l'administrateur, repartent comme de nouvelles annonces, les utilisateurs ne sont pas détruits, ils restent enregistrés comme utilisateurs du site).
+   $max => nombre maxi d'annonces affichées par page
+
+   les paramètrages d'ordre cosmétique se font également dans ce fichier (message d'acceuil qui peut être remplacé par une image ou du flash).
+
+
+----------------------------------------------------------------------
+Trois Addons pour ce module, la possiblité d'afficher dans un bloc (de droite, ou de gauche) signés
+Alexandre PIRARD / webmaster@portail-paca.net / www.portail-paca.net
+Revu & Corrigés par Fred Alias Canasson
+----------------------------------------------------------------------
+ Bloc1.php : un bloc simple
+ Bloc2.php : un bloc complet avec la liste des rubriques.
+ Bloc3.php : un bloc simple avec la liste des rubriques
+
+
+Installation :
+ Ajouter un bloc (dans l’admin des blocs) le titre n’a pas d’importance, (affichage auto) contenu :  
+ include#modules/GS-annonces/bloc1.php   ou 
+ include#modules/GS-annonces/bloc2.php   ou
+ include#modules/GS-annonces/bloc3.php 
+
+A noter que lors d'une installation automatique, un bloc annonces (bloc1.php) est créé
+---------------------------------------------------------------------
+

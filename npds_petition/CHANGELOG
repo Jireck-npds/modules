@@ -1,0 +1,40 @@
+version 2.0.b :
+	* Correction de sécurité majeure
+	* passage à UTF8 partout
+version 1.2.f :
+	modification importante dans les tables
+	ajout de la relance
+	ajout des styles
+	nettoyage du code (francisation complète des noms de fonction et de celui des variables)
+	ajout d'une procédure de mise à jour
+	ajout de la compatibilité avec Free
+	déplacement de certaines fonctions, de certains fichiers
+	changement des icones
+	ajout de la visualisation des signature dans l'espace admin
+
+version 1.2.e :
+	entrée dans la GLU
+
+version 1.2.d :
+	modification du prefixe
+	fichier DOC_VARIABLES
+
+version 1.2.c :
+	correction de nombreux bugs
+	correction des droits dans modele
+
+version 1.2.b
+	instroduction de options.php
+
+version 1.2.a :
+	introduction du prefixe
+
+version 1.2 :
+	gestion de la method POST
+
+version 1.1 :
+	correction de nombreux petits bugs
+	plusieurs versions non numerotées ont existées.
+
+version 1 :
+	Le logiciel devient un serveur

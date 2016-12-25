@@ -1,0 +1,153 @@
+						phpPETITIONS
+ /***************************************************************************\
+  *  phpPetitions, serveur de pétition pour php/Mysql                       *
+  *                                                                         *
+  *  Copyright (c) 2003-2005                                                *
+  *  Francois Sauterey, le Centre Ressource du Réseau Associatif et Syndical*
+  *                                                                         *
+  *              http://phpPetitions.org                              *
+  *                                                                         *
+  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
+  *  Pour plus de details voir le fichier COPYING.txt                       *
+ \***************************************************************************/
+
+
+Le système fonctionne avec un ensemble de modèles pour chacune des opérations et une base de données. Chaque pétition utilise son jeu de modèles situé dans modele/nom_initiative
+
+1) La Base de données
+-=-=-=-=-=-=-=-=-=-=-
+
+C'est une base Mysql comportant une table décrivant l'ensemble des pétitions en cours ou passées.
+
+table petitions:
+----------------
+ide			: numéro de la pétition (auto-incrément)
+status		: état de la pétition : 0: invisible 1: signable  2: terminé (consultable)
+nom			: le nom interne de l'initiative.
+texte		: contient le texte de la pétition
+titre		:
+sous-titre	:
+robot		: l'adresse du From de l'envoi de la demande de confirmation
+cc_request	: être au courant de chaque nouvelle signature
+date_init	: date de lancement, au format YYYY-MM-JJ
+
+table nom_initiative
+--------------------
+A chaque initiative est associée une table de siagnatures portant le nom utilisé dans la table petitions. Cette table comporte les champs suivants:
+ide			: numéro de la signature (auto-incrément)
+niveau		: '0' signature 'normale', '1' initiateur (ou autre utilisation)
+valid		: '0' en cours de validation, '1' validée
+Nom			: pas de description
+Prenom		: pas de description
+courriel	: pas de description
+infos		: les informations complémentaires
+liste		: drapeau pour inscription à une liste
+date		: timestamp des modifications
+ip			: l'ip du signataire
+relance		: drapeau pour éviter plusieurs relances
+cookie		: la clé MD5. Après validation cette clé est supprimée
+
+table var
+-----------
+Une table clé/valeur pour le fonctionnement interne de phpPetitions.
+
+table admin
+-----------
+La table des adminsitrateurs... Ne sert pas vraiement actuellement.
+
+table admin_petitions
+---------------------
+La table des relations adminsitrateurs//petitions... Ne sert pas actuellement.
+
+
+2) Les modèles
+-=-=-=-=-=-=-=
+
+Les modèles sont au nombre de huit. Ils sont en HTML et comportent des variables 'à la SPIP' qui seront calculé au vol.
+
+index.html
+----------
+C'est le fichier d'entrée. Il devrait comporter le texte de la pétition, et un lien vers le formulaire de signature.
+Il peut aussi afficher le nombre de signatures déjà recueillies, et la listes de signataires et/ou un lien vers ces informations.
+
+form.html
+---------
+C'est bien sûr le formulaire recueillant les signatures. Ce formulaire doit comporter 4 champs qui doivent s'appeler come indiqué):
+nom (nom)
+prénom (prenom)
+divers (infos)
+courriel (courriel)
+Les variables sont utilisables...
+le champs liste (type: CHACKBOX) est optionnel, et sert à gérer une liste de diffusion.
+
+ok.html et err.html
+-------------------
+ce sont les fichers appelé lors de la validation du formulaires suivant que les infos sont OK ou pas.
+Le test sur le courriel n'est pas fait (en ait c'est sans grande importance, le seule risque étant de perdre quelques signatures. On verra a améliorer avec un test minimal)
+
+courriel.txt
+------------
+C'est un fichier texte. Il est envoyé par courriel et utilise ses propres variables. en particulier, il doit comporter la variable #LIEN qui est le lien cliquable de validation formé d'une clé MD5 a priori unique
+
+confirm_ok.html et confirm_err.html
+-----------------------------------
+Ce sont les fichiers appelés lors d'une confirmation suivant que la clé est reconnue ou pas.
+
+vsign.html
+----------
+Affichage des signataires.
+
+Les variables
+-=-=-=-=-=-=-
+
+	Variable HTML:
+#TITRE			: extraction du champs titre de la base de données
+#SOUS_TITRE		: extraction du champs sous-titre de la base de données
+#TEXTE			: extraction du champs texte de la base de données
+#IDE			: numéro de la pétition (utile pour créer des liens
+#INITIATEURS	: listes des premiers signataires s'il y en a
+#DATE_INIT		: date de lancement de la pétition (jj mois yyyy)
+#DATE			: aujourd'hui (jj mois yyyy)
+#COMPTE			: nombre de signatures validées
+#SIGNATAIRES	: liste des signatures avec infos (par défaut ordre chronologique)
+#SIGNER			: lien complet vers le formulaire de signature
+#URLSIGNER		: balise <a> vers le formulaire de signature
+#VOIR			: lien complet vers la visualisation des signatures
+#URLVOIR		: balise <a> vers la visualisation des signatures
+
+	Variable TEXTE (pour le courriel)
+#NOM			: le champs nom saisie dans le formulaire
+#PRENOM			: le champs prenom saisie dans le formulaire
+#COURRIEL		: le champs courriel saisie dans le formulaire
+#INFO			: le champs infos saisie dans le formulaire
+#LIEN			: le lien de validation, avec sa clé MD5
+
+3) Raccourci typo de spip
+-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Quelques raccourcis de spip ont été intégrés:
+
+-			: liste
+{}			: italique
+{{}}		: gras
+{{{}}} 		: intertitre
+[ ]			: transformé en URL
+---			: <hr>
+
+D'autres ont été ajoutés
+>> >>		: justifié à droite
+<< <<		: justifié à gauche
+>> <<		: centré
+<< >>		: justifié
+
+4) options
+-=-=-=-=-=-
+Dans le fichier options.php, on peut modifier le comportement global de phpPetitions.
+
+petition=x
+----------
+Vérouillage du serveur sur *une* unique pétition (x est son ide )
+
+alpha='oui'
+-----------
+Les ignature sont affichées dans ordre alphabétique.

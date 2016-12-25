@@ -1,0 +1,8 @@
+<h1>Raccourci typographique</h1>
+
+Issu de la logique de <b>Spip</b>, les raccourcis typographiques vous permettent de faire une mise en page.
+
+{{{Titre }}}
+provoque l'insertion de balises <h2></h2>
+
+

@@ -1,0 +1,218 @@
+#admin h1 {
+	text-align: center;
+	background: #cecece;
+	font-size: larger;
+}
+
+#admin .bouton {
+	text-align: center;
+}
+
+
+
+#choixLangue {
+/*	text-align: right;
+        margin-right: 0;
+*/
+        display: inline;
+	float: right;
+}
+
+
+body {
+	font-family: tahoma, verdana, arial, sans-serif;
+	background-color: #EEEEEE;
+}
+
+.letitre {
+        text-align: center;
+	padding: 1em;
+	font-size: larger;
+	border: 1px solid black;
+	font-family: tahoma, verdana, arial, sans-serif;
+	color:#000000;
+	line-height: 140%;
+}
+
+.letitre2 {
+        text-align: center;
+	padding: 1em;
+	font-size: larger;
+	font-family: tahoma, verdana, arial, sans-serif;
+	color:#000000;
+	line-height: 140%;
+}
+
+.listes {
+	margin: 1em 15%;
+        text-align: center;
+	padding: 1em;
+	border: 1px solid black;
+}
+
+.listes ul {
+        background-color: #DDDDEE; /* bleu ciel */
+	margin: 1em 5%;
+        text-align: center;
+	padding: 1em;
+}
+
+.lesactions {
+        font-weight: bolder;
+	margin: 1em 30%;
+	padding: 1em 1em;
+        text-align: center;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.letexte {
+        background-color: #FFFF99; /* jaune pale */
+	border: 2px solid #FFFF00; /* jaune vif */
+	margin: 1em 15%;
+	padding: 1em 3em;
+        text-align: left;
+}
+
+.lesinitiateurs {
+        background-color: #DDDDDD; /* autre couleur */
+	border: 2px solid #CCCCCC;
+	margin: 1em 15%;
+	padding: 1em 3em;
+        text-align: left;
+}
+
+.formulaire {
+	margin: 1em 15%;
+        text-align: left;
+}
+
+#phpPetitions {
+	margin: 1em 15%;
+        text-align: center;
+	font-size: smaller
+}
+
+.adresse_ip {
+	margin: 1em 15%;
+        text-align: center;
+	font-size: smaller;
+}
+.adresses_campagne {
+	margin: 1em 15%;
+        text-align: center;
+	font-size: smaller;
+	text-decoration: underline;
+}
+
+.lemessage {
+        background-color: #DDDDEE; /* bleu ciel */
+	margin: 1em 15%;
+        text-align: center;
+	border: 1px solid black;
+	font-family: tahoma, verdana, arial, sans-serif;
+	color:#000000;
+	line-height: 140%;
+	padding: 1em;
+	font-size: larger;
+}
+
+.lemessage ul {
+	border: 1px solid black;
+	margin: 1em 20%;
+        background-color: #EEEEFF; /* bleu ciel */
+}
+.lemessage li {
+        margin: 1em auto;
+}
+
+.box {
+	padding: 5px;
+}
+
+.bigbox {
+	padding: 1em;
+	font-size: larger;
+}
+
+.erreur {
+	border: 3px solid red;
+	padding: 2em;
+	font-size: larger;
+        text-align: center;
+	margin: 2em 20%;
+}
+.box, .bigbox {
+	border: 1px solid black;
+}
+.box, .bigbox {
+	font-family: tahoma, verdana, arial, sans-serif;
+	color:#000000;
+	line-height: 140%;
+}
+
+a:link {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #CC3300;
+	text-decoration: none;
+}
+
+a:visited {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #CC3300;
+	text-decoration: none;
+}
+
+a:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #003366;
+	background-color: #EDEDED;
+	text-decoration: none;
+}
+
+a:active {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #003366;
+	text-decoration: none;
+}
+
+.champ_obligatoire {
+        color: red;
+	font-weight:bolder;
+}
+
+.signatures {
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: justify;
+}
+
+li.niveau0 {
+	display: inline;
+	font-size: smaller;
+}
+
+li.niveau1 {
+	display: inline;
+}
+
+.attente {
+	font-style: italic;
+}
+
+h1 {
+	font-size: larger;
+	text-align: justify;
+	font-weight: bold;
+}
+
+#admin .footer {
+	background: #dedede;
+	text-align: center;
+}
+
+.fgrey {
+	background: grey;
+}
+<!--
+# vim: ts=4
+-->

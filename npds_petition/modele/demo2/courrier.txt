@@ -1,0 +1,20 @@
+
+#:Courrier_Avons_Recu_Demande_Signature:#
+"#TITRE"
+#:Courrier_Au_Nom_De:#
+#PRENOM #NOM (#INFO) #PAYS.
+
+#:Courrier_Eviter_Plaisanterie_Confirmer_Signature:#
+
+#:Courrier_Signature_Validee_Apres_Cette_Operation:#
+
+
+		=========================================
+#:Courrier_Pour_Confirmer_Cliquer:#
+#LIEN
+		=========================================
+
+#:Courrier_Sinon_Pas_Repondre:#
+
+
+#:Courrier_Cordialement:#

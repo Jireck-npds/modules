@@ -1,0 +1,1415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article>
+  <title>Héberger des pétitions au R.A.S.</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <section>
+      <title>Objet du document</title>
+
+      <para>Ce document se voudrait être une aide complète à l'installation de
+      pétitions sur les serveurs du R.A.S. Il s'adresse aux personnes gérant
+      les sites web des membres (webmaster) ou, à défaut, aux responsables
+      techniques des associations membres.</para>
+
+      <para>Il suppose que vous savez mettre à jour le site web de votre
+      association. Si tel n'est pas le cas, ce document ne vous sera d'aucune
+      aide.</para>
+    </section>
+
+    <section>
+      <title>Pourquoi un système spécialisé pour les pétitions</title>
+
+      <para>La publication et la gestion d'une pétition électronique est
+      techniquement complexe. Par défintion, il s'agit d'un contenu
+      "dynamique" puisque la liste des signataires évolue au fil du temps. Il
+      faut non seulement archiver les signatures, éliminer les doublons,
+      éviter les signatures fantaisistes, etc. Tout cela fait appel à des
+      techniques qui dépassent la simple création d'une page web "statique" :
+      programmation, base de données, administration, contrôles de
+      sécurité...</para>
+
+      <para>Mais la simplification technique n'est pas la seule motivation. Il
+      nous a paru indispensable d'introduire un minimum de mécanismes de
+      contrôle et de gestion des signatures. Il n'y aurait rien de plus
+      préjudiciable que de ne pas pouvoir identifier les signataires d'une
+      pétition. Ce serait en contradiction avec le principe même de ce mode
+      d'action. De même, si une signature apparaît plusieurs fois (en raison
+      d'une fausse manipulation) il faut pouvoir effacer rapidement les
+      doublons, faute de quoi on risque vite d'être accuséEs de gonfler
+      artificiellement le nombre de signataires... Et si l'on reçoit des
+      signatures par d'autres canaux que le Web, il faut pouvoir les ajouter
+      simplement et rapidement.</para>
+
+      <para>Bref, on s'aperçoit que quelques fonctionnalités sont absolument
+      indispensables si l'on désire conserver un minimum de crédibilité à ce
+      type d'initiative. Notre but a été de rendre la <emphasis>pétition
+      électronique</emphasis> accessible à toute personne ayant les
+      connaissances suffisantes pour mettre en ligne une page Web
+      "statique".</para>
+    </section>
+
+    <section>
+      <title>Principes de la validation de signatures</title>
+
+      <para>L'un des points fort de cet outil est la validations des
+      signatures. Il ne s'agit pas de procéder à un contrôle policier mais de
+      s'assurer, dans la mesure du possible, que la personne qui signe la
+      pétition est bien celle qu'elle prétend être. En clair, il sera demandé
+      à chaque signataire de confirmer sa signature. L'engagement demandé au
+      signataire est plus fort qu'un simple clic, au détour d'une page Web.
+      Est-ce vraiment un défaut&nbsp;?</para>
+
+      <para>Vu du côté du signataire, la procédure de signature électronique
+      validée apparaîtra ainsi&nbsp;:</para>
+
+      <para></para>
+
+      <itemizedlist>
+        <listitem>
+          <para>1 Prise de connaissance du texte de la pétitions (Web)</para>
+        </listitem>
+
+        <listitem>
+          <para>2 Saisie de son identité dans un formulaire électronique
+          (Web)</para>
+        </listitem>
+
+        <listitem>
+          <para>3a Visualisation d'un accusé d'enregistrement de la demande de
+          signature (Web)</para>
+        </listitem>
+
+        <listitem>
+          <para>3b Visualisation d'un message d'erreur si l'on s'est trompé
+          lors de la saisie (Web)</para>
+        </listitem>
+
+        <listitem>
+          <para>4 Réception, par courriel, d'une demande de confirmation de la
+          signature (mail)</para>
+        </listitem>
+
+        <listitem>
+          <para>5 Envoi, par courriel, de la confirmation (mail).</para>
+        </listitem>
+
+        <listitem>
+          <para>6 Réception, par courriel, d'un accusé de réception définitif
+          de signature (mail)</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Installation</title>
+
+    <section>
+      <title>Principe</title>
+
+      <para>Plutôt que d'installer une pétition, nous vous proposons
+      d'installer un outil d'administration de pétitions. Une fois cet outil
+      installé, vous pourrez créer autant de pétitions que vous le voudrez,
+      gérer vos listes de signataires, clore une pétition, etc.</para>
+
+      <para>Cet outil vous apparaîtra comme une partie du site Web de votre
+      association. Une fois l'installation effectuée, vous pourrez gérer les
+      pétitions que vous aurez créées à partir d'un simple navigateur
+      Web.</para>
+
+      <para>Installer le système de gestion de pétition se résume donc à
+      copier, dans votre espace Web, un ensemble de fichiers conçus à cet
+      effet. Par la suite, la création de pétitions vous conduira à
+      personnaliser certains des fichiers installés. À une étape comme à
+      l'autre, vous devez donc disposer des droits d'administration du site
+      Web de votre association.</para>
+    </section>
+
+    <section>
+      <title>Pré-requis</title>
+
+      <para>Pour pouvoir héberger des pétitions au R.A.S., vous devez déjà
+      disposer d'une base de données (au R.A.S). Si vous n'en possédez pas
+      une, le responsable technique de votre association peut en faire la
+      demande. Il vous transmettra alors les informations suivantes : nom de
+      la base, login d'administration de la base, mot de passe
+      d'administration de la base.</para>
+
+      <para>Notez bien que c'est la même base de données qui vous servira pour
+      une multitudes d'usages. Ainsi, si vous avez déjà installé SPIP dans
+      l'espace Web de votre association(au R.A.S.), vous disposez forcément
+      d'une base de données. Inutile d'en créer une nouvelle.</para>
+
+      <para>Par ailleurs, l'installation des pétitions demandant d'intervenir
+      sur les fichiers de l'espace Web de l'association, celui-ci doit exister
+      et vous devez posséder les droits nécessaires à ce type d'intervention
+      (en gros, vous devez être webmaster)<footnote>
+          <para>Toutes ces informations doivent vous être transmises par le
+          responsable technique de votre association.</para>
+        </footnote>.</para>
+    </section>
+
+    <section>
+      <title>Installation de l'installateur</title>
+
+      <para>Installer l'outil d'administration de pétitions revient donc à
+      ajouter des fichiers spécifiques à votre site. Cette opération peut être
+      conduite de nombreuses manière. Nous nous limiterons, ici, à présenter
+      l'une de celles-ci.</para>
+
+      <para>La première opération consiste à récupérer l'ensemble des fichiers
+      à installer. Pour vous les procurer, rendez-vous sur la page du Centre
+      de Ressources consacrée aux pétitions&nbsp;: <ulink
+      url="http://crras.ras.eu.org/petitions/">http://crras.ras.eu.org/petitions/</ulink><footnote>
+          <para>Les archives sont directement disponibles dans l'espace FTP
+          anonyme du R.A.S.&nbsp;: <ulink
+          url="ftp://ftp.ras.eu.org/petitions/">ftp://ftp.ras.eu.org/public/petitions/</ulink>.
+          Mais il est conseillé de passer d'abord par la page Web. Celle-ci
+          peut contenir des informations de dernière minute.</para>
+        </footnote>.Une fois l'archive rapatriée sur votre ordi, vous devrez
+      la décompacter avant de pouvoir l'implanter sur votre site Web.</para>
+
+      <note>
+        <para>Pour la suite, nous allons supposer que vous mettez à jour votre
+        site à l'aide d'un logiciel de transfert de fichiers par FTP. Si votre
+        site est correctement installé, vous accédez aux fichiers de votre
+        site par l'url ftp://ftp.&lt;racine du domaine du votre site Web&gt;.
+        Par exemple, si vous tapez http://www.mon_asso.ras.eu.org/ pour surfer
+        sur votre site, ce sera ftp://ftp.mon_asso.ras.eu.org<footnote>
+            <para>Attention ! ftp://tp.mon_asso.ras.eu.org vous conduit dans
+            le répertoire contenant tous les espaces Web hébergés au R.A.S.
+            Pour accéder à votre espace Web, vous devez ouvrir le répertoire
+            de votre association. Ce répertoire ne porte pas nécessairement le
+            même nom que celui qui a servit à composer votre nom de domaine
+            !!! C'est le nom interne qui a été assigné à votre association,
+            lors de la création de votre tout premier compte.</para>
+          </footnote>.</para>
+      </note>
+
+      <para>Connectez-vous à votre espace Web par FTP (par exemple
+      ftp.asssises-universite.ras.eu.org) et créez un répertoire (par exemple,
+      <filename>petitions</filename>)qui aura vocation à contenir toutes vos
+      pétitions futures. Dans ce répertoire déposez l'ensemble des fichiers et
+      répertoires que vous avez récupéré depuis l'archive. Assurez-vous que la
+      copie du répertoire <filename>admin</filename> se trouvant sur le site
+      Web est accessible en lecture et en écriture pour tous. Sinon, ajuster
+      ses droits en conséquence, au moyen de votre logiciel d'accès
+      FTP.</para>
+
+      <para>L'installation de l'installateur est terminée.</para>
+    </section>
+
+    <section>
+      <title>Installation du système de gestion des pétitions</title>
+
+      <para>À l'étape précédente, vous avez installé l'installateur. Vous
+      allez maintenant activer cet installateur. Ceci entraînera
+      l'installation effective du système de gestion des pétitions.</para>
+
+      <para>Pour ce faire, vous allez vous rendre dans l'espace Web de votre
+      association, plus précisément dans la partie <literal>admin</literal> de
+      l'espace des pétitions (par exemple
+      <literal><filename>http://www.assises-universite.ras.eu.org/petitions/admin/</filename></literal>).</para>
+
+      <para>Si tout s'est bien passé, vous voyez apparaître un formulaire vous
+      demandant de fournir quatre informations&nbsp;:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>le nom de domaine de base de base de données de l'hébergeur
+          (ici, le R.A.S.)</para>
+        </listitem>
+
+        <listitem>
+          <para>le nom de la sous-base créée pour votre association</para>
+        </listitem>
+
+        <listitem>
+          <para>le login d'administration de cette sous-base</para>
+        </listitem>
+
+        <listitem>
+          <para>le mot de passe d'administration de cette sous-base.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Le nom de domaine de la base de données du R.A.S. est
+      <literal>db.ras.eu.org</literal>.</para>
+
+      <para>Pour les trois autres informations, elles ne peuvent ni se deviner
+      ni se déduire d'autres informations... Soit vous les connaissez, soit
+      vous devez vous les procurer. Elles ont été fournies à votre responsable
+      technique, suite à la création de la base de données de votre
+      association.</para>
+
+      <para>À partir de la validation de ce formulaire, une succession
+      d'écrans vous informe des étapes d'installation du système de pétition
+      et vous conduit à l'écran de création des administrateurs.</para>
+
+      <para>Vous devez créer au moins un adminstrateur de pétitions.
+      L'administrateur de la base de données ne dispose pas automatiquement
+      des droits d'administration des pétitions. Notez bien les login et mot
+      de passe de ce premier administrateur de pétitions.</para>
+
+      <para>Après création du premier "admin", vous arrivez sur l'écran
+      contrôlant l'accès à l'espace d'adminstration de vos pétitions.</para>
+
+      <note>
+        <para>Dorénavent, lorsque vous accéderez à l'url d'administration des
+        pétitions (par exemple
+        <literal><filename>http://www.assises-universite.ras.eu.org/petitions/admin/</filename></literal>)
+        c'est sur cet écran que vous tomberez et non sur le formulaire
+        d'installation. Logique, l'installation ne se fait qu'une seule
+        fois.</para>
+      </note>
+
+      <para><emphasis role="bold">Entrez dans l'espace d'administration de vos
+      pétitions.</emphasis></para>
+    </section>
+
+    <section>
+      <title>Qu'est-ce qui a été installé&nbsp;?</title>
+
+      <para>Comme vous pouvez le constater sur l'écran de gestion de vos
+      pétitions, l'installateur a créé une première pétition appelée "test".
+      L'existence de cette pétition signifie deux choses. D'une part, le
+      système à créé une sous-base de données (une "table") destinée à
+      recevoir les signatures de cette pétition. Mais cela signifie également
+      que certains des fichiers que vous avez déposé (par FTP) dans votre
+      espace Web sont désormais activés.</para>
+
+      <para>Ainsi, si vous explorez (en FTP) le contenu du sous-répertoire
+      <filename>modele</filename> de votre répertoire de pétitions (dans notre
+      exemple
+      <literal><literal>ftp.assises-universite.ras.eu.org/petition/modele/</literal></literal>)
+      vous constaterez qu'il contient un répertoire <filename>test</filename>
+      qui contient les fichiers modèles des pages Web correspondant à cette
+      pétition. Vous y trouverez également un répertoire nommé
+      <filename>defaut</filename>, qui décrira les pages Web affichées, par
+      défaut, pour toutes vos pétitions futures. Le rôle de ces fichiers sera
+      détaillés dans les sections suivantes.</para>
+
+      <para>Enfin, en plus des données figurant sous forme de fichiers ou de
+      tables, vous disposez de toute la mécanique nécessaire pour administrer
+      les pétitions. Les programmes informatiques effectuant ce travail se
+      trouvent dans votre espace Web (sous forme de scripts PHP).</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Création d'une pétition</title>
+
+    <para>Votre site Web est désormais équipé de tous les outils nécessaires
+    pour créer, modifier et gérer des pétitions. Il est donc possible de
+    poursuivre le travail en n'utilisant qu'un simple navigateur Web.</para>
+
+    <para>Si vous adoptez cette démarche, vous serez néanmoins limitéE aux
+    affichages définis par défaut. Cela peut être un compromis tout à fait
+    acceptable puisqu'il permet de mettre en ligne rapidement une pétition.
+    Vous pourrez toujours en améliorer la présentation, ultérieurement.</para>
+
+    <para>Si vous décidez de personnaliser la présentation de votre pétition,
+    voire de toutes vos pétitions, vous devrez intervenir sur les contenu des
+    fichiers et répertoires se trouvant dans le répertoire
+    <filename>modeles</filename>. Il vous faudra alors procéder de la même
+    manière que lorsqu'on effectue une mise à jour manuelle d'un site Web
+    (modification des fichiers à l'aide d'un éditeur, télédépot des fichiers
+    modifiés ou ajoutés). Si votre expérience en matière de mise à jour de
+    sites Web se limite à l'utilisation "clés en main" d'un système intégré
+    tel que SPIP, l'effort que vous devrez fournir risque d'être conséquent.
+    Il peut alors être judicieux de s'en tenir aux présentations par
+    défaut.</para>
+
+    <section>
+      <title>Création rapide</title>
+
+      <section>
+        <title>Mise en ligne de la pétition</title>
+
+        <para>Le moyen le plus rapide de créer une première pétition est de ne
+        pas en créer. Il suffit d'adapter la pétition dénommée
+        <literal>test</literal>. Celle-ci apparaît dans la liste des
+        pétitions, affichée sur l'écran d'accueil de l'administration des
+        pétitions. En cliquant sur le pictogramme d'édition des propriétés,
+        vous pourrez donner de nouveaux titre, sous-titre et texte de
+        pétition.</para>
+
+        <para>Il faut également indiquer l'adresse de l'administrateur de la
+        liste. Cette adresse apparaîtra comme étant celle de l'expéditeur des
+        courriels de demande de confirmation. C'est donc elle qui recevra les
+        réponses à ces courriels.</para>
+
+        <note>
+          <para>En réponse à un courriel de demande de confirmation, le
+          signataire doit, normalement, cliquer sur un lien figurant dans le
+          message qui lui est adressé. Cela provoque l'envoi d'un courriel
+          destiné au robot de gestion des pétition. Ce courriel ne sera pas
+          envoyé à l'administrateur indiqué dans ce champ du
+          formulaire.</para>
+
+          <para>Ce dernier ne recevra que les validations erronées, par
+          exemple si le signataire utilise la fonction "réponse" de son
+          logiciel de courrier et envoie un message en écrivant "je
+          confirme".</para>
+        </note>
+
+        <para>Le texte de la pétition peut être saisi de la manière la plus
+        simple qui soit&nbsp;: texte seul, avec des sauts de lignes pour
+        séparer les paragraphes. On peut néanmoins améliorer sensiblement le
+        rendu final par l'utilisation de raccourcis de mise en forme
+        typographique (voir plus loin).</para>
+
+        <para>Les boutons radios permettent de préciser le statut de la
+        pétition. Un "brouillon" est une pétition en cours de réalisation. Un
+        "brouillon" n'est pas consultable sur le Web, en dehors de l'espace
+        d'administration. "À signature" permet d'ouvrir la pétition à la
+        signature sur le Web. Une pétition en "Archive" peut encore être
+        consultée sur le Web mais on ne peut plus la signer
+        électroniquement.</para>
+
+        <para>La case à chocher "Être prévenu des nouvelles signatures" permet
+        à l'administrateur de liste (indentifié plus haut) d'être informé des
+        confirmations de signatures. Cela permet de suivre l'évolution des
+        signatures sans avoir à se rendre sur le site.</para>
+      </section>
+
+      <section>
+        <title>Saisie des premières signatures</title>
+
+        <para>Il est courant qu'une pétition ait déjà recueilli des signatures
+        avant sa publication en ligne. C'est notamment le cas lorsqu'on a
+        souhaité asseoir sa crédibilité par une liste de premiers signataires
+        représentatifs. La publication de la pétition perdrait beaucoup de sa
+        signification si' l'on ne pouvait immédiatement faire figurer ces
+        signatures.</para>
+
+        <para>Dans l'écran d'accueil de l'administration des pétitions, il
+        suffit de cliquer sur le pictogramme d'édition des signatures. Un
+        champ permet alors de saisir une liste de signataires, unE par ligne,
+        en respectant un format particulier&nbsp;:
+        <computeroutput>nom:prénom:infos_complémentaire:primo_signataire.</computeroutput></para>
+
+        <para>Les ":" faisant office de séparateurs, il faut les saisir tels
+        quels. "infos_complémentaire" contient ce que l'on veut.
+        "primo_signataire" prend la valeur "1" ou "0" selon que l'on veut, ou
+        non , distinguer visuellement les premiers signataires des signataires
+        suivants.</para>
+
+        <para>Seuls le nom et le prénom doivent impérativement être indiqués.
+        Une liste du genre&nbsp;:</para>
+
+        <programlisting>Dupont:Jean
+Durand:Jacques</programlisting>
+
+        <para>est donc parfaitement valable.</para>
+
+        <para>On utilisera ce même écran d'administration pour ajouter,
+        ultérieurement, les signatures qui n'auront pas été récoltées à
+        travers le formulaire en ligne.</para>
+
+        <note>
+          <para>Les signatures saisie par l'administrateur de la pétition sont
+          implicitement validées. Il ne sera donc pas demandé aux signataires
+          de confirmer leur signature. C'est pourquoi on n'a pas à d'indiquer
+          les adresses E-mail de validation.</para>
+        </note>
+      </section>
+    </section>
+
+    <section>
+      <title>Mise en forme de la pétition</title>
+
+      <para>Dans le cas le plus simple, le texte de la pétition est saisi tel
+      quel, sans le moindre enrichissement typographique ni le moindre effet
+      de présentation. Seules sont restituées les séparations des paragraphes
+      indiquées lors de la saisie dans le formulaire.</para>
+
+      <para>On peut néanmoins souhaiter offrir une meilleure présentation de
+      ce texte. On dispose alors de deux techniques.</para>
+
+      <section>
+        <title>Typographie simplifiée</title>
+
+        <para>La technique plus simple utilise une syntaxe propre à notre
+        système et permet d'effectuer les améliorations les plus courantes. Le
+        tableau suivant récapitule les directives disponibles.</para>
+
+        <table>
+          <title>Directives typographques simplifiées (à la SPIP)</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>-</entry>
+
+                <entry>élément de liste</entry>
+              </row>
+
+              <row>
+                <entry>{}</entry>
+
+                <entry>italique</entry>
+              </row>
+
+              <row>
+                <entry>{{}}</entry>
+
+                <entry>gras</entry>
+              </row>
+
+              <row>
+                <entry>{{{}}}</entry>
+
+                <entry>intertitre</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+        <para>Il faut comprendre que tout groupe de mots qui, lors de la
+        saisie dans le formulaire, sera encadré par "{" et "}" sera affiché en
+        italique sur le site Web. Les utilisateurs de SPIP ne seront pas
+        dépaysés.</para>
+      </section>
+
+      <section>
+        <title>Balises HTML</title>
+
+        <para>Les connaisseurs de HTML pourront aller plus avant dans les
+        effets de présentation du texte de la pétition. En effet, les balises
+        HTML qui seront saisies dans le texte du formulaire seront
+        intégralement reproduites sur la page Web d'affichage de la
+        pétition.</para>
+
+        <para>Ainsi, si le texte d'un paragraphe saisi dans le formulaire est
+        encadré par le balises "&lt;center&gt;&lt;/center&gt;", il sera
+        affiché centré sur la page Web.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Création avancée </title>
+
+      <section>
+        <title>Création d'une nouvelle pétition</title>
+
+        <para>Si l'on souhaite conserver la pétition "test" pour faire des
+        essais ou si l'on doit mettre en ligne une seconde pétition, il faut
+        absolument créer une pétition de toutes pièces. Pour ce faire, on
+        utilisera le bouton de "création" figurant sur l'écran
+        d'administration des pétitions.</para>
+
+        <note>
+          <para>Pour pouvoir créer des pétitions, il faut que le répertoire
+          <filename>modele</filename> situé dans votre espace Web soit
+          accessible en écriture, pour tous (code 777). Utilisez la
+          fonctionnalité appropriée de votre logiciel FTP, comme vous l'avez
+          fait pour le répertoire <filename>admin</filename>.</para>
+        </note>
+
+        <para>S'affiche alors l'écran des propriétés de la pétition, tel qu'il
+        à été discuté dans la section "Création rapide".</para>
+
+        <para>Vous constaterez également qu'un nouveau répertoire, reprenant
+        le nom de votre pétition, a été crée dans le répertoire
+        <filename>modele</filename> de votre site Web. Ce répertoire est vide,
+        c'est normal. Nous discuterons dans les sections suivantes de
+        l'utilisation que l'on peut en faire.</para>
+      </section>
+
+      <section>
+        <title>Fichiers personnalisés</title>
+
+        <para>Pour le moment, nous avons vu comment agir sur la présentation
+        du texte de la pétition. C'est déjà bien et cela conviendra à de
+        nombreuses personnes, du moins dans l'urgence de la mise en ligne.
+        Mais on peut souhaiter modifier la présentation complète de la page et
+        pas uniquement la typographie du texte. Plus encore, on peut vouloir
+        intervenir non seulement sur la page du texte de la pétition mais
+        aussi sur toutes les pages Web liées à la pétition (texte, liste de
+        signataires, formulaire de signature, messages d'alerte) de même que
+        sur le contenu des courriels (demandes de confirmation, notifications;
+        etc.).</para>
+
+        <para>Tous ces éléments sont définis par des fichiers figurant dans le
+        répertoire <filename>modele</filename>. Chaque pétition y possède un
+        sous-répertoire qui lui est propre. De plus, le sous-répertoire
+        <filename>defaut</filename> contient les fichiers qui seront utilisés
+        lorsqu'une pétition n'a pas défini de fichier personnalisé. Comme nous
+        l'avons vu précédemment, la création d'une nouvelle pétition provoque
+        la création d'un sous-répertoire vide. Cela signifie que cette
+        pétition sera, a priori, affichée selon les règles par défaut décrite
+        par les fichiers du sous-répertoire
+        <filename>defaut</filename>.</para>
+
+        <para>La signification de chaque fichier est détaillée dans la section
+        "Fichiers personnalisables". Retenons, pour le moment, qu'une pétition
+        peut ne personnaliser que l'un de ces fichiers. Si un fichier
+        personnalisé existe dans le sous-répertoire de la pétition, il sera
+        utilisé en lieu et place du fichier de même nom situé dans le
+        sous-répertoire <filename>defaut</filename>. Ce mécanisme permet une
+        personnalisation graduelle<footnote>
+            <para>Granulaire.</para>
+          </footnote> car elle dispense de procéder en "tout ou rien".</para>
+
+        <para>La manière la plus simple de personnaliser est probablement de
+        démarrer à partir d'une copie des fichiers du répertoire
+        <filename>defaut</filename>. Après adaptation du (ou des) fichier(s)
+        désiré(s), à l'aide d'un éditeur, il suffira de le(s) télédéposer dans
+        le répertoire de la pétition.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Pense-bête</title>
+
+      <para>L'idée de cette section est de récapituler toutes les opérations à
+      effectuer, pour une installation rapide.</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Se procurer toutes les informations nécessaires</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>le nom système R.A.S. de votre association</para>
+            </listitem>
+
+            <listitem>
+              <para>le nom de domaine de votre site Web hébergé au
+              R.A.S.</para>
+            </listitem>
+
+            <listitem>
+              <para>les login et mots de passe permettant de gérer l'espace
+              Web</para>
+            </listitem>
+
+            <listitem>
+              <para>le nom de la base de données de votre association, au
+              R.A.S.</para>
+            </listitem>
+
+            <listitem>
+              <para>le login et mot de passe permettant d'accéder à cette base
+              de données</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Récupérer l'installateur</para>
+        </listitem>
+
+        <listitem>
+          <para>Télédéposer l'installateur</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>donner les droits d'écriture à tous sur le répertoire
+              <filename>admin</filename></para>
+            </listitem>
+
+            <listitem>
+              <para>donner les droits d'écriture à tous sur le répertoire
+              <filename>modele</filename></para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Lancer l'installation en passant par le site Web de
+          l'association</para>
+        </listitem>
+
+        <listitem>
+          <para>Adapter la pétition "test"</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>modifier ses propriétés&nbsp;: titre, sous-titre, texte,
+              mail d'administration, statut</para>
+            </listitem>
+
+            <listitem>
+              <para>ajouter les premiers signataires</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </orderedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Fonctionnement détaillé</title>
+
+    <para>Le système d'administration des pétitions fonctionne avec un
+    ensemble de fichiers pour chacune des opérations et une base de données.
+    Chaque pétition utilise son jeu de fichiers situé dans le répertoire
+    modele/nom_petition du sous-espace Web que vous avez consacré aux
+    pétitions.</para>
+
+    <section>
+      <title>La Base de données</title>
+
+      <para>C'est une base Mysql comportant une table décrivant l'ensemble des
+      pétitions gérées par la R.A.S. (en cours ou passées).</para>
+
+      <para>Les base sont gérables par phpmyadmin: <ulink
+      url="https://www.ras.eu.org/admin/pma/index.php">https://www.ras.eu.org/admin/pma/index.php</ulink></para>
+
+      <section>
+        <title>Table <literal>petitions</literal></title>
+
+        <table>
+          <title>table petitions</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>ide</entry>
+
+                <entry>numéro de la pétition (auto-incrément)</entry>
+              </row>
+
+              <row>
+                <entry>nom</entry>
+
+                <entry>le nom interne de l'initiative. Il sera utilisé pour
+                chercher les signature, et les modèles</entry>
+              </row>
+
+              <row>
+                <entry>en_ligne</entry>
+
+                <entry>indique si la pétition est signable (1) ou finie (0).
+                On pourra ajouter d'autre valeur pour consultable par
+                exemple.</entry>
+              </row>
+
+              <row>
+                <entry>texte</entry>
+
+                <entry>contient le texte de la pétition</entry>
+              </row>
+
+              <row>
+                <entry>date_init</entry>
+
+                <entry>date de lancement, au format YYYY-MM-JJ</entry>
+              </row>
+
+              <row>
+                <entry>initiateurs</entry>
+
+                <entry>indique s'il y a une liste des initiateurs (semble non
+                utilisé)</entry>
+              </row>
+
+              <row>
+                <entry>titre et sous-titre</entry>
+
+                <entry>pour la mise en page</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <section>
+        <title>Table <literal>nom_initiative</literal></title>
+
+        <para>À chaque initiative est associée une table de signatures portant
+        le nom utilisé dans la table petitions. La table contient toutes les
+        signatures&nbsp;: premiers signataires, signataires suivants,
+        signatures en cours de validation. Cette table comporte les champs
+        suivants</para>
+
+        <table>
+          <title>table nom_initiative</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>ide</entry>
+
+                <entry>le numéro assigné à la pétition dans la table
+                précédente</entry>
+              </row>
+
+              <row>
+                <entry>level</entry>
+
+                <entry>'0' signature 'normale', '1' initiateur</entry>
+              </row>
+
+              <row>
+                <entry>valid</entry>
+
+                <entry>'0' en cours de validation, '1' validée</entry>
+              </row>
+
+              <row>
+                <entry>Nom</entry>
+
+                <entry>information récupérée dans le formulaire</entry>
+              </row>
+
+              <row>
+                <entry>Prenom</entry>
+
+                <entry>information récupérée dans le formulaire</entry>
+              </row>
+
+              <row>
+                <entry>email</entry>
+
+                <entry>information récupérée dans le formulaire</entry>
+              </row>
+
+              <row>
+                <entry>infos</entry>
+
+                <entry>information récupérée dans le formulaire</entry>
+              </row>
+
+              <row>
+                <entry>date</entry>
+
+                <entry>timestamp des modifications</entry>
+              </row>
+
+              <row>
+                <entry>cookie</entry>
+
+                <entry>la clé MD5. Après validation cette clé est
+                supprimée</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+    </section>
+
+    <section>
+      <title>Les fichiers personnalisables</title>
+
+      <para>Les contenu des pages Web affichées et des messages envoyés par
+      courriel sont définis dans huit fichiers (sept fichiers HTML et un
+      fichier texte). Certains fichiers peuvent contenir des "variables" qui
+      seront remplacées, lors de l'utilisation, par des données puisées dans
+      la base de données.</para>
+
+      <section>
+        <title>index.html</title>
+
+        <para>C'est le fichiers qui servira à produire la page Web d'entrée
+        dans la pétition. Il devrait comporter le texte de la pétition, et un
+        lien vers le formulaire de signature. Grâce aux variables
+        susbstituables (voir plus loin), il peut y insérer le nombre de
+        signatures déjà recueillies, et la listes de signataires et/ou un lien
+        vers ces informations.</para>
+      </section>
+
+      <section>
+        <title>form.html</title>
+
+        <para>C'est le fichier qui servira à produire la page Web du
+        formulaire de saisie des signatures. Ce formulaire doit comporter 4
+        champs qui doivent s'appeler comme indiqué):</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>nom (nom)</para>
+          </listitem>
+
+          <listitem>
+            <para>prénom (prenom)</para>
+          </listitem>
+
+          <listitem>
+            <para>divers (infos)</para>
+          </listitem>
+
+          <listitem>
+            <para>mail (email)</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>On peut y faire figurer des variables susbstituables.</para>
+      </section>
+
+      <section>
+        <title>ok.html et err.htlm</title>
+
+        <para>Ce sont les fichiers utilisés pour produire des pages Web
+        affichées lors de la validation de la saisie du formulaire. Suivant
+        que les informations fournies par l'utilisateur seront conformes ou
+        non aux formats attendus ou non par notre logiciel, l'une ou l'autre
+        page sera affichée.</para>
+
+        <para>En fait, c'est sans grande importance, le seul risque étant de
+        perdre quelques signatures. On verra a améliorer avec un test
+        minimal.</para>
+      </section>
+
+      <section>
+        <title>mail.txt</title>
+
+        <para>C'est un fichier texte. Il est envoyé par mail et utilise ses
+        propres variables substituables. Il doit impérativement comporter la
+        variable <literal>#LIEN</literal> qui est le lien cliquable de
+        validation formé d'une clé MD5, a priori unique.</para>
+      </section>
+
+      <section>
+        <title>vsign.html</title>
+
+        <para>Affichage des signataires.</para>
+      </section>
+
+      <section>
+        <title>confirm_ok.html et confirm_err.html</title>
+
+        <para>Ce sont les fichier appelé lors d'une confirmation suivant que
+        la clé est reconnue ou pas.</para>
+      </section>
+
+      <section>
+        <title>Les variables substituables</title>
+
+        <para>Les fichiers personnalisables peuvent contenir des
+        <emphasis>variables</emphasis>.Ces variables seront remplacées par du
+        texte. Les variables utilisables dépendent du type de fichier
+        concerné. </para>
+
+        <section>
+          <title>Fichiers HTML</title>
+
+          <table>
+            <title>variables pour fichiers HTML</title>
+
+            <tgroup cols="2">
+              <tbody>
+                <row>
+                  <entry>#TITRE</entry>
+
+                  <entry>extraction du champs titre de la base de
+                  données</entry>
+                </row>
+
+                <row>
+                  <entry>#SOUS_TITRE</entry>
+
+                  <entry>extraction du champs sous-titre de la base de
+                  données</entry>
+                </row>
+
+                <row>
+                  <entry>#TEXTE</entry>
+
+                  <entry>extraction du champs texte de la base de
+                  données</entry>
+                </row>
+
+                <row>
+                  <entry>#IDE</entry>
+
+                  <entry>numéro de la pétition (utile pour créer des
+                  liens</entry>
+                </row>
+
+                <row>
+                  <entry>#INITIATEURS</entry>
+
+                  <entry>listes des premiers signataires s'il y en a</entry>
+                </row>
+
+                <row>
+                  <entry>#DATE_INIT</entry>
+
+                  <entry>date de lancement de la pétition (jj mois
+                  yyyy)</entry>
+                </row>
+
+                <row>
+                  <entry>#DATE</entry>
+
+                  <entry>aujourd'hui (jj mois yyyy)</entry>
+                </row>
+
+                <row>
+                  <entry>#COUNT</entry>
+
+                  <entry>nombre de signatures validées</entry>
+                </row>
+
+                <row>
+                  <entry>#SIGNATAIRES</entry>
+
+                  <entry>liste ordonnées alphabétiquement des signatures avec
+                  infos</entry>
+                </row>
+
+                <row>
+                  <entry>#SIGNER</entry>
+
+                  <entry>lien complet vers le formulaire de signature</entry>
+                </row>
+
+                <row>
+                  <entry>#VOIR</entry>
+
+                  <entry>lien complet vers la visualisation des
+                  signatures</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </section>
+
+        <section>
+          <title>Fichier mail.txt</title>
+
+          <table>
+            <title>variables pour fichiers de mail</title>
+
+            <tgroup cols="2">
+              <tbody>
+                <row>
+                  <entry>#NOM</entry>
+
+                  <entry>le champs nom saisie dans le formulaire</entry>
+                </row>
+
+                <row>
+                  <entry>#PRENOM</entry>
+
+                  <entry>le champs prénom saisie dans le formulaire</entry>
+                </row>
+
+                <row>
+                  <entry>#EMAIL</entry>
+
+                  <entry>le champs email saisie dans le formulaire</entry>
+                </row>
+
+                <row>
+                  <entry>#INF</entry>
+
+                  <entry>le champs infos saisie dans le formulaire</entry>
+                </row>
+
+                <row>
+                  <entry>#LIEN</entry>
+
+                  <entry>le lien de validation, avec sa clé MD5</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </section>
+      </section>
+
+      <section>
+        <title>Les enrichissements typographiques</title>
+
+        <para>Les fichiers HTML peuvent contenir des directives
+        d'enrichissement simplifiées qui évitent d'avoir à recourir aux
+        possibilités de HTML ou de des feuilles de styles.</para>
+
+        <table>
+          <title>Directives simplifiées (à la SPIP)</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>-</entry>
+
+                <entry>élément de liste</entry>
+              </row>
+
+              <row>
+                <entry>{}</entry>
+
+                <entry>italique</entry>
+              </row>
+
+              <row>
+                <entry>{{}}</entry>
+
+                <entry>gras</entry>
+              </row>
+
+              <row>
+                <entry>{{{}}}</entry>
+
+                <entry>intertitre</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title>Installation en images</title>
+
+    <para>Cet exemple en images est tiré d'un ordi personnel, fonctionnant
+    sous GNU-Linux (distribution Mandrake 10.0 standard), dans l'environnement
+    de bureau KDE.</para>
+
+    <para></para>
+
+    <para></para>
+
+    <figure>
+      <title>Je vais sur le serveur FTP public du R.A.S.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/ftpras.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para></para>
+
+    <figure>
+      <title>Je récupère l'archive sur mon ordi, dans un dossier local créé à
+      cet effet</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/cparchive.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Je décompacte l'archive (opération "extraire ici" du nagivateur de
+    KDE) dans ce répetoire.</para>
+
+    <figure>
+      <title>Je décompacte l'archive...</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/extract.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <figure>
+      <title>...et voilà le résultat</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/extracted.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Je me connecte, en FTP, à l'espace web de mon association&nbsp;:
+    <literal>ftp://ftp.assises-universite.ras.eu.org/</literal>.</para>
+
+    <figure>
+      <title>j'arrive dans l'espace web de toutes les associations hébergées
+      au R.A.S. :(</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/ftpwebras.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Encore un effort pour arriver dans l'espace de mon asso. Ici, le
+    nom-sytème de l'association est <filename>au</filename>.</para>
+
+    <figure>
+      <title>et je crée un dossier <filename>petitions</filename></title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/ftpwebau1.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <figure>
+      <title>et voilà le travail</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/ftpwebau2.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Je dois, maintenant, télédéposer le contenu décompaté dans mon
+    nouveau dossier distant (inutile de déposer l'archive elle-même).</para>
+
+    <figure>
+      <title>télédépôt par un simple glisser-déposer</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/upload.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Je modifie les droits d'écriture des répertoires
+    <filename>admin</filename> et <filename>modele</filename>. Dans cette
+    interface (KDE),je dois cocher les deux cases cerclées de rouge.</para>
+
+    <figure>
+      <title>j'accède aux propriétés des répertoires</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/chown.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Ouf ! J'ai fini d'installer l'installateur. Je vais maintenant
+    l'activer.</para>
+
+    <para>Avec mon navigateur Web, j'accède à l'url d'administration des
+    pétitions, dans l'espace web de mon association&nbsp;:
+    <literal>http://www.assises-universite.ras.eu.org/petitions/admin/.</literal></para>
+
+    <figure>
+      <title>Si j'avais oublié de modifier les droits de répertoires admin et
+      modele, j'aurais eu ce message d'alerte...</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/pbdroits.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para><literal></literal></para>
+
+    <figure>
+      <title>Mais comme j'ai pas oublié, j'arrive sur l'écran
+      d'installation</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/install1.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para></para>
+
+    <figure>
+      <title>et je saisis toutes le infos demandées.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/install1full.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para></para>
+
+    <figure>
+      <title>Tout semble bien se passer...</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/install2.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Je crée le premier administrateur de mes pétitions. Il m'en faut au
+    moins un&nbsp;!</para>
+
+    <para></para>
+
+    <figure>
+      <title>Je crée mon premier administrateur</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/creeadmin.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>J'arrive enfin à l'écran contrôlant l'accès à l'espace
+    d'administration de mes pétitions. Ça signifie que j'ai terminé
+    l'installation du système de gestion des pétitions. Désormais, si je tape
+    l'url
+    <literal>http://www.assises-universite.ras.eu.org/petitions/admin/</literal>,
+    j'arriverai sur cet écran. </para>
+
+    <figure>
+      <title>et voilà l'écran de contrôle d'accès</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/cntrladmin.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <note>
+      <para>Avant de poursuivre, je dois m'assurer que mon navigateur accèpte
+      les cookies et javascript. J'abandonne Konqueror et sa configuration
+      rigide pour Mozilla avec des réglages mous...</para>
+    </note>
+
+    <para>Je n'ai qu'à taper les login et mot de passe du premier
+    adaministrateur (que je viens de créer)...</para>
+
+    <para></para>
+
+    <figure>
+      <title>...et me voici sur l'écran d'accueil d'administration des
+      pétitions</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/adminpet.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Je constate qu'il existe déjà une pétition <literal>test</literal>.
+    Je vais l'adapter pour bâtir ma première pétition. Pour ce faire, je vais
+    éditer les <emphasis>propriétés</emphasis> de la pétition. Je clique sur
+    le pictogramme des propriétés...</para>
+
+    <para></para>
+
+    <figure>
+      <title>Je n'ai plus qu'à saisir tous les champs et demander la
+      publication en ligne (bouton radio "À signature".</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/proprietes.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>J</para>
+
+    <para></para>
+
+    <figure>
+      <title>l'écran des propriétés, bien rempli</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/proprietesfull.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Dès que je valide, je me retouve devant d'accueil d'administration.
+    Si je clilque sur le nom de la pétition, je vais tout suite voir comment
+    elle sera présentée aux internautes.</para>
+
+    <para></para>
+
+    <figure>
+      <title>Et voilà l'travail&nbsp;! Fautes de frappe comprises...</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/affichepet.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Avant de passer à autre chose, <emphasis role="bold">Je prends note
+    de l'url de cette page</emphasis> (ici,
+    <literal>http://www.assises-universite.ras.eu.org/petitions/?petition=1</literal>)
+    car c'est celui qu'il faudra indiquer si je veux placer un lien vers ma
+    pétition, dans une page Web ou un courriel.</para>
+
+    <para>Je reviens en arrière (sur l'écran d'accueil d'administration) et je
+    clique sur le pictogramme des signatures, juste à gauche du picto des
+    propriétés.</para>
+
+    <para></para>
+
+    <figure>
+      <title>Je saisis les premières signatures, histoire de montrer que je ne
+      suis pas tout seul.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/sigfull.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>J'ai bien saisi mes signatures. Le système les a toutes acceptées et
+    il me le fait savoir. Je vais voir si elles sont visibles pour les
+    internautes. Je passe par la liste de mes pétitions disponibles à la
+    consultation : http://www.assises-universite.ras.eu.org/petitions/</para>
+
+    <figure>
+      <title>C'est pauvre, mais ce n'est qu'un début... la pétition
+      continue&nbsp;!</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/afflistpet.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para></para>
+
+    <para>Il n'y en a qu'une, je la sélectionne. Je retrouve le texte de ma
+    pétition et je clique sur le lien "Voir les signatures".</para>
+
+    <para></para>
+
+    <figure>
+      <title>Les signatures, telles que les verront les internautes.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/affichsig.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>J'ai fini. J'ai mis mon texte en ligne, j'ai entré mes permier
+    signataires et j'ai noté l'url de ma pétition pour pouvoir l'annoncer au
+    monde&nbsp;!</para>
+  </section>
+
+  <section>
+    <title>Installation en shell</title>
+
+    <para>Seule l'installation de l'installateur diffère de la procédure
+    exposée ci-avant. Une fois celle-ci réalisée, l'activation de
+    l'installateur et la création des pétitions s'effectue via le Web.</para>
+
+    <programlisting>ssh bibi@marcos.ras.eu.org
+cd /var/www/mon_asso
+mkdir petitions ; cd petitions
+tar -x ~crras/petitions/phpPetitions.tgz</programlisting>
+
+    <para>L'installateur est installé. Les répertoires possèdent les bons
+    attributs. Rendez-vous, via le Web, dans le répertoire
+    <filename>petitions/admin</filename> que vous venez d'installer.</para>
+  </section>
+</article>
