@@ -30,22 +30,22 @@ function FabMenu() {
          }
       }
       if ($ibid) {
-         echo '<h4 class="breadcrumb">'.gal_trans("Catégories").'';
+         echo '<p class="breadcrumb lead">'.gal_trans("Catégories").'';
          if ($aff_comm) {
-            echo ' <a class="btn btn-secondary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=topcomment">'.gal_trans("Top-Commentaires").'</a>';
+            echo ' <a class="btn btn-outline-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=topcomment">'.gal_trans("Top-Commentaires").'</a>';
          }
          if ($aff_vote) {
-            echo ' <a class="btn btn-secondary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=topvote">'.gal_trans("Top-Votes").'</a>';
+            echo ' <a class="btn btn-outline-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=topvote">'.gal_trans("Top-Votes").'</a>';
          }
          if (isset($user)) {
-            echo ' <a class="btn btn-secondary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=formimgs">'.gal_trans("Proposer des images").'</a>';
+            echo ' <a class="btn btn-outline-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=formimgs">'.gal_trans("Proposer des images").'</a>';
          }         
-         echo '</h4>';
+         echo '</p>';
          echo '<div class="row lead">';
          echo $ibid;
          echo "</div>";
       }
-   } else { echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
+   } else { echo "<p class=\"text-danger text-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
 }
 
 /*******************************************************/
@@ -58,18 +58,18 @@ function FabMenuCat($catid) {
    if (autorisation($cat[1])) {
       $query = sql_query("SELECT id,nom,acces FROM ".$NPDS_Prefix."tdgal_cat WHERE cid='".$catid."' ORDER BY nom");
       echo "";
-      echo "<h4 class=\"breadcrumb\"><a href=\"".$ThisFile."\">".gal_trans("Accueil")." / </a> ".stripslashes($cat[0])."</h4>\n";
+      echo '<nav class="breadcrumb lead"><a class="breadcrumb-item" href="'.$ThisFile.'">'.gal_trans("Accueil").'</a><span class="breadcrumb-item active">'.stripslashes($cat[0]).'</span></nav>';
       echo '<div class="row lead">';
       $n = 0;
       while ($row = sql_fetch_row($query)) {
          if (autorisation($row[2])) {
-            echo "<div class=\"col-lg-3\"><i class=\"fa fa-folder-o\"></i><a href=\"".$ThisFile."&amp;op=sscat&amp;catid=".$catid."&amp;sscid=".$row[0]."\"> ".stripslashes($row[1])."</a></div>\n";
+            echo '<div class="col-lg-3"><i class="fa fa-folder-o"></i><a href="'.$ThisFile.'&amp;op=sscat&amp;catid='.$catid.'&amp;sscid='.$row[0]."\"> ".stripslashes($row[1]).'</a></div>';
             $n++;
             if ($n == 4) {  echo "</div><div class=\"row lead\">"; $n = 0;}
          }
       }
-      echo "</div>";
-   } else { echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
+      echo '</div>';
+   } else { echo '<p class="text-danger text-center">'.gal_trans("Aucune catégorie trouvée").'</p>'; }
 }
 
 /*******************************************************/
@@ -83,14 +83,14 @@ function FabMenuSsCat($catid, $sscid) {
    if (autorisation($cat[1])) {
       $sscat = sql_fetch_row(sql_query("SELECT nom,acces FROM ".$NPDS_Prefix."tdgal_cat WHERE id='".$sscid."'"));
       if (autorisation($sscat[1])) {
-         echo '<h4><ul class="breadcrumb">';
-         echo '<li><a href="'.$ThisFile.'">'.gal_trans("Accueil").'</a></li>';
-         echo '<li><a href="'.$ThisFile.'&op=cat&amp;catid='.$catid.'">';
-         echo ''.stripslashes($cat[0]).'</a></li>';
-         echo '<li>'.stripslashes($sscat[0]).'</li>';
-         echo '</ul></h4>';
-      } else { echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
-   } else { echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
+         echo '<nav class="breadcrumb lead">';
+         echo '<a class="breadcrumb-item" href="'.$ThisFile.'">'.gal_trans("Accueil").'</a>';
+         echo '<a class="breadcrumb-item" href="'.$ThisFile.'&op=cat&amp;catid='.$catid.'">';
+         echo ''.stripslashes($cat[0]).'</a>';
+         echo '<span class="breadcrumb-item active">'.stripslashes($sscat[0]).'</span>';
+         echo '</nav>';
+      } else { echo "<p class=\"text-danger text-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
+   } else { echo "<p class=\"text-danger text-center\">".gal_trans("Aucune catégorie trouvée")."</p>"; }
 }
 
 /*******************************************************/
@@ -101,12 +101,12 @@ function FabMenuGal($galid) {
    settype($galid,"integer");
    $gal = sql_fetch_row(sql_query("SELECT nom,acces FROM ".$NPDS_Prefix."tdgal_gal WHERE id='".$galid."'"));
    if (autorisation($gal[1])) {
-      echo '<h4><ul class="breadcrumb">';
-      echo '<li><a href="'.$ThisFile.'">'.gal_trans("Accueil").'</a></li>';
-      echo ''.GetGalArbo($galid).'';
-      echo '<li>'.stripslashes($gal[0]).'</li>';
-      echo '</ul></h4>';
-   } else { echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune galerie trouvée")."</p>"; }
+      echo '<nav class="breadcrumb lead">';
+      echo '<a class="breadcrumb-item" href="'.$ThisFile.'">'.gal_trans("Accueil").'</a>';
+      echo GetGalArbo($galid);
+      echo '<span class="breadcrumb-item active">'.stripslashes($gal[0]).'</span>';
+      echo '</nav>';
+   } else { echo "<p class=\"text-danger text-center\">".gal_trans("Aucune galerie trouvée")."</p>"; }
 }
 
 /*******************************************************/
@@ -127,7 +127,7 @@ function FabMenuImg($galid, $pos) {
          echo '<li>'.stripslashes($img[0]).'</li>';
       echo '</ul></h4>';
 
-   } else { echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune galerie trouvée")."</p>"; }
+   } else { echo "<p class=\"text-danger text-center\">".gal_trans("Aucune galerie trouvée")."</p>"; }
 }
 // les menus
 
@@ -175,7 +175,7 @@ function ViewGal($galid, $page){
       $num = sql_num_rows(sql_query("SELECT id FROM ".$NPDS_Prefix."tdgal_img WHERE gal_id='".$galid."' and noaff='0'"));
    }
    if ($num == 0) {
-      echo "<p class=\"text-danger text-xs-center\">".gal_trans("Aucune image trouvée")."</p>";
+      echo "<p class=\"text-danger text-center\">".gal_trans("Aucune image trouvée")."</p>";
    } else {
       $start = ($page - 1) * $imgpage;
       $query = sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_img WHERE gal_id='".$galid."' and noaff='0' ORDER BY ordre,id LIMIT ".$start.",".$imgpage."");
@@ -849,12 +849,12 @@ function GetGalArbo($galid) {
    $row = sql_fetch_row($query);
 
    if ($row[0] == 0) {
-      $retour = "<li><a href=\"".$ThisFile."&op=cat&catid=".$temp[0]."\">".stripslashes($row[1])."</a></li>";
+      $retour = "<a class=\"breadcrumb-item\" href=\"".$ThisFile."&op=cat&catid=".$temp[0]."\">".stripslashes($row[1])."</a>";
    } else {
       $queryX = sql_query("SELECT nom FROM ".$NPDS_Prefix."tdgal_cat WHERE id='".$row[0]."'");
       $rowX = sql_fetch_row($queryX);
-      $retour = "<li><a href=\"".$ThisFile."&op=cat&catid=".$row[0]."\">".stripslashes($rowX[0])."</a></li>";
-      $retour .= "<li><a href=\"".$ThisFile."&op=sscat&catid=".$row[0]."&sscid=".$temp[0]."\">".stripslashes($row[1])."</a></li>";
+      $retour = "<a class=\"breadcrumb-item\" href=\"".$ThisFile."&op=cat&catid=".$row[0]."\">".stripslashes($rowX[0])."</a>";
+      $retour .= "<a class=\"breadcrumb-item\" href=\"".$ThisFile."&op=sscat&catid=".$row[0]."&sscid=".$temp[0]."\">".stripslashes($row[1])."</a>";
    }
    return $retour;
 }

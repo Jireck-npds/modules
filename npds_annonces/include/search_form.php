@@ -22,51 +22,31 @@ if (!stristr($_SERVER['PHP_SELF'],"modules.php")) { die(); }
 if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script") || stristr($ModPath, "cookie") || stristr($ModPath, "iframe") || stristr($ModPath, "applet") || stristr($ModPath, "object") || stristr($ModPath, "meta") || stristr($ModStart, "script") || stristr($ModStart, "cookie") || stristr($ModStart, "iframe") || stristr($ModStart, "applet") || stristr($ModStart, "object") || stristr($ModStart, "meta")) {
    die();
 }
+global $language, $NPDS_Prefix;
 // For More security
 
-if (!function_exists("Mysql_Connexion")) {
-   include ("mainfile.php");
-}
+   echo '
+   <form class="form-horizontal" method="post" action="modules.php">
+      <input type="hidden" name="ModPath" value="'.$ModPath.'" />
+      <input type="hidden" name="ModStart" value="search" />
+      <div class="form-group row">
+         <label for="search" class="form-control-label col-md-5">Rechercher dans les annonces</label>
+         <div class="col-md-7">
+            <input type="text" class="form-control" name="search" value="'.$search.'" />
+         </div>
+      </div>
+      <div class="form-group row">
+         <div class="col-md-7 offset-md-5">
+            <button class="btn btn-outline-primary btn-sm" type="submit" name="action"><i class="fa fa-check" aria-hidden="true"></i> Valider</button>
+         </div>
+      </div>
+   </form>
+   <hr />';
 
-
-include ("modules/$ModPath/annonce.conf.php");
-
-   global $user,$cookie, $theme,$Default_Theme, $language, $site_logo, $sitename, $datetime, $nuke_url, $site_font;
-   formatTimestamp($time);
-   include("meta/meta.php");
-   echo "<title>$sitename</title>";
-   if (isset($user)) {
-      if ($cookie[9]=="") $cookie[9]=$Default_Theme;
-      if (isset($theme)) $cookie[9]=$theme;
-      $tmp_theme=$cookie[9];
-      if (!$file=@opendir("themes/$cookie[9]")) {
-         $tmp_theme=$Default_Theme;
-      }
+   if ($user) {
+      echo '<p><a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annonce_form">Passer une P.A</a> <a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=modif_ann">Gérer mes P.A</a></p>';
    } else {
-      $tmp_theme=$Default_Theme;
-   }  
-       echo '
-         <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-         <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />';
-       echo import_css($tmp_theme, $language, $site_font, '','');
-       echo '
-       </head>
-       <body>
-          <div max-width="640" class="container p-1 n-hyphenate">
-             <div>';
-       $pos = strpos($site_logo, '/');
-       if ($pos)
-          echo '<img class="img-fluid d-block mx-auto" src="'.$site_logo.'" alt="website logo" />';
-       else
-          echo '<img class="img-fluid d-block mx-auto" src="images/'.$site_logo.'" alt="website logo" />';
-       echo '
-               <h1 class="d-block text-center my-4">'.aff_langue($title).'</h1>';
-   $remp=rawurldecode(removehack($text));
-   echo '<div>'.$remp.'</div>';
-   echo '</div></div>';
+      echo '<p class="lead text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Pour passer ou gérer vos annonces vous devez être membre inscrit connecté <span class="float-right"><a class="btn btn-outline-primary btn-sm" href="user.php">Connexion</a></span></p>';
+   }
    echo '<hr />';
-   echo '<p class="text-center">Cette annonce provient de : '.$sitename.'<br />
-   <a href="'.$nuke_url.'/modules.php?ModStart=index&amp;ModPath='.$ModPath.'">'.$nuke_url.'/modules.php?ModStart=index&amp;ModPath='.$ModPath.'</a></p>';
-
-   echo '</body></html>';
 ?>

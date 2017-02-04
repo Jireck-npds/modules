@@ -2,7 +2,7 @@
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /*                                                                      */
-/* NPDS Copyright (c) 2002-2015 by Philippe Brunier                     */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -14,7 +14,7 @@
 /* Basé sur gadjo_annonces v 1.2 - Adaptation 2008 par Jireck et lopez  */
 /* MAJ conformité XHTML pour REvolution 10.02 par jpb/phr en mars 2010  */
 /* MAJ Dev - 2011                                                       */
-/* Changement de nom du module version Rev16 par jpb/phr mars 2016      */
+/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
 // For More security
@@ -23,6 +23,11 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    die();
 }
 // For More security
+$f_meta_nom ='npds_annonces';
+//==> controle droit
+admindroits($aid,$f_meta_nom);
+//<== controle droit
+
 
 include ("modules/$ModPath/annonce.conf.php");
 
@@ -48,39 +53,43 @@ if ($action=="Valider") {
 }
 if ($action=="Supprimer") {
    settype($id,"integer");
-   $query="delete from $table_annonces where id='$id'";
+   $query="DELETE FROM $table_annonces WHERE id='$id'";
    $succes= sql_query($query);
    if ($succes) {
       $succes= sql_query($query);
    }
 }
 
-   echo '<div class="row" id="adm_men">';
-   echo '<p class="lead">'.$mess_acc.'<span class="pull-xs-right"><a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize"><i class="fa fa-picture-o" aria-hidden="true"></i> Outil</a></span></p>';
+   GraphicAdmin($hlpfile);
+
+   echo '<div id="adm_men">';
+   echo $mess_acc;
+   echo '<h3>Administration des annonces</h3>';
+   echo '<p><a data-toggle="tooltip" data-placement="top" title="Cliquer pour préparer une photo" class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize"><i class="fa fa-picture-o" aria-hidden="true"></i> Outil photo</a></p>';
    if (!isset($id_cat_sel)) {
       $id_cat_sel=$id_cat;
-      $select= sql_query("select categorie from $table_cat where id_cat='$id_cat'");
+      $select= sql_query("SELECT categorie FROM $table_cat WHERE id_cat='$id_cat'");
       list($categorie)= sql_fetch_row($select);
-      echo '<p class="lead">Catégorie <span class="text-info">'.stripslashes($categorie).'</span>';
+      echo '<p class="lead">Catégorie : <span class="text-info">'.stripslashes($categorie).'</span></p>';
    }
    if (!isset($min))
       $min=0;
 
    if (!isset($sel)) {
-      $query_count="select count(*) from $table_annonces where id_cat='$id_cat_sel'";
+      $query_count="SELECT count(*) FROM $table_annonces WHERE id_cat='$id_cat_sel'";
       $succes_count= sql_query($query_count);
       $count= sql_fetch_row($succes_count);
       $count=$count[0];
-      $sel2="where id_cat='$id_cat_sel' order by en_ligne,id DESC limit $min,$max";
+      $sel2="WHERE id_cat='$id_cat_sel' ORDER BY en_ligne,id DESC LIMIT $min,$max";
    } else {
       if ($sel==1) {
-         $sel2="order by en_ligne,id DESC limit 0,1";
+         $sel2="ORDER BY en_ligne,id DESC LIMIT 0,1";
       } else {
-         $sel2="order by en_ligne,id DESC limit 0,$sel";
+         $sel2="ORDER BY en_ligne,id DESC LIMIT 0,$sel";
       }
    }
 
-   $query="select * from $table_annonces $sel2";
+   $query="SELECT * FROM $table_annonces $sel2";
    $succes= sql_query($query);
    while ($values= sql_fetch_assoc($succes)) {
       $id = $values['id'];
@@ -93,8 +102,8 @@ if ($action=="Supprimer") {
       $text = stripslashes($values['text']);
       $prix = $values['prix'];
 
-      //recup données utilisateur de l'annonce
-      $query_2="select uname, email from ".$NPDS_Prefix."users where uid=$id_user";
+//recup données utilisateur de l'annonce
+      $query_2="SELECT uname, email FROM ".$NPDS_Prefix."users WHERE uid=$id_user";
       $succes_2= sql_query($query_2);
       list ($nom, $mail)= sql_fetch_row($succes_2);
 
@@ -108,19 +117,18 @@ if ($action=="Supprimer") {
       if (isset($sel))
          echo "<input type=\"hidden\" name=\"sel\" value=\"$sel\" />\n";
 
-      //id de l'annonce
-      echo '<p class="lead">
-         <span class="label label-default label-pill pull-xs-right">';
+//id de l'annonce
+      echo '<p class="lead">';
+      echo '<span class="badge badge-default">Annonce ID : '.$id.'</span>';	  
       if ($values['en_ligne']=="1") {
-         echo 'EN LIGNE';
+         echo '<span class="badge badge-success float-right">En ligne</span>';
       } elseif ($values['en_ligne']=="0") {
-         echo '<span class="text-danger">EN ATTENTE</span>';
+         echo '<span class="badge badge-warning float-right">En attente</span>';
       } else {
-      echo '<span class="text-warning">EN ARCHIVE</span>';
-      }   
-      echo '</span>
-      Annonce ID '.$id.'
-      </p>';
+      echo '<span class="badge badge-danger float-right">En archive</span>';
+      }
+      echo '</p>';
+
       echo '  
       <div class="form-group row">
          <label for="" class="col-sm-4 form-control-label">Nom</label>
@@ -128,55 +136,55 @@ if ($action=="Supprimer") {
          <span class="form-control" readonly>'.$nom.'</span>
          </div>
       </div>';
-      echo '  
+      echo '
       <div class="form-group row">
          <label for="" class="col-sm-4 form-control-label">M&egrave;l</label>
          <div class="col-sm-8">
          <span class="form-control" readonly>'.$mail.'</span>
          </div>
       </div>';
-      echo '  
+      echo '
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">T&eacute;l fixe</label>
+         <label for="" class="col-sm-4 form-control-label">Tél fixe</label>
          <div class="col-sm-8">
          <input type="text" class="form-control" id="" name="tel" placeholder="'.$tel.'" value="'.$tel.'" readonly>
          </div>
       </div>';
-      echo '  
+      echo '
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">T&eacute;l portable</label>
+         <label for="" class="col-sm-4 form-control-label">Tél portable</label>
          <div class="col-sm-8">
          <input type="text" class="form-control" id="" name="tel_2" placeholder="'.$tel_2.'" value="'.$tel_2.'" readonly>
          </div>
       </div>';
-      echo '  
+      echo '
       <div class="form-group row">
          <label for="" class="col-sm-4 form-control-label">Code postal</label>
          <div class="col-sm-8">
          <input type="text" class="form-control" id="" name="code" placeholder="'.$code.'" value="'.$code.'" readonly>
          </div>
       </div>';
-      echo '  
+      echo '
       <div class="form-group row">
          <label for="" class="col-sm-4 form-control-label">Ville</label>
          <div class="col-sm-8">
          <input type="text" class="form-control" id="" name="ville" placeholder="'.$ville.'" value="'.$ville.'" readonly>
          </div>
       </div>';
-      //cat de l'annonce
-      echo '  
+//cat de l'annonce
+      echo '
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Catégorie</label>
+         <label for="" class="col-sm-4 form-control-label">Catégorie <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
          <div class="col-sm-8">';
 
       echo '<select class="form-control c-select" name="Xid_cat">';
 
-      $select= sql_query("select * from $table_cat where id_cat2='0' order by id_cat");
+      $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
       while($e= sql_fetch_assoc($select)) {
          echo "<option value='".$e['id_cat']."'";
          if ($e['id_cat']==$id_cat) echo "selected=\"selected\"";
          echo ">".stripslashes($e['categorie'])."</option>\n";
-         $select2= sql_query("select * from $table_cat where id_cat2='".$e['id_cat']."' order by id_cat");
+         $select2= sql_query("SELECT * FROM $table_cat WHERE id_cat2='".$e['id_cat']."' ORDER BY id_cat");
          while ($e2= sql_fetch_assoc($select2)) {
             echo "<option value='".$e2['id_cat']."'";
             if ($e2['id_cat']==$id_cat) echo "selected=\"selected\"";
@@ -188,18 +196,18 @@ if ($action=="Supprimer") {
 
       echo '
       <div class="form-group row">
-         <label for="" class="col-sm-12 form-control-label">Libell&eacute; de l\'annonce <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+         <label for="" class="col-sm-12 form-control-label">Libellé de l\'annonce <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
          <div class="col-sm-12">';
       echo '<textarea name="xtext" class="tin form-control" rows="50">'.$text.'</textarea>';
       if ($editeur)
          echo aff_editeur("xtext", "true");
          echo '</div></div>';
 
-      //prix
+//prix
       if ($aff_prix) {
       echo '
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Prix en '.$prix_cur.'</label>
+         <label for="" class="col-sm-4 form-control-label" required="required">Prix en '.$prix_cur.' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
          <div class="col-sm-8">
          <input type="text" name="prix" class="form-control" id="" value="'.$prix.'" placeholder="'.$prix.'">
          </div>
@@ -207,28 +215,31 @@ if ($action=="Supprimer") {
       } else {
          echo "<input type=\"hidden\" name=\"prix\" value=\"$prix\" />\n";
       }
-      //boutons supp modif
-
-      echo "<input type=\"submit\" class=\"btn btn-primary-outline btn-sm\" name=\"action\" value=\"Valider\" />\n";
-      echo "&nbsp;&nbsp;";
-      echo "<input type=\"submit\" class=\"btn btn-danger-outline btn-sm\" name=\"action\" value=\"Supprimer\" />\n";
-
-      echo "</form>\n";
+//boutons supp modif
+      echo '
+      <div class="form-group row">';
+      echo '<div class="col-md-1"><input type="submit" class="btn btn-outline-primary btn-sm" name="action" value="Valider" /></div>';
+      echo '<div class="col-md-1"><input type="submit" class="btn btn-outline-danger btn-sm" name="action" value="Supprimer" /></div>';
+      echo '</div>';
+      echo '</form>';
    }
 
-      echo '<br />';
+
    $pp=false;
    if (!isset($sel)) {
+	   echo '<nav aria-label="">
+  <ul class="pagination pagination-sm justify-content-center">';
       if ($min>0) {
-         echo '<a class="btn btn-secondary btn-sm pull-xs-right" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min-$max).'">Annonce pr&eacute;c&eacute;dente</a>';
+         echo '<li class="page-item"><a class="page-link" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min-$max).'">Annonce précédente</a></li>';
          $pp=true;
       }
       if (($min+$max)<$count) {
-         echo '<a class="btn btn-secondary btn-sm pull-xs-right" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min+$max).'">Annonce suivante</a>';
+         echo '<li class="page-item"><a class="page-link" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min+$max).'">Annonce suivante</a></li>';
       }
+   echo '</ul></nav>';
    }
 
-   echo '<p><a class="btn btn-primary-outline" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-home" aria-hidden="true"></i> Admin</a></p>';
+   echo '<p><a class="btn btn-outline-primary btn-sm" role="button" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-home" aria-hidden="true"></i> Admin P.A</a></p>';
    echo '</div>';
 include ("footer.php");
 ?>

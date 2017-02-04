@@ -17,42 +17,28 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
-$GS_version='3.0';
 
-global $NPDS_Prefix;
+include ("modules/npds_annonces/annonce.conf.php");
 
+if ($title=="")
+   $title="Petites Annonces";
 
-// table des catégories
-$table_cat=$NPDS_Prefix."g_categories";
+$result = sql_query("SELECT id_cat, count(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
+while (list($cat, $count) = sql_fetch_row($result)) {
+   $num_ann[$cat]=$count;
+   $num_ann_total+=$count;
+}
+if ( $num_ann_total > 1 ){ $pluriel = "s"; }
 
-// table des annonces
-$table_annonces=$NPDS_Prefix."g_annonces";
+$content = '<p class="text-center ">Il y a '.$num_ann_total.' annonce'.$pluriel.' publi&eacute;e'.$pluriel.'</p>';
+   $content .= '<p class="text-center"><a href="modules.php?ModPath=npds_annonces&amp;ModStart=index" class="btn btn-outline-primary btn-sm">Consulter</a>';
 
-// intégration des éditeurs (y compris de TinyMce) - true or false
-$editeur=true;
+if ($user)
+   $content .=' <a href="modules.php?ModPath=npds_annonces&amp;ModStart=annonce_form" class="btn btn-outline-primary btn-sm">Ajouter</a>';
 
-// affichage de la zone de saisie du Prix - true or false
-$aff_prix=true;
+   $content .='</p>';
 
-// nom de la monnaie courante
-$prix_cur='€uros';
+if ($admin) 
+   $content .='<p class="text-center"><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=npds_annonces&amp;ModStart=admin/adm"><i class="fa fa-cogs" aria-hidden="true"></i> Admin P.A</a></p>';
 
-// nombre max d'annonces par pages
-$max=5;
-
-// nombre de mois avant destruction d'une annonce
-$obsol=6;
-
-// message du moteur de recherche
-$mess_no_result='<p class="text-danger">Aucune annonce ne correspond à votre recherche</p>';
-
-// chapeau de la page d'accueil
-$mess_acc='<h2><img src="modules/npds_annonces/npds_annonces.png" alt="icon_npds_annonces"> Petites annonces du site '.$Titlesitename.'</h2>';
-
-// chapeau de la page de choix d'un utilisateur
-$del_sup_chapo='A partir de cette page, vous pouvez ajouter, modifier ou supprimer vôtre ou vos annonce(s).';
-$warning='Attention, la suppression est irréversible, la modification d\'une annonce la remet en attente pour validation.';
-
-//pour le pages de formulaire
-$mess_requis='<p>Merci de remplir tous les champs marqués d\'un <span class="text-danger"><i class="fa fa-asterisk"></i></span></p>';
 ?>

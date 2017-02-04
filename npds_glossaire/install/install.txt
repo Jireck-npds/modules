@@ -1,0 +1,36 @@
+----------------------------------------------------------------------
+Installation : TD-Glossaire V2.3
+Créateur: tribal-dolphin, développeur
+Date: 16/12/2008
+Support: http://modules.npds.org
+----------------------------------------------------------------------
+De base :
+ - Créer un sous répertoire [td-glossaire] dans le répertoire modules
+ - Créer la table td-glossaire à l'aide de glossaire.sql
+
+Associé à Meta-lang et à infobulle :
+ - rajouter dans le fichier header_head la ligne suivante EN DESSOUS DE la base fermante php : ?> (c'est de l'HTML que nous incluons)
+   <link href="modules/td-glossaire/css/style.css" title="default" rel="stylesheet" type="text/css" media="all" />
+
+
+ - Dans l'administration de td-glossaire / liste des définitions - Vous n'avez ensuite plus qu'à cliquer sur "Meta" pour transférer
+   votre terme, sa définition et le lien associé dans meta-lang !
+ - Si vous éditer le terme : il faudra refaire le transfert vers meta-lang
+ - Si vous supprimer le terme : il ne sera pas supprimé automatiquement de meta-lang (passer par l'admin de meta-lang pour ce faire) 
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Lancement : Glossaire
+----------------------------------------------------------------------
+ - via une url de type : modules.php?ModPath=td-glossaire&ModStart=glossaire
+
+----------------------------------------------------------------------
+Administration : Glossaire
+----------------------------------------------------------------------
+ - via Admin Plugins en copiant le texte suivant dans admin/extend-modules.txt
+[module]
+   [nom]TD-Glossaire[/nom]
+   [ModPath]td-glossaire[/ModPath]
+   [ModStart]admin/glossadmin[/ModStart]
+   [niveau]radminsuper[/niveau]
+[/module]

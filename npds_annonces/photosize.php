@@ -2,7 +2,7 @@
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /*                                                                      */
-/* NPDS Copyright (c) 2002-2015 by Philippe Brunier                     */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -14,7 +14,7 @@
 /* Basé sur gadjo_annonces v 1.2 - Adaptation 2008 par Jireck et lopez  */
 /* MAJ conformité XHTML pour REvolution 10.02 par jpb/phr en mars 2010  */
 /* MAJ Dev - 2011                                                       */
-/* Changement de nom du module version Rev16 par jpb/phr mars 2016      */
+/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
 /*Debut Securite*/
@@ -28,14 +28,21 @@
    $mNom = 'Outil de préparation image initialement au format jpg';
    $quidam = getusrinfo($user);
    $dossier_traite = 'modules/'.$ModPath.'/images';
-   $repertoire = opendir($dossier_traite); //on définit le répertoire dans lequel on souhaite travailler
+
+//on définit le répertoire dans lequel on souhaite travailler
+   $repertoire = opendir($dossier_traite);
 
    include ('header.php');
    echo '<div class="card">';
    echo '<div class="card-block"><h3 class="card-title">'.$mNom.'</h3>';
-   while (false !== ($fichier = readdir($repertoire))) //on lit chaque fichier du répertoire dans la boucle
+
+//on lit chaque fichier du répertoire dans la boucle
+   while (false !== ($fichier = readdir($repertoire)))
    {
-   $chemin = $dossier_traite."/".$fichier; //on définit le chemin du fichier à effacer
+
+//on définit le chemin du fichier à effacer
+   $chemin = $dossier_traite."/".$fichier;
+
 //si le fichier n'est pas un répertoire
    if ($fichier != ".." AND $fichier != "." AND !is_dir($fichier) AND strstr($fichier,"$quidam[uname]_"))
    {
@@ -46,7 +53,7 @@
    $nomorigine = $_FILES['monfichier']['name'];
    if (empty($_FILES['monfichier']['name']))
    {
-   $selection = '<p class="card-text">S&eacute;lectionner sur votre ordinateur le fichier image .jpg &agrave; redimensionner <i>(3000 Ko max.)</i></p>';
+   $selection = '<p class="card-text">Sélectionner sur votre ordinateur le fichier image .jpg &agrave; redimensionner <i>(3000 Ko max.)</i></p>';
    }
    echo '</div>';
    echo '<div class="card-block">';
@@ -55,24 +62,28 @@
    $extensionsautorisees = array("jpeg", "jpg", "JPG", "JPEG");
    if (!(in_array($extensionfichier, $extensionsautorisees)))
    {
-   $messagefjpg = '<p class="text-danger"><i class="fa fa-info-circle" aria-hidden="true"></i> Le fichier doit &ecirc;tre imp&eacute;rativement une image au format jpg</p>';
+   $messagefjpg = '<p class="text-danger"><i class="fa fa-info-circle" aria-hidden="true"></i> Le fichier doit être impérativement une image au format jpg</p>';
    }
-   else //si c'est bon
+
+//si c'est bon
+   else
    {
-// Copie dans le repertoire du script avec un nom
-// incluant l'heure à la seconde près 
+
+
+// Copie dans le repertoire du script avec un nom incluant l'heure à la seconde près
    $repertoiredestination = dirname(__FILE__)."/images/";
    $nomdestination = $quidam[uname]."_original.jpg";
    if (move_uploaded_file($_FILES["monfichier"]["tmp_name"],$repertoiredestination.$nomdestination))
    {
-   echo '<p class="lead text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> L\'op&eacute;ration s\'est bien pass&eacute;e</p>';
+   echo '<p class="lead text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> L\'opération s\'est bien passée</p>';
    }
    else
    {
-   echo '<p class="lead text-danger">Le fichier n\'a pas &eacute;t&eacute; upload&eacute;, trop volumineux</p>';
+   echo '<p class="lead text-danger">Le fichier n\'a pas été uploadé, trop volumineux</p>';
    }
    }
-//fonction de redimensionnement de l'image
+
+   //fonction de redimensionnement de l'image
    $img_src = "modules/$ModPath/images/".$quidam[uname]."_original.jpg";
    $img_dest = "modules/$ModPath/images/".$quidam[uname]."_".mktime().".jpg";
    if ($choix =="Demi")
@@ -92,6 +103,7 @@
    }
    function redim_image($img_src, $img_dest, $dst_w, $dst_h)
    {
+
 // récupération de la taille
    $size = @getimagesize($img_src);
    $src_w = $size[0];
@@ -108,6 +120,7 @@
    @$dst_w = round(($dst_h / $src_h) * $src_w);
    $dst_img = imagecreatetruecolor($dst_w, $dst_h);
    $src_img = imagecreatefromjpeg($img_src);
+
 // crée la copie redimensionnée
    imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
 
@@ -133,7 +146,7 @@ echo '<form enctype="multipart/form-data" action="modules.php?ModPath='.$ModPath
             </select>
          </fieldset>
          <fieldset class="form-group">
-            <button type="submit" class="btn btn-primary-outline btn-sm"><i class="fa fa-check" aria-hidden="true"></i> Redimensionner</button>
+            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-check" aria-hidden="true"></i> Redimensionner</button>
          </fieldset>
       </form>';
    echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> Informations</p>';
@@ -147,10 +160,10 @@ echo '<form enctype="multipart/form-data" action="modules.php?ModPath='.$ModPath
    redim_image($img_src, $img_dest, $dst_w, $dst_h);
    echo '<p><img src='.$img_dest.' alt="" class="img-fluid" /></p>';
 
-   echo '<p class="jumbotron">Une fois l\'image affich&eacute;e, il vous faut faire un clic droit sur l\'image puis enregistrer l\'image sous...<br />Il est conseill&eacute; de l\'enregistrer sur votre bureau sans changer le nom du fichier qui est sp&eacute;cialement cod&eacute;.<br />';
-   echo 'Cette opération r&eacute;alis&eacute;e, retournez sur la page de saisie de votre annonce. <a class="btn btn-primary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=annonce_form">Retour P.A</a><br />';
+   echo '<p class="jumbotron">Une fois l\'image affichée, il vous faut faire un clic droit sur l\'image puis enregistrer l\'image sous...<br />Il est conseillé de l\'enregistrer sur votre bureau sans changer le nom du fichier qui est spécialement codé.<br />';
+   echo 'Cette opération réalisée, retournez sur la page de saisie de votre annonce.<br /><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=annonce_form">Retour P.A</a><br />';
 
-   echo 'Placer ensuite le curseur clignotant à l\'endroit o&ugrave; vous voulez mettre la photo puis cliquer sur l\'icone t&eacute;l&eacute;chargement <img src="editeur/tinymce/plugins/npds/images/npds_upload.png" width="20px" /> de l\'&eacute;diteur int&eacute;gr&eacute;, cela ouvrira une fen&ecirc;tre o&ugrave; vous pointerez vers le fichier photo pr&eacute;par&eacute; puis cliquerez sur le bouton joindre, votre photo arrivera dans l\'&eacute;diteur.</p>';
+   echo 'Placer ensuite le curseur clignotant à l\'endroit o&ugrave; vous voulez mettre la photo puis cliquer sur l\'icone téléchargement <img src="editeur/tinymce/plugins/npds/images/npds_upload.png" width="20px" /> de l\'éditeur intégré, cela ouvrira une fen&ecirc;tre o&ugrave; vous pointerez vers le fichier photo préparé puis cliquerez sur le bouton joindre, votre photo arrivera dans l\'éditeur.</p>';
    }
    echo '</div></div>';
    include ('footer.php');

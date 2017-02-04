@@ -2,7 +2,7 @@
 /************************************************************************/
 /* DUNE by NPDS                                                         */
 /*                                                                      */
-/* NPDS Copyright (c) 2002-2015 by Philippe Brunier                     */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
@@ -14,7 +14,7 @@
 /* Basé sur gadjo_annonces v 1.2 - Adaptation 2008 par Jireck et lopez  */
 /* MAJ conformité XHTML pour REvolution 10.02 par jpb/phr en mars 2010  */
 /* MAJ Dev - 2011                                                       */
-/* Changement de nom du module version Rev16 par jpb/phr mars 2016      */
+/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
 // For More security
@@ -47,11 +47,11 @@ include ("modules/$ModPath/annonce.conf.php");
       settype ($id_user,"integer");
       settype ($id_cat,"integer");
 
-      $query="insert into $table_annonces (id, id_user, id_cat, tel, tel_2, code, ville, date, text, en_ligne, prix)";
-      $query.=" values ('','$id_user', '$id_cat', '$tel', '$tel_2', '$code', '$ville', '".time()."', '$text', '0', '$prix')";
+      $query="INSERT INTO $table_annonces (id, id_user, id_cat, tel, tel_2, code, ville, date, text, en_ligne, prix)";
+      $query.=" VALUES ('','$id_user', '$id_cat', '$tel', '$tel_2', '$code', '$ville', '".time()."', '$text', '0', '$prix')";
       $res=sql_query($query);
 
-      $quer="select categorie from $table_cat where id_cat='$id_cat'";
+      $quer="SELECT categorie FROM $table_cat WHERE id_cat='$id_cat'";
       $sel=sql_query($quer);
       $sel=sql_fetch_assoc($sel);
       $categorie=$sel['categorie'];
@@ -67,21 +67,21 @@ include ("modules/$ModPath/annonce.conf.php");
 
    include ("header.php");
    echo '<div class="card"><div class="card-block">';
-   echo '<p class="lead">'.$mess_acc.'<span class="pull-xs-right"><a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize" data-toggle="tooltip" data-placement="left" title="Pour redimensionner une image"><i class="fa fa-picture-o" aria-hidden="true"></i> Outil</a></span></p>';
+   echo '<p class="lead">'.$mess_acc.'<a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize" data-toggle="tooltip" data-placement="left" title="Pour redimensionner une image"><i class="fa fa-picture-o" aria-hidden="true"></i> Outil</a></p>';
   
    $filename = 'modules/'.$ModPath.'/intro.html';
 
-   echo '<p class="text-xs-center">
-<button type="button" class="btn btn-primary-outline btn-sm" data-toggle="modal" data-target="#intro">Mode d\'emploi</button>&nbsp;&nbsp;<button type="button" class="btn btn-primary-outline btn-sm" data-toggle="modal" data-target="#ment">Mentions légales</button></p>
-
+   echo '<p class="text-center">
+<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#intro">Mode d\'emploi</button>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#ment">Mentions légales</button></p>';
+echo '
 <div class="modal fade" id="intro" tabindex="-1" role="dialog" aria-labelledby="explication" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
+	  <h4 class="modal-title" id="explication">Mode d\'emploi</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="explication">Mode d\'emploi</h4>
       </div>
       <div class="modal-body">';
    include($filename);
@@ -94,7 +94,7 @@ include ("modules/$ModPath/annonce.conf.php");
   </div>
 </div>';
 
-   
+
    $filename2 = "modules/$ModPath/corps.html";
 
    echo '
@@ -102,10 +102,10 @@ include ("modules/$ModPath/annonce.conf.php");
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
+	    <h4 class="modal-title" id="mentlegal">Mentions légales des conditions d\'utilisation des petites annonces</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="mentlegal">Mentions l&eacute;gales des conditions d\'utilisation des petites annonces</h4>
       </div>
       <div class="modal-body">';
    include($filename2);
@@ -147,24 +147,24 @@ include ("modules/$ModPath/annonce.conf.php");
     </div>
   </div>';
   echo '</fieldset>';
-  
+
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">T&eacute;l fixe</label>
+    <label for="" class="col-sm-4 form-control-label">Tél fixe</label>
     <div class="col-sm-8">
         <div class="input-group">
       <div class="input-group-addon">+33.0</div>
-      <input type="text" name="tel" class="form-control" id="" value="" placeholder="num&eacute;ro sans le 0">
+      <input type="text" name="tel" class="form-control" id="" value="" placeholder="numéro sans le 0">
       </div>
     </div>
   </div>';
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">T&eacute;l portable</label>
+    <label for="" class="col-sm-4 form-control-label">Tél portable</label>
     <div class="col-sm-8">
         <div class="input-group">
       <div class="input-group-addon">+33.0</div>
-      <input type="text" name="tel_2" class="form-control" id="" value="" placeholder="num&eacute;ro sans le 0">
+      <input type="text" name="tel_2" class="form-control" id="" value="" placeholder="numéro sans le 0">
       </div>
     </div>
   </div>';
@@ -184,11 +184,11 @@ include ("modules/$ModPath/annonce.conf.php");
   </div>';
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">Cat&eacute;gorie</label>
+    <label for="" class="col-sm-4 form-control-label">Catégorie <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
     <div class="col-sm-8">';
 
    echo '<select class="form-control c-select" name="id_cat">';
-   $select = sql_query("select * from $table_cat where id_cat2='0' order by id_cat");
+   $select = sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
    while($e= sql_fetch_assoc($select)) {
       echo "<option value='".$e['id_cat']."'";
       if ($sel=="") {
@@ -196,7 +196,7 @@ include ("modules/$ModPath/annonce.conf.php");
          echo $sel;
       }
       echo ">".stripslashes($e['categorie'])."</option>\n";
-      $select2 = sql_query("select * from $table_cat where id_cat2='".$e['id_cat']."' order by id_cat");
+      $select2 = sql_query("SELECT * FROM $table_cat WHERE id_cat2='".$e['id_cat']."' ORDER BY id_cat");
       while ($e2 = sql_fetch_assoc($select2)) {
          echo "<option value='".$e2['id_cat']."'";
          echo ">&nbsp;&nbsp;&nbsp;".stripslashes($e2['categorie'])."</option>\n";
@@ -207,18 +207,13 @@ include ("modules/$ModPath/annonce.conf.php");
 
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-12 form-control-label">Libell&eacute; de l\'annonce <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+    <label for="" class="col-sm-12 form-control-label">Libellé de l\'annonce <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
     <div class="col-sm-12">';
 
    echo "<textarea name=\"xtext\" class=\"tin form-control\" rows=\"40\"></textarea>\n";
 
    if ($editeur)
       echo aff_editeur("xtext", "true");
-/*   global $tiny_mce;
-   if (!$tiny_mce) {
-      echo "<script type=\"text/javascript\" src=\"modules/$ModPath/js/verif_form.js\"></script>";
-   }*/
-
 
    echo '</div></div>';
 
@@ -226,10 +221,10 @@ include ("modules/$ModPath/annonce.conf.php");
    if ($aff_prix) {
    echo '
    <div class="form-group row">
-      <label for="" class="col-sm-4 form-control-label">Prix en '.$prix_cur.'</label>
+      <label for="" class="col-sm-4 form-control-label">Prix en '.$prix_cur.' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
       <div class="col-sm-8">
       <div class="input-group">
-      <input type="text" name="prix" class="form-control" id="" value="'.$prix.'" placeholder="">
+      <input type="text" name="prix" class="form-control" required="required" id="" value="'.$prix.'" placeholder="">
       <div class="input-group-addon">.00</div>
       </div>
       </div>
@@ -239,18 +234,18 @@ include ("modules/$ModPath/annonce.conf.php");
    }
 
    if ($tiny_mce) {
-      echo '<button type="submit" name="op" class="btn btn-primary-outline btn-sm" value="Soumettre"><i class="fa fa-check" aria-hidden="true"></i> Soumettre</button>';
+      echo '<button type="submit" name="op" class="btn btn-outline-primary btn-sm" value="Soumettre"><i class="fa fa-check" aria-hidden="true"></i> Soumettre</button>';
    } else {
       echo "<input type=\"submit\" class=\"btn btn-primary\" name=\"op\" value=\"Soumettre\" onClick=\"MM_validateForm('nom','','R','mail','','RisEmail','xtext','','R');return document.MM_returnValue\" />";
    }
    echo '</form>';
-   
+
    $filename = "modules/$ModPath/pied.html";
    if (file_exists($filename)) {
       include($filename);
    }
 
-   echo '<p><a class="btn btn-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> Retour</a></p>';
+   echo '<p><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> Retour</a></p>';
    echo '</div></div>';
 include ("footer.php");
 ?>
