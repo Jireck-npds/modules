@@ -19,7 +19,7 @@
 
 $GS_version='3.0';
 
-global $NPDS_Prefix;
+global $language, $NPDS_Prefix;
 
 
 // table des catégories
@@ -28,31 +28,32 @@ $table_cat=$NPDS_Prefix."g_categories";
 // table des annonces
 $table_annonces=$NPDS_Prefix."g_annonces";
 
-// intégration des éditeurs (y compris de TinyMce) - true or false
+// intégration de TinyMce - true or false
 $editeur=true;
 
 // affichage de la zone de saisie du Prix - true or false
 $aff_prix=true;
 
 // nom de la monnaie courante
-$prix_cur='€uros';
+$prix_cur='[french]€uro(s)[/french] [english]€uro(s)[/english]';
 
 // nombre max d'annonces par pages
-$max=5;
+$max=3;
 
 // nombre de mois avant destruction d'une annonce
-$obsol=6;
+$obsol=1;
 
 // message du moteur de recherche
-$mess_no_result='<p class="text-danger">Aucune annonce ne correspond à votre recherche</p>';
+$mess_no_result='[french]Aucune annonce ne correspond à votre recherche[/french] [english]No ads found corresponding to your search[/english]';
 
 // chapeau de la page d'accueil
-$mess_acc='<h2><img src="modules/npds_annonces/npds_annonces.png" alt="icon_npds_annonces"> Petites annonces du site '.$Titlesitename.'</h2>';
+$mess_acc='<h2><img src="modules/npds_annonces/npds_annonces.png" alt="icon_npds_annonces"> [french]Petite(s) annonce(s)[/french] [english]Offer(s)[/english]  '.$Titlesitename.'</h2>';
 
 // chapeau de la page de choix d'un utilisateur
-$del_sup_chapo='A partir de cette page, vous pouvez ajouter, modifier ou supprimer vôtre ou vos annonce(s).';
-$warning='Attention, la suppression est irréversible, la modification d\'une annonce la remet en attente pour validation.';
+$del_sup_chapo='[french]A partir de cette page, vous pouvez ajouter, modifier ou supprimer vos annonce(s)[/french] [english]From this page you can add, modify or delete your ad (s)[/english]';
+
+$warning='[french]Attention, la suppression est irréversible, la modification d\'une annonce la remet en attente pour validation[/french] [english]The deletion is irreversible, the modification of an announcement puts it back on hold for validation[/english]';
 
 //pour le pages de formulaire
-$mess_requis='<p>Merci de remplir tous les champs marqués d\'un <span class="text-danger"><i class="fa fa-asterisk"></i></span></p>';
+$mess_requis='[french]Merci de remplir tous les champs marqués d\'un[/french] [english]Please fill all fields marked with[/english] <span class="text-danger"><i class="fa fa-asterisk"></i></span>';
 ?>

@@ -17,7 +17,6 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
-
 // For More security
 if (!stristr($_SERVER['PHP_SELF'],"modules.php")) { die(); }
 if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script") || stristr($ModPath, "cookie") || stristr($ModPath, "iframe") || stristr($ModPath, "applet") || stristr($ModPath, "object") || stristr($ModPath, "meta") || stristr($ModStart, "script") || stristr($ModStart, "cookie") || stristr($ModStart, "iframe") || stristr($ModStart, "applet") || stristr($ModStart, "object") || stristr($ModStart, "meta")) {
@@ -25,9 +24,8 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 }
 // For More security
 
-
-include ("modules/$ModPath/annonce.conf.php");
-
+   include ("modules/$ModPath/annonce.conf.php");
+   include ("modules/$ModPath/lang/annonces-$language.php");
    include ("header.php");
    if(!strstr($id_cat, '|')) {
       $q ="='$id_cat'";
@@ -36,7 +34,6 @@ include ("modules/$ModPath/annonce.conf.php");
       $q =" REGEXP '[[:<:]]".str_replace('|', '[[:>:]]|[[:<:]]',$id_cat)."[[:>:]]'";
    }
 
-//   settype($id_cat,"integer");
    settype($num_ann,"integer");
    $categorie=removeHack(StripSlashes($categorie));
    $inf=$min+1;
@@ -49,12 +46,13 @@ include ("modules/$ModPath/annonce.conf.php");
    echo '
    <div class="card">
       <div class="card-block">
-         <p class="lead">'.$mess_acc.'</p>';
-
-
-   if ( $num_ann > 1 ){ $pluriel = "s"; }
-   echo '<p class="lead">'.$inf.' à '.$sup.' &nbsp;&nbsp; Il y a <span class="badge badge-default">'.$num_ann.'</span> annonce'.$pluriel.' en ligne dans : <strong>'.$categorie.'</strong></p>';
+         <p class="lead">'.aff_langue($mess_acc).'</p>';
    include ("modules/$ModPath/include/search_form.php");
+   
+   echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Il y a").' <span class="badge badge-default">'.$num_ann.'</span> '.ann_translate("annonce(s) en ligne").' : <strong>'.$categorie.'</strong></p>';
+
+   echo '<p class="lead"><span class="badge badge-primary">'.$inf.' '.ann_translate("à").' '.$sup.'</span></p>';
+
    include ("modules/$ModPath/include/annonce.php");
 
    if (!isset($min))
@@ -64,28 +62,31 @@ include ("modules/$ModPath/annonce.conf.php");
 
    $query="SELECT * FROM $table_annonces WHERE id_cat$q AND en_ligne='1' ORDER BY id DESC LIMIT $min,$max";
 
-//   $query="SELECT * FROM $table_annonces WHERE id_cat='$id_cat' AND en_ligne='1' ORDER BY id DESC LIMIT $min,$max";
    $select = sql_query($query);
    aff_annonces($select);
 
    $categorie=urlencode($categorie);
 
    $pp=false;
+   echo '
+         <ul class="pagination pagination-sm">
+            <li class="page-item disabled">
+               <a class="page-link" href="#" aria-label="Annonces(s)">'.$num_ann.' '.ann_translate("Annonces(s)").'</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">'.$inf.' à '.$sup.'</a></li>';
    if ($min>0) {
-      echo "<p><a class=\"btn btn-secondary btn-sm\" href='modules.php?ModPath=$ModPath&amp;ModStart=list_ann&amp;id_cat=$id_cat&amp;categorie=$categorie";
-      echo "&amp;min=".($min-$max)."&amp;num_ann=".$num_ann."'>";
-      echo "Page précédente</a>&nbsp;&nbsp;";
+      echo '
+            <li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;min='.($min-$max).'&amp;num_ann='.$num_ann.'">'.ann_translate("Précédente").'</a></li>';
       $pp=true;
    }
    if (($min+$max)<$num_ann) {
-      echo "<a class=\"btn btn-secondary btn-sm\" href='modules.php?ModPath=$ModPath&amp;ModStart=list_ann&amp;id_cat=$id_cat&amp;categorie=$categorie";
-      echo "&amp;min=".($min+$max)."&amp;num_ann=".$num_ann."'>";
-
-      echo "Page suivante</a>&nbsp;&nbsp;";
+      echo '
+            <li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;min='.($min+$max).'&amp;num_ann='.$num_ann.'">'.ann_translate("Suivante").'</a></li>';
    }
-   echo '</p>';
-   echo '<p><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> Retour</a></p>';
-
-   echo '</div></div>';
+   echo '
+         </ul>
+         <p><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> '.ann_translate("Retour").'</a></p>
+      </div>
+   </div>';
    include ("footer.php");
 ?>

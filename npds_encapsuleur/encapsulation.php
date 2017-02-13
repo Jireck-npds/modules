@@ -24,12 +24,9 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    die();
 }
 
-// Inclusion fichiers de langue
-if (file_exists('modules/'.$ModPath.'/lang/'.$language.'.php')) {
-   include_once('modules/'.$ModPath.'/lang/'.$language.'.php');
-} else {
-   include_once('modules/'.$ModPath.'/lang/french.php');
-}
+
+include_once('modules/'.$ModPath.'/lang/encapsuleur-'.$language.'.php');
+
 
 include ("modules/$ModPath/encap.conf.php");
 
@@ -51,7 +48,7 @@ if ($result) {
    }
      
    $title  = '<h3>'.$data['titre'];
-   $title .= '<a class="btn btn-secondary btn-sm pull-xs-right" href="'.$src.'">'.encap_translate("Pleine Page").'</a></h3>';
+   $title .= '<a class="btn btn-secondary btn-sm float-right" href="'.$src.'">'.encap_translate("Pleine Page").'</a></h3>';
    include("header.php");
    
    echo '<div class="card"><div class="card-block">';
@@ -69,10 +66,10 @@ if ($result) {
                      // Modif pour affichage des pages internes contenant des frames - 19/06/2006
                      $src=$static_url.$data['adresse'];
                      echo "<iframe src=\"$src\" name=\"".$data['nom']."\" id=\"".$data['nom']."\" width=\"100%\" height=\"".$data['height']."\" marginwidth=\"0\" align=\"middle\" scrolling=\"".$data['scroll']."\" frameborder=\"$encap_bordint\" title=\"$title\"></iframe>";
-                     echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=printenc&amp;eid='.$data['id'].'"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                     echo '<p><a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=printenc&amp;eid='.$data['id'].'"><i class="fa fa-print" aria-hidden="true"></i></a></p>';
                   }
                } else {
-                  echo '<p class="lead">'.translate("Please enter information according to the specifications").'</p>';
+                  echo '<p class="lead">'.encap_translate("Veuillez saisir les informations selon les spécifications").'</p>';
                }
             }
 
@@ -81,12 +78,12 @@ if ($result) {
          case "externe" :
             echo '<iframe src="'.$src.'" name="'.$data['nom'].'" id="'.$data['nom'].'" width="100%" height="'.$data['height'].'" marginwidth="0" align="middle" scrolling="'.$data['scroll'].'" frameborder="'.$encap_bordext.'" title="'.$title.'"></iframe>';
  
-            echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=printenc&amp;eid='.$data['id'].'"><i class="fa fa-print" aria-hidden="true"></i></a>';
+            echo '<p><a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=printenc&amp;eid='.$data['id'].'"><i class="fa fa-print" aria-hidden="true"></i></a></p>';
             break;
                 
          default :
             echo '<iframe src="'.$src.'" name="'.$data['nom'].'" id="'.$data['nom'].'" width="100%" height="'.$data['height'].'" marginwidth="0" align="middle" scrolling="'.$data['scroll'].'" frameborder="0" title="'.$title.'"></iframe>';
-            echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=printenc&amp;eid='.$data['id'].'"><i class="fa fa-print" aria-hidden="true"></i></a>';
+            echo '<p><a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=printenc&amp;eid='.$data['id'].'"><i class="fa fa-print" aria-hidden="true"></i></a></p>';
             break;
        }
         

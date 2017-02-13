@@ -20,7 +20,6 @@
 /*                                                                      */
 /************************************************************************/
 
-
 global $ModInstall;
 
 #autodoc $name_module: Nom du module
@@ -94,7 +93,7 @@ $txtdeb = "";
 
 #autodoc $txtfin : Vous pouvez mettre ici un texte de votre choix avec du html qui s'affichera à la fin de l'install
 
-$txtfin = "Merci d'utiliser npds_annonces<br /><br /><a href=\"http://modules.npds.org\" target=\"_blank\">modules.npds.org</a><br />";
+$txtfin = '<p>Merci d\'utiliser npds_annonces<br /><br /><a href="http://modules.npds.org" target="_blank">modules.npds.org</a></p>';
 
 
 #autodoc $link: Lien sur lequel sera redirigé l'utilisateur à la fin de l'install (si laissé vide, redirigé sur index.php)

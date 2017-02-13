@@ -30,6 +30,7 @@ admindroits($aid,$f_meta_nom);
 
 
 include ("modules/$ModPath/annonce.conf.php");
+include ("modules/$ModPath/lang/annonces-$language.php");
 
 if ($editeur)
    $max=1;
@@ -63,12 +64,20 @@ if ($action=="Supprimer") {
    GraphicAdmin($hlpfile);
 
    echo '<div id="adm_men">';
-   echo $mess_acc;
+   echo aff_langue($mess_acc);
    echo '<h3>Administration des annonces</h3>';
-   echo '<p><a data-toggle="tooltip" data-placement="top" title="Cliquer pour préparer une photo" class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize"><i class="fa fa-picture-o" aria-hidden="true"></i> Outil photo</a></p>';
+   echo '<p><a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Pour préparer une image").'" class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize"><i class="fa fa-picture-o" aria-hidden="true"></i> '.ann_translate("Outil").'</a></p>';
    if (!isset($id_cat_sel)) {
+   
+      if(!strstr($id_cat, '|')) {
+         $q ="='$id_cat'";
+         settype($id_cat,"integer");
+      } else {
+         $q =" REGEXP '[[:<:]]".str_replace('|', '[[:>:]]|[[:<:]]',$id_cat)."[[:>:]]'";
+      }
+      
       $id_cat_sel=$id_cat;
-      $select= sql_query("SELECT categorie FROM $table_cat WHERE id_cat='$id_cat'");
+      $select= sql_query("SELECT categorie FROM $table_cat WHERE id_cat$q");
       list($categorie)= sql_fetch_row($select);
       echo '<p class="lead">Catégorie : <span class="text-info">'.stripslashes($categorie).'</span></p>';
    }
@@ -76,11 +85,11 @@ if ($action=="Supprimer") {
       $min=0;
 
    if (!isset($sel)) {
-      $query_count="SELECT count(*) FROM $table_annonces WHERE id_cat='$id_cat_sel'";
+      $query_count="SELECT COUNT(*) FROM $table_annonces WHERE id_cat$q";
       $succes_count= sql_query($query_count);
       $count= sql_fetch_row($succes_count);
       $count=$count[0];
-      $sel2="WHERE id_cat='$id_cat_sel' ORDER BY en_ligne,id DESC LIMIT $min,$max";
+      $sel2="WHERE id_cat$q ORDER BY en_ligne,id DESC LIMIT $min,$max";
    } else {
       if ($sel==1) {
          $sel2="ORDER BY en_ligne,id DESC LIMIT 0,1";
@@ -107,77 +116,73 @@ if ($action=="Supprimer") {
       $succes_2= sql_query($query_2);
       list ($nom, $mail)= sql_fetch_row($succes_2);
 
-      echo "<form method=\"post\" action=\"admin.php\" name=\"adminForm\">\n";
-      echo "<input type=\"hidden\" name=\"op\" value=\"Extend-Admin-SubModule\" />\n";
-      echo "<input type=\"hidden\" name=\"ModPath\" value=\"$ModPath\" />\n";
-      echo "<input type=\"hidden\" name=\"ModStart\" value=\"admin/adm_ann\" />\n";
-      echo "<input type=\"hidden\" name=\"id_cat\" value=\"$id_cat_sel\" />\n";
-      echo "<input type=\"hidden\" name=\"min\" value=\"$min\" />\n";
-      echo "<input type=\"hidden\" name=\"id\" value=\"$id\" />\n";
+      echo '
+      <form method="post" action="admin.php" name="adminForm">
+         <input type="hidden" name="op" value="Extend-Admin-SubModule" />
+         <input type="hidden" name="ModPath" value="'.$ModPath.'" />
+         <input type="hidden" name="ModStart" value="admin/adm_ann" />
+         <input type="hidden" name="id_cat" value="'.$id_cat_sel.'" />
+         <input type="hidden" name="min" value="'.$min.'" />
+         <input type="hidden" name="id" value="'.$id.'" />';
       if (isset($sel))
-         echo "<input type=\"hidden\" name=\"sel\" value=\"$sel\" />\n";
+         echo '
+         <input type="hidden" name="sel" value="'.$sel.'" />';
 
 //id de l'annonce
       echo '<p class="lead">';
-      echo '<span class="badge badge-default">Annonce ID : '.$id.'</span>';	  
+      echo ''.ann_translate("Annonce").' <span class="badge badge-default">ID : '.$id.'</span>';
       if ($values['en_ligne']=="1") {
-         echo '<span class="badge badge-success float-right">En ligne</span>';
+         echo '<span class="badge badge-success float-right">'.ann_translate("En ligne").'</span>';
       } elseif ($values['en_ligne']=="0") {
-         echo '<span class="badge badge-warning float-right">En attente</span>';
+         echo '<span class="badge badge-danger float-right">'.ann_translate("En attente").'</span>';
       } else {
-      echo '<span class="badge badge-danger float-right">En archive</span>';
+      echo '<span class="badge badge-default float-right">'.ann_translate("En archive").'</span>';
       }
       echo '</p>';
 
-      echo '  
-      <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Nom</label>
-         <div class="col-sm-8">
-         <span class="form-control" readonly>'.$nom.'</span>
-         </div>
-      </div>';
       echo '
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">M&egrave;l</label>
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Nom").'</label>
          <div class="col-sm-8">
-         <span class="form-control" readonly>'.$mail.'</span>
+         <span class="form-control">'.$nom.'</span>
          </div>
-      </div>';
-      echo '
+      </div>
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Tél fixe</label>
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Email").'</label>
          <div class="col-sm-8">
-         <input type="text" class="form-control" id="" name="tel" placeholder="'.$tel.'" value="'.$tel.'" readonly>
+         <span class="form-control">'.$mail.'</span>
          </div>
-      </div>';
-      echo '
+      </div>
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Tél portable</label>
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Tél fixe").'</label>
          <div class="col-sm-8">
-         <input type="text" class="form-control" id="" name="tel_2" placeholder="'.$tel_2.'" value="'.$tel_2.'" readonly>
+         <input type="text" class="form-control" id="" name="tel" placeholder="'.$tel.'" value="'.$tel.'">
          </div>
-      </div>';
-      echo '
+      </div>
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Code postal</label>
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Tél portable").'</label>
          <div class="col-sm-8">
-         <input type="text" class="form-control" id="" name="code" placeholder="'.$code.'" value="'.$code.'" readonly>
+         <input type="text" class="form-control" id="" name="tel_2" placeholder="'.$tel_2.'" value="'.$tel_2.'">
          </div>
-      </div>';
-      echo '
+      </div>
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Ville</label>
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Code postal").'</label>
          <div class="col-sm-8">
-         <input type="text" class="form-control" id="" name="ville" placeholder="'.$ville.'" value="'.$ville.'" readonly>
+         <input type="text" class="form-control" id="" name="code" placeholder="'.$code.'" value="'.$code.'">
+         </div>
+      </div>
+      <div class="form-group row">
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Ville").'</label>
+         <div class="col-sm-8">
+         <input type="text" class="form-control" id="" name="ville" placeholder="'.$ville.'" value="'.$ville.'">
          </div>
       </div>';
 //cat de l'annonce
       echo '
       <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label">Catégorie <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
-         <div class="col-sm-8">';
-
-      echo '<select class="form-control c-select" name="Xid_cat">';
+         <label for="" class="col-sm-4 form-control-label">'.ann_translate("Catégorie").' <i class="fa fa-asterisk text-danger" aria-hidden="true"></i></label>
+         <div class="col-sm-8">
+            <select class="form-control custom-select" name="Xid_cat">';
 
       $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
       while($e= sql_fetch_assoc($select)) {
@@ -191,12 +196,12 @@ if ($action=="Supprimer") {
             echo ">&nbsp;&nbsp;&nbsp;".stripslashes($e2['categorie'])."</option>\n";
          }
       }
-      echo '</select>';
-      echo '</div></div>';
-
       echo '
+            </select>
+         </div>
+      </div>
       <div class="form-group row">
-         <label for="" class="col-sm-12 form-control-label">Libellé de l\'annonce <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+         <label for="" class="col-sm-12 form-control-label">'.ann_translate("Libellé de l'annonce").' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
          <div class="col-sm-12">';
       echo '<textarea name="xtext" class="tin form-control" rows="50">'.$text.'</textarea>';
       if ($editeur)
@@ -205,41 +210,47 @@ if ($action=="Supprimer") {
 
 //prix
       if ($aff_prix) {
-      echo '
-      <div class="form-group row">
-         <label for="" class="col-sm-4 form-control-label" required="required">Prix en '.$prix_cur.' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
-         <div class="col-sm-8">
-         <input type="text" name="prix" class="form-control" id="" value="'.$prix.'" placeholder="'.$prix.'">
-         </div>
-      </div>';
+         echo '
+         <div class="form-group row">
+            <label for="" class="col-sm-4 form-control-label" required="required">'.ann_translate("Prix en").' '.aff_langue($prix_cur).' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+            <div class="col-sm-8">
+            <input type="text" name="prix" class="form-control" id="" value="'.$prix.'" placeholder="'.$prix.'">
+            </div>
+         </div>';
       } else {
-         echo "<input type=\"hidden\" name=\"prix\" value=\"$prix\" />\n";
+         echo '
+         <input type="hidden" name="prix" value="'.$prix.'" />';
       }
 //boutons supp modif
       echo '
-      <div class="form-group row">';
-      echo '<div class="col-md-1"><input type="submit" class="btn btn-outline-primary btn-sm" name="action" value="Valider" /></div>';
-      echo '<div class="col-md-1"><input type="submit" class="btn btn-outline-danger btn-sm" name="action" value="Supprimer" /></div>';
-      echo '</div>';
-      echo '</form>';
+         <div class="form-group row">
+            <div class="col-md-1"><button class="btn btn-outline-primary btn-sm" type="submit" name="action" value="Valider">'.ann_translate("Valider").'</button></div>
+            <div class="col-md-1"><button class="btn btn-outline-danger btn-sm" type="submit" name="action" value="Supprimer">'.ann_translate("Supprimer").'</button></div>
+         </div>
+      </form>';
    }
 
 
    $pp=false;
    if (!isset($sel)) {
-	   echo '<nav aria-label="">
-  <ul class="pagination pagination-sm justify-content-center">';
+   echo '
+   <nav aria-label="">
+     <ul class="pagination pagination-sm justify-content-center">';
       if ($min>0) {
-         echo '<li class="page-item"><a class="page-link" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min-$max).'">Annonce précédente</a></li>';
+         echo '
+         <li class="page-item"><a class="page-link" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min-$max).'"><i class="fa fa-angle-double-left mx-2"></i><span class="hidden-sm-down">'.ann_translate("Précédente").'</span></span></a></li>';
          $pp=true;
       }
       if (($min+$max)<$count) {
-         echo '<li class="page-item"><a class="page-link" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min+$max).'">Annonce suivante</a></li>';
+         echo '
+         <li class="page-item"><a class="page-link" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat_sel.'&amp;min='.($min+$max).'"><span class="hidden-sm-down">'.ann_translate("Suivante").' </span><i class="fa fa-angle-double-right mx-2"></i></a></li>';
       }
-   echo '</ul></nav>';
+   echo '
+      </ul>
+   </nav>';
    }
 
-   echo '<p><a class="btn btn-outline-primary btn-sm" role="button" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-home" aria-hidden="true"></i> Admin P.A</a></p>';
+   echo '<p><a class="btn btn-outline-primary btn-sm" role="button" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-home" aria-hidden="true"></i> '.ann_translate("Admin P.A").'</a></p>';
    echo '</div>';
 include ("footer.php");
 ?>

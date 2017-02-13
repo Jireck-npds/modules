@@ -1041,7 +1041,6 @@ function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admi
 	}
 	if ($admin)
 	{
-		   GraphicAdmin($hlpfile);
 		/*Parametres utilises par le script*/
 		$ThisFile = 'admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
 		$ThisRedo = 'admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart='.$ModStart.'';

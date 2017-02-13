@@ -25,10 +25,10 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 
 
 // Inclusion fichiers de langue
-if (file_exists('modules/'.$ModPath.'/lang/'.$language.'.php')) {
-   include_once('modules/'.$ModPath.'/lang/'.$language.'.php');
+if (file_exists('modules/'.$ModPath.'/lang/encapsuleur-'.$language.'.php')) {
+   include_once('modules/'.$ModPath.'/lang/encapsuleur-'.$language.'.php');
 } else {
-   include_once('modules/'.$ModPath.'/lang/french.php');
+   include_once('modules/'.$ModPath.'/lang/encapsuleur-french.php');
 }
 
 include ("modules/$ModPath/encap.conf.php");
@@ -91,6 +91,6 @@ include ("modules/$ModPath/encap.conf.php");
       }
    }
    echo '<hr />';
-   echo '<p class="text-xs-center">'.$sitename.'</p>';
+   echo '<p class="text-center">'.$sitename.'</p>';
    echo '</body></html>';
 ?>

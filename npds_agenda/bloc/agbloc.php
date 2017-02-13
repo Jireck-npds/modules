@@ -141,21 +141,21 @@
 		$Bliais = '&amp;';
 	}
 
-   $content = '<p class="text-xs-center"><a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_prec.'&amp;annee='.$Ban_prec.'" class="btn btn-lg"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>'
-	.'<a href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier&month='.$mois.'&an='.$annee.'"><span class="label label-default">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>'
-	.'<a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_suivant.'&amp;annee='.$Ban_suivant.'" class="btn btn-lg"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>'
+   $content = '<p class="text-center"><a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_prec.'&amp;annee='.$Ban_prec.'" class="mr-2"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>'
+	.'<a href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier&month='.$mois.'&an='.$annee.'"><span class="badge badge-default">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>'
+	.'<a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_suivant.'&amp;annee='.$Ban_suivant.'" class="ml-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>'
    .'</p>';   
    
 	$content .= '<table class="table table-bordered table-sm">'
    .'<thead class="thead-default">'   
 	.'<tr>'
-	.'<th class="text-xs-center">'.ag_trad('L').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('M').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('M ').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('J').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('V').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('S').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('D').'</th>'
+	.'<th class="text-center">'.ag_trad('L').'</th>'
+	.'<th class="text-center">'.ag_trad('M').'</th>'
+	.'<th class="text-center">'.ag_trad('M ').'</th>'
+	.'<th class="text-center">'.ag_trad('J').'</th>'
+	.'<th class="text-center">'.ag_trad('V').'</th>'
+	.'<th class="text-center">'.ag_trad('S').'</th>'
+	.'<th class="text-center">'.ag_trad('D').'</th>'
 	.'</tr>'
    .'</thead>'
    .'<tbody>'
@@ -182,32 +182,32 @@
 		{
 
    // Si case calendrier vide
-			$content .= '<td class="text-xs-center">&nbsp;</td>'; 
+			$content .= '<td class="text-center">&nbsp;</td>'; 
 		}
 		
    // Permet la naviguation du calendrier
 		$Bdate = ajout_zero(01, $mois, $annee);
 
    // Met en rouge ce jour
-		if (01 == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger';}else{$Bcs = 'text-muted';}
+		if (01 == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger font-weight-bold';}else{$Bcs = 'text-muted';}
 		
    // Si ce premier dimanche est réservé
 		if($Btab_jours[1])
 		{
 
    // Si jour férié sans événement
-			if ($Bafftitre[$Btab_jours[1]] == '' && $Bfetetitre[$Btab_jours[1]] != ''){$Bcla = 'table-warning';}
+			if ($Bafftitre[$Btab_jours[1]] == '' && $Bfetetitre[$Btab_jours[1]] != ''){$Bcla = 'table-danger';}
 			else if ($Bafftitre[$Btab_jours[1]] != '' && $Bfetetitre[$Btab_jours[1]] == ''){$Bcla = 'table-info';}
 			else if ($Bafftitre[$Btab_jours[1]] != '' && $Bfetetitre[$Btab_jours[1]] != ''){$Bcla = 'table-info';}
 			/*Ajoute le jour et reste sur la meme page + css jour evenement*/
-			$content .= '<td class="text-xs-center '.$Bcla.'">'
-			.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="ag_pop" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Btab_jours[1]]).''.$Bafftitre[1].'"><span class="'.$Bcs.'">1</span></a>'
+			$content .= '<td class="text-center '.$Bcla.'">'
+			.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Btab_jours[1]]).''.$Bafftitre[1].'"><span class="'.$Bcs.'">1</span></a>'
 			.'</td>';
 		}
 		else
 		{
    // css jour libre
-			$content .= '<td class="text-xs-center"><span class="'.$Bcs.'">1</span></td>';
+			$content .= '<td class="text-center"><span class="'.$Bcs.'">1</span></td>';
 		}
 		$content .= '</tr>'
 		.'<tr>';
@@ -220,7 +220,7 @@
    // Si case calendrier vide
 		if ($i < $Bpremier_jour)
 		{
-			$content .= '<td class="text-xs-center">&nbsp;</td>';
+			$content .= '<td class="text-center">&nbsp;</td>';
 		}
 		else
 		{
@@ -232,23 +232,23 @@
 			$Bdate = ajout_zero($Bce_jour, $mois, $annee);
 	
    // Met en rouge ce jour
-			if ($Bce_jour == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger';}else{$Bcs = 'text-muted';}
+			if ($Bce_jour == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger font-weight-bold';}else{$Bcs = 'text-muted';}
 			if($Btab_jours[$Bce_jour])
 			{
    // Si jour férié sans évènement
-				if ($Bafftitre[$Bce_jour] == '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-warning';}
+				if ($Bafftitre[$Bce_jour] == '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-danger';}
 				else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] == ''){$Bcla = 'table-info';}
 				else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-info';}
             
    // Ajoute le jour et reste sur la même page + css jour évènement
-				$content .= '<td class="text-xs-center '.$Bcla.'">'
-				.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="ag_pop" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>'
+				$content .= '<td class="text-center '.$Bcla.'">'
+				.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>'
 				.'</td>';
 			}
 			else
 			{
    //css libre
-				$content .= '<td class="text-xs-center"><span class="'.$Bcs.'">'.$Bce_jour.'</span></td>';
+				$content .= '<td class="text-center"><span class="'.$Bcs.'">'.$Bce_jour.'</span></td>';
 			}
 		}
 	}
@@ -265,7 +265,7 @@
 			{
 
    // Case avec class pour vide
-				$content .= '<td class="text-xs-center">&nbsp;</td>';
+				$content .= '<td class="text-center">&nbsp;</td>';
 			}
 			else
 			{
@@ -274,27 +274,27 @@
 				$Bdate = ajout_zero($Bjour_suiv, $mois, $annee);
 
    // Met en rouge ce jour
-				if ($Bjour_suiv == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger';}else{$Bcs = 'text-muted';}
+				if ($Bjour_suiv == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger font-weight-bold';}else{$Bcs = 'text-muted';}
 	
    // Case avec class pour réserver
 				if($Btab_jours[$Bjour_suiv])
 				{
 	
    // Si jour ferie sans évènement
-					if ($Bafftitre[$Bjour_suiv] == '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-warning';}
+					if ($Bafftitre[$Bjour_suiv] == '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-danger';}
 					else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] == ''){$Bcla =  'table-info';}
 					else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-info';}
 					
    // Ajoute le jour et reste sur la même page + css jour évènement
-					$content .= '<td class="text-xs-center '.$Bcla.'">'
-					.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="ag_pop" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a>'
+					$content .= '<td class="text-center '.$Bcla.'">'
+					.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a>'
 					.'</td>';
 				}
 				else
 				{
 
    //css libre
-					$content .= '<td class="text-xs-center"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></td>';
+					$content .= '<td class="text-center"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></td>';
 				}
 			}
 			$Bjour_suiv++;
@@ -307,21 +307,17 @@
 	if(autorisation($gro))
 	{
 		$content .= '<p>'
-		.'<a class="btn btn-block btn-primary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_trad('Ajouter un évènement').'</a>'
+		.'<a class="btn btn-block btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_trad('Ajouter un évènement').'</a>'
 		.'</p>';
 	}
 	$content .= '<table table table-bordered table-sm>'
 	.'<tr>'
 	.'<td class="table-info" width="20px"></td>'
-	.'<td>&nbsp;'.ag_trad('Jour avec un évènement').'</td>'
-	.'</tr>'
-	.'<tr>'
-	.'<td class=""></td>'
-	.'<td>&nbsp;'.ag_trad('Jour libre').'</td>'
+	.'<td class="pl-2">'.ag_trad('Jour avec un évènement').'</td>'
 	.'</tr>'
 	.'<tr>'
 	.'<td class="table-warning"></td>'
-	.'<td>&nbsp;'.ag_trad('Jour férié').'</td>'
+	.'<td class="pl-2">'.ag_trad('Jour férié').'</td>'
 	.'</tr>'
 	.'</table>';
 ?>

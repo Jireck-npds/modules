@@ -25,10 +25,10 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 // For More security
 
 include ("modules/$ModPath/annonce.conf.php");
-
+include ("modules/$ModPath/lang/annonces-$language.php");
    include ("header.php");
    echo '<div class="card"><div class="card-block">';
-   echo '<p class="lead">'.$mess_acc.'</p>';
+echo '<p class="lead">'.aff_langue($mess_acc).'</p>';
    include ("modules/$ModPath/include/search_form.php");
    include ("modules/$ModPath/include/annonce.php");
    $search=removeHack(stripslashes(htmlentities(urldecode($search), ENT_NOQUOTES))); // electrobug
@@ -40,7 +40,7 @@ include ("modules/$ModPath/annonce.conf.php");
    $search = strtoupper($search);
    $search = explode(' ',$search);
    $tot=count($search);
-   $query= "SELECT count(*) FROM $table_annonces WHERE UPPER(text) LIKE '%$search[0]%'";
+   $query= "SELECT COUNT(*) FROM $table_annonces WHERE UPPER(text) LIKE '%$search[0]%'";
    for ($i=1; $i<$tot; $i++) {
       $query.=" OR TEXT LIKE '%$search[$i]%'";
    }
@@ -52,7 +52,7 @@ include ("modules/$ModPath/annonce.conf.php");
    if (!isset($min))
       $min=0;
    if ($nombre==0) {
-      echo '<p class="text-danger">'.$mess_no_result.'</p>';
+      echo '<p class="lead text-danger"><i class="fa fa-circle" aria-hidden="true"></i> '.aff_langue($mess_no_result).'</p>';
    } else {
       $inf=$min+1;
       if (($min+$max)>=$nombre) {
@@ -60,7 +60,7 @@ include ("modules/$ModPath/annonce.conf.php");
       } else {
          $sup=$min+$max;
       }
-      echo "<p class=\"text-info\">Annonces $inf à $sup sur $nombre correspondant à votre recherche</p>";
+      echo '<p class="lead"><i class="fa fa-circle" aria-hidden="true"></i> Annonces <span class="badge badge-primary">'.$inf.' à '.$sup.'</span> sur <span class="badge badge-default">'.$nombre.'</span> correspondant à votre recherche</p>';
    }
 
    $query="SELECT * FROM $table_annonces WHERE UPPER(text) LIKE '%$search[0]%'";
@@ -74,17 +74,23 @@ include ("modules/$ModPath/annonce.conf.php");
    $search = implode('+',$search);
 
    $pp=false;
+  
+    echo '<ul class="pagination pagination-sm">
+            <li class="page-item disabled">
+               <a class="page-link" href="#" aria-label="Annonces(s)">'.$nombre.' '.ann_translate("Annonces(s)").'</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">'.$inf.' à '.$sup.'</a></li>';	
+   
    if ($min>0) {
-      echo "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=search&amp;min=".($min-$max)."&amp;search=".$search."\">";
-      echo "Page précédente</a>&nbsp;&nbsp;";
+      echo '<li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=search&amp;min='.($min-$max).'&amp;search='.$search.'">'.ann_translate("Précédente").'</a></li>';
       $pp=true;
    }
    if (($min+$max)<$nombre) {
-      echo "<a href='modules.php?ModPath=$ModPath&amp;ModStart=search&amp;min=".($min+$max)."&amp;search=".$search."'>";
-      if ($pp) echo "|&nbsp;&nbsp;";
-      echo "Page suivante</a>&nbsp;&nbsp;";
+      echo '<li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=search&amp;min='.($min+$max).'&amp;search='.$search.'">'.ann_translate("Suivante").'</a></li>';
    }
-   echo '<p><a class="btn btn-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> Retour</a></p>';
+    echo '</ul>';  
+   
+   echo '<p><a class="btn btn-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> '.ann_translate("Retour").'</a></p>';
    echo '</div></div>';
 include ("footer.php");
 ?>

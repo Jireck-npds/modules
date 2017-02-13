@@ -45,8 +45,7 @@ include ("modules/$ModPath/annonce.conf.php");
    } else {
       $tmp_theme=$Default_Theme;
    }  
-       echo '
-         <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+       echo '<link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
          <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />';
        echo import_css($tmp_theme, $language, $site_font, '','');
        echo '
@@ -59,8 +58,7 @@ include ("modules/$ModPath/annonce.conf.php");
           echo '<img class="img-fluid d-block mx-auto" src="'.$site_logo.'" alt="website logo" />';
        else
           echo '<img class="img-fluid d-block mx-auto" src="images/'.$site_logo.'" alt="website logo" />';
-       echo '
-               <h1 class="d-block text-center my-4">'.aff_langue($title).'</h1>';
+          echo '<h1 class="d-block text-center my-4">'.aff_langue($title).'</h1>';
    $remp=rawurldecode(removehack($text));
    echo '<div>'.$remp.'</div>';
    echo '</div></div>';

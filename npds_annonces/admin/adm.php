@@ -23,15 +23,15 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    die();
 }
 
-
 $f_meta_nom ='npds_annonces';
 //==> controle droit
 admindroits($aid,$f_meta_nom);
 //<== controle droit
 
 include ("modules/$ModPath/annonce.conf.php");
+include ("modules/$ModPath/lang/annonces-$language.php");
 
-// Creation automatique des tables
+// Création automatique des tables
 $result=sql_list_tables();
 while (list($table)=sql_fetch_row($result)) {
    $tables[]=$table;
@@ -62,103 +62,106 @@ if (!array_search($table_annonces,$tables)) {
      )";
    $result = sql_query($sql_query);
 }
-// Creation automatique des tables
+// Création automatique des tables
 
-   $query="SELECT id FROM $table_annonces WHERE en_ligne='1'";
-   $result= sql_query($query);
+   $result= sql_query("SELECT id FROM $table_annonces WHERE en_ligne='1'");
    $num_ann_total= sql_num_rows($result);
-
-   $query="SELECT id FROM $table_annonces WHERE en_ligne='0'";
-   $result= sql_query($query);
+   $result= sql_query("SELECT id FROM $table_annonces WHERE en_ligne='0'");
    $num_ann_apub_total= sql_num_rows($result);
-
-   $query="SELECT id FROM $table_annonces WHERE en_ligne='2'";
-   $result= sql_query($query);
+   $result= sql_query("SELECT id FROM $table_annonces WHERE en_ligne='2'");
    $num_ann_archive_total= sql_num_rows($result);
 
    GraphicAdmin($hlpfile);
 
-   echo '<div id="adm_men">';   
+   echo '
+   <div id="adm_men">';
+   echo aff_langue($mess_acc);
+   echo '
+   <h3>'.ann_translate("Admin P.A").'</h3>
+   <hr />
+   <p class="lead">'.ann_translate("Annonces en ligne").'<span class="badge badge-success float-right">'.$num_ann_total.'</span></p>
+   <p class="lead">'.ann_translate("Annonces à valider").'<span class="badge badge-danger float-right">'.$num_ann_apub_total.'</span></p>
+   <p class="lead">'.ann_translate("Annonces archivées").'<span class="badge badge-default float-right">'.$num_ann_archive_total.'</span></p>
+   <hr />
+   <p><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_cat" class="btn btn-outline-primary btn-sm">'.ann_translate("Ajouter ou modifier une catégorie").'</a></p>
+   <hr />';
 
-   echo $mess_acc;
-   
-   echo '<h3>Administration des P.A</h3>';
-
-   echo '<hr />';
-
-   echo '<h4 class="lead">Annonces en ligne
-         <span class="badge badge-pill badge-success float-right">'.$num_ann_total.'</span></h4>';
-   echo '<h4 class="lead">Annonces à valider
-         <span class="badge badge-pill badge-warning float-right">'.$num_ann_apub_total.'</span></h4>';
-   echo '<h4 class="lead">Annonces archivées
-         <span class="badge badge-pill badge-danger float-right">'.$num_ann_archive_total.'</span></h4>';
-
-   echo '<hr />';
-
-   echo "<p><a href=\"admin.php?op=Extend-Admin-SubModule&ModPath=$ModPath&ModStart=admin/adm_cat\" class=\"btn btn-outline-primary btn-sm\">Ajouter ou modifier une catégorie</a></p>";
-
-   echo '<hr />';
-
-   $result= sql_query("SELECT id_cat, count(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
+   $result= sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
    while (list($cat, $count)= sql_fetch_row($result)) {
       $num_ann[$cat]=$count;
    }
-   $result= sql_query("SELECT id_cat, count(en_ligne) FROM $table_annonces WHERE en_ligne='0' GROUP BY id_cat");
+   $result= sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='0' GROUP BY id_cat");
    while (list($cat, $count)= sql_fetch_row($result)) {
       $num_ann_apub[$cat]=$count;
    }
-   $result= sql_query("SELECT id_cat, count(en_ligne) FROM $table_annonces WHERE en_ligne='2' GROUP BY id_cat");
+   $result= sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='2' GROUP BY id_cat");
    while (list($cat, $count)= sql_fetch_row($result)) {
       $num_ann_archive[$cat]=$count;
    }
+
    $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
    while ($i= sql_fetch_assoc($select)) {
-      echo '<div class="card my-3">';
-
-      $id_cat=$i[id_cat];
-      $categorie=stripslashes($i[categorie]);
-   echo '
-    <div class="card-header" role="tab" id="">
-      <h5 class="mb-0">
-        <a data-toggle="collapse" data-parent="#'.$id_cat.'" href="#cat_'.$id_cat.'" aria-expanded="true" aria-controls="cat_'.$id_cat.'">';
-      echo '<strong><i data-toggle="tooltip" data-placement="top" title="Cliquer pour déplier" class="toggle-icon fa fa-caret-down"></i></a><small class="text-muted"> Catégorie</small> ';
-	  echo '<a data-toggle="tooltip" data-placement="top" title="Cliquer pour administrer" href="admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart=admin/adm_ann&id_cat='.$id_cat.'">';	  
-      echo $categorie;
-      echo '</a></strong>';
-      if (!$num_ann[$id_cat]) $num_ann[$id_cat]=0;
-      if (!$num_ann_apub[$id_cat]) $num_ann_apub[$id_cat]=0;
-      if (!$num_ann_archive[$id_cat]) $num_ann_archive[$id_cat]=0;
-//      echo '<span class="badge badge-default float-right"><span class="text-success">'.$num_ann[$id_cat].'</span> / <span class="text-warning">'.$num_ann_apub[$id_cat].'</span> / <span class="text-danger">'.$num_ann_archive[$id_cat].'</span></span></h5>';
-	  
-      echo '<span data-toggle="tooltip" data-placement="left" title="Annonces archivées dans la catégorie" class="badge badge-danger float-right">'.$num_ann_archive[$id_cat].'</span><span data-toggle="tooltip" data-placement="left" title="Annonces à valider dans la catégorie" class="badge badge-warning mx-2 float-right">'.$num_ann_apub[$id_cat].'</span><span data-toggle="tooltip" data-placement="left" title="Annonces en ligne dans la catégorie" class="badge badge-success float-right">'.$num_ann[$id_cat].'</span></h5>';	  
-   echo '</div>'; 
-
+      $allcat=array('');
+      $sous_content='';
+      $id_cat=$i['id_cat'];
+      $allcat[]=$i['id_cat'];
+      $categorie=stripslashes($i['categorie']);
       $select2= sql_query("SELECT * FROM $table_cat WHERE id_cat2='$id_cat' ORDER BY id_cat");
-   echo '<div id="cat_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="heading_'.$id_cat.'">';
-
+      $cumu_num_ann=0;$cumu_num_ann_apub=0;$cumu_num_ann_archive=0;
+      $content .= '
+      <div class="card my-3">
+         <div class="card-header" role="tab" id="">
+            <h5 class="mb-0">
+           <a data-toggle="collapse" data-parent="#'.$id_cat.'" href="#cat_'.$id_cat.'" aria-expanded="true" aria-controls="cat_'.$id_cat.'"><i data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour déplier").'" class="toggle-icon fa fa-caret-down fa-lg mr-2"></i></a>';
       while ($i2= sql_fetch_assoc($select2)) {
-		 $id_cat=$i2[id_cat];		  
-      echo '<div class="my-2 mx-3 px-1">';
-         echo '<h5><small class="text-muted"> Sous-catégorie</small> ';
-         echo '<a data-toggle="tooltip" data-placement="top" title="Cliquer pour administrer" href="admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart=admin/adm_ann&id_cat='.$id_cat.'">';
-		 echo stripslashes($i2[categorie]);
-		 echo '</a>';
-         if (!$num_ann[$id_cat]) $num_ann[$id_cat]=0;
-         if (!$num_ann_apub[$id_cat]) $num_ann_apub[$id_cat]=0;
-         if (!$num_ann_archive[$id_cat]) $num_ann_archive[$id_cat]=0;
-//         echo '<span class="badge badge-default float-right"><span class="text-success">'.$num_ann[$id_cat].'</span> / <span class="text-warning">'.$num_ann_apub[$id_cat].' / <span class="text-danger">'.$num_ann_archive[$id_cat].'</span></span></h5>';
-
-      echo '<span data-toggle="tooltip" data-placement="left" title="Annonces archivées dans la sous-catégorie" class="badge badge-danger float-right">'.$num_ann_archive[$id_cat].'</span><span data-toggle="tooltip" data-placement="left" title="Annonces à valider dans la sous-catégorie" class="badge badge-warning mx-2 float-right">'.$num_ann_apub[$id_cat].'</span><span data-toggle="tooltip" data-placement="left" title="Annonces en ligne dans la sous-catégorie" class="badge badge-success float-right">'.$num_ann[$id_cat].'</span></h5>';
-
-
-         echo '</div>';
+         $id_catx=$i2['id_cat'];
+         $allcat[]=$i2['id_cat'];
+         $categoriex=stripslashes($i2['categorie']);
+         $sous_content .='
+            <div class="my-2 mx-3 px-1">
+               <h5>
+                  <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart=admin/adm_ann&id_cat='.$id_catx.'"><span class="ml-1 pl-4">'.$categoriex.'</span></a>
+                  <span class="float-right">
+                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la sous-catégorie").'" class="badge badge-default mr-2">'.$num_ann_archive[$id_catx].'</span>
+                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces à valider dans la sous-catégorie").'" class="badge badge-danger mr-2">'.$num_ann_apub[$id_catx].'</span>
+                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces en ligne dans la sous-catégorie").'" class="badge badge-success">'.$num_ann[$id_catx].'</span>
+                  </span>
+               </h5>
+            </div>';
+         $cumu_num_ann += $num_ann[$id_catx];
+         $cumu_num_ann_apub += $num_ann_apub[$id_catx];
+         $cumu_num_ann_archive += $num_ann_archive[$id_catx];
       }
-      echo "</div></div>";
+      $oo = trim(implode("|", $allcat),'|');
+      if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann) or $cumu_num_ann_apub!=($num_ann_apub[$id_cat]+$cumu_num_ann_apub))
+         $sous_content .='
+            <div class="my-2 mx-3 px-1">
+               <h5>
+                  <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat.'"><span class="ml-1 pl-4">'.ann_translate("Autres").'</span></a>
+                  <span class=" float-right">
+                     <span class="badge badge-danger mr-2">'.(($num_ann_apub[$id_cat]-$cumu_num_ann_apub)+($cumu_num_ann_apub)).'</span>
+                     <span class="badge badge-success">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
+                  </span>
+               </h5>
+            </div>';
+      $content .=  '
+            <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$oo.'">'.$categorie.'</a>
+            <span class=" float-right">
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la catégorie").'" class="badge badge-default mr-2">'.($num_ann_archive[$id_cat]+$cumu_num_ann_archive).'</span>
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces à valider dans la catégorie").'" class="badge badge-danger mr-2">'.($num_ann_apub[$id_cat]+$cumu_num_ann_apub).'</span>
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces en ligne dans la catégorie").'" class="badge badge-success">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
+            </span>
+         </h5>
+         </div>
+         <div id="cat_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="heading_'.$id_cat.'">';
+   $content .= $sous_content;
+   $content .='
+         </div>
+      </div>';
    }
-
-   echo '<div><p><a href="modules.php?ModPath='.$ModPath.'&ModStart=index" class="btn btn-outline-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> P.A en ligne</a></p></div>';
-
-   echo '</div>';
-
+   echo $content;
+   echo '
+      <div><p><a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index" class="btn btn-outline-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> '.ann_translate("P.A en ligne").'</a></p></div>
+   </div>';
    include ("footer.php");
 ?>

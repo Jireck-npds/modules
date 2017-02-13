@@ -115,7 +115,7 @@ function ajout($month, $an, $debut)
 	.'<input class="btn btn btn-primary btn-sm" type="submit" value="'.ag_trad('Ajouter l\'Evènement').'" />'
 	.'</form>'
 	.'<br />'
-   .'<p><a class="btn btn-primary-outline btn-sm" href="javascript:history.back()">'.ag_trad('Retour').'</a></p>';
+   .'<p><a class="btn btn-outline-primary btn-sm" href="javascript:history.back()">'.ag_trad('Retour').'</a></p>';
 	
 }
 /// FIN AJOUT ///
@@ -447,7 +447,7 @@ function retire($ladate, $debut, $month, $an)
 	include('header.php');
 	echo '<div class="card"><div class="card-block">';
    
-	echo '<p><a class="btn btn-primary-outline btn-sm pull-xs-right" href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier"><i class="fa fa-home" aria-hidden="true"></i> '.ag_trad('L\'agenda').'</a></p>'
+	echo '<p><a class="btn btn-outline-primary btn-sm pull-xs-right" href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier"><i class="fa fa-home" aria-hidden="true"></i> '.ag_trad('L\'agenda').'</a></p>'
 	.'<h3><i class="fa fa-plus" aria-hidden="true"></i> '.ag_trad('Ajouter un évènement').'</a></h3>';
 	
   

@@ -16,7 +16,7 @@
 /* 02.11.2002 - Snipe                                                   */
 /* 25.11.2008 - Lopez - MAJ pouir Evolution                             */
 /* 2010 et 2011 - Adaptation REvolution                                 */
-/* Changement de nom du module version Rev16 par jpb/phr mars 2016      */
+/* Changement de nom du module version Rev16 par jpb/phr 2017           */
 /************************************************************************/
 
 function encap_translate($phrase) {

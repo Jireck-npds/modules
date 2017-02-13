@@ -74,7 +74,7 @@ function suj()
 	$Xcontent = ob_get_contents();
 	ob_end_clean();
 	$npds_METALANG_words = array(
-		"'!titre!'i"=>"<a class=\"btn btn-primary-outline btn-sm pull-xs-right\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_trad("Agenda")."</a>",
+		"'!titre!'i"=>"<a class=\"btn btn-outline-primary btn-sm pull-xs-right\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_trad("Agenda")."</a>",
 		"'!ajeven!'i"=>"$ajeven",
 		"'!accesuj!'i"=>"$accesuj",
 		"'!vuannu!'i"=>"$vuannu",
@@ -182,8 +182,8 @@ function listsuj($sujet, $niv)
 	}
 	else
 	{
-		$affres = '<ul><li>'.ag_trad('Evènements à venir').' <a class="btn btn-primary-outline btn-sm" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=0" '.$cs.'>'.$sup.'</a></li>'
-		.'<li>'.ag_trad('Evènements en cours ou passés').' <a class="btn btn-primary-outline btn-sm" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'>'.$inf.'</a></li></ul>';
+		$affres = '<ul><li>'.ag_trad('Evènements à venir').' <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=0" '.$cs.'>'.$sup.'</a></li>'
+		.'<li>'.ag_trad('Evènements en cours ou passés').' <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'>'.$inf.'</a></li></ul>';
 
 		$affres .= '<hr />';
       
@@ -318,7 +318,7 @@ $affres .= '<div class="row"><div class="col-md-12">
 				.'<div class="col-md-offset-10 col-md-2">';
 				if ($posteur == $cookie[1])
 				{
-					$affres .= '<a class="btn btn-primary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;'
+					$affres .= '<a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;'
 					.'<a class="btn btn-danger-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a></div>';
 				}
 				else
@@ -663,7 +663,7 @@ function jour($date)
 	$start = ($page_courante * $nb_news - $nb_news);
 	$retour = convertion($date);
 	$datetime = formatfrancais($date);
-	$bandeau = '<a class="btn btn-primary-outline btn-sm" href="'.$ThisFile.'&amp;month='.$retour[0].'&amp;an='.$retour[1].'">'.ag_trad('Retour au calendrier').'</a>';
+	$bandeau = '<a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;month='.$retour[0].'&amp;an='.$retour[1].'">'.ag_trad('Retour au calendrier').'</a>';
 	$lejour = $datetime;
 	if ($nb_entrees == 0)
 	{
@@ -705,7 +705,7 @@ function jour($date)
 				.'';
 				if ($posteur == $cookie[1])
 				{
-					$affeven .= '<a class="btn btn-primary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;'
+					$affeven .= '<a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;'
 					.'<a class="btn btn-danger-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
 				}
 				else
@@ -814,7 +814,7 @@ function fiche($date, $id)
 			$tot = sql_num_rows($result1);
 			if ($posteur == $cookie[1])
 			{
-				$postepar = '<a class="btn btn-primary-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$id.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;'
+				$postepar = '<a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$id.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;'
 				.'<a class="btn btn-danger-outline btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;date='.$date.'&amp;id='.$id.'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
 			}
 			else

@@ -31,15 +31,16 @@ admindroits($aid,$f_meta_nom);
 
 
 include ("modules/$ModPath/annonce.conf.php");
+include ("modules/$ModPath/lang/annonces-$language.php");
 
    GraphicAdmin($hlpfile);
 
    echo '<div id="adm_men">';   
 
-   echo $mess_acc;
+   echo '<p class="lead">'.aff_langue($mess_acc).'</p>';
 
 
-   echo '<h3>Administration des catégories et sous-catégories</h3>';
+   echo '<h3>'.ann_translate("Administration des catégories et sous-catégories").'</h3>';
    echo '<hr />';
 
 // Categories
@@ -83,30 +84,27 @@ if ($action=="ajouter") {
    }
 }
 
-echo "<form method=\"post\" action=\"admin.php\">";
-echo "<input type=\"hidden\" name=\"op\" value=\"Extend-Admin-SubModule\">\n";
-echo "<input type=\"hidden\" name=\"ModPath\" value=\"$ModPath\">\n";
-echo "<input type=\"hidden\" name=\"ModStart\" value=\"admin/adm_cat\">\n";
 echo '
+<form method="post" action="admin.php">
+   <input type="hidden" name="op" value="Extend-Admin-SubModule">
+   <input type="hidden" name="ModPath" value="'.$ModPath.'">
+   <input type="hidden" name="ModStart" value="admin/adm_cat">
    <div class="form-group row justify-content-end">
-      <label for="" class="col-sm-4 form-control-label"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Ajouter une catégorie</label>
+      <label for="" class="col-sm-4 form-control-label"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> '.ann_translate("Ajouter une catégorie").'</label>
       <div class="col-sm-8">
          <input type="text" name="categorie" class="form-control">
       </div>
    </div>
    <div class="form-group row justify-content-end">
       <div class="col-sm-offset-4 col-sm-8">
-         <button name="action" class="btn btn-outline-primary" type="submit" value="ajouter"><i class="fa fa-check" aria-hidden="true"></i> Valider</button>
+         <button name="action" class="btn btn-outline-primary" type="submit" value="ajouter"><i class="fa fa-check" aria-hidden="true"></i> '.ann_translate("Valider").'</button>
       </div>
    </div>
-  ';
-echo '<hr />';
-
-echo '
+   <hr />
    <div class="form-group row justify-content-end">
-      <label for="" class="col-sm-4 form-control-label"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Ajouter une sous-catégorie dans</label>
+      <label for="" class="col-sm-4 form-control-label"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> '.ann_translate("Ajouter une sous-catégorie dans").'</label>
       <div class="col-sm-8">';
-echo "<select class=\"form-control c-select\" name=\"id_catSCAT\">\n";
+echo "<select class=\"form-control custom-select\" name=\"id_catSCAT\">\n";
 $query_list="SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat";
 $list= sql_query($query_list);
 while($e= sql_fetch_assoc($list)) {
@@ -128,15 +126,15 @@ echo '</div></div>';
 echo '
    <div class="form-group row justify-content-end">
       <div class="col-sm-offset-4 col-sm-8">';
-echo '<button name="action" class="btn btn-outline-primary" type="submit" value="ajouter"><i class="fa fa-check" aria-hidden="true"></i> Valider</button>';
+echo '<button name="action" class="btn btn-outline-primary" type="submit" value="ajouter"><i class="fa fa-check" aria-hidden="true"></i> '.ann_translate("Valider").'</button>';
 echo '</div></div>';
 echo '</form>';
 echo '<hr />';
-echo '<h4>Arborescense en ligne :</h4>';
+echo '<h4>'.ann_translate("Arborescense en ligne").' :</h4>';
 $select= sql_query("SELECT id_cat, categorie FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
 $count= sql_num_rows($select);
 if (!$count)
-   echo '<p class="text-danger">Aucune catégorie pour le moment</p>';
+   echo '<p class="text-danger">'.ann_translate("Aucune catégorie pour le moment").'</p>';
 while ($i= sql_fetch_assoc($select)) {
    $id_cat=$i['id_cat'];
    $categorie=stripslashes($i['categorie']);
@@ -148,7 +146,7 @@ while ($i= sql_fetch_assoc($select)) {
 
 echo '
    <div class="form-group row">
-      <label for="" class="col-sm-2 form-control-label m-y-1"><strong>Catégorie</strong></label>
+      <label for="" class="col-sm-2 form-control-label m-y-1"><strong>'.ann_translate("Catégorie").'</strong></label>
       <div class="col-sm-6">
          <input type="text" name="categorie" class="form-control m-y-1" value="'.$categorie.'">
       </div>
@@ -171,13 +169,13 @@ echo '
    echo "<input type=\"hidden\" name=\"ModStart\" value=\"admin/adm_cat\" />\n";
 
    echo '<div class="form-group row">
-         <label for="" class="col-sm-2 form-control-label m-y-1"><em>Sous-catégorie</em></label>
+         <label for="" class="col-sm-2 form-control-label m-y-1"><em>'.ann_translate("Sous-catégorie").'</em></label>
          <div class="col-sm-6">';
    echo "<input type=\"hidden\" name=\"id_catSCAT\" value=\"".$i2['id_cat']."\" />\n";
    echo "<input type=\"text\" class=\"form-control m-y-1\" maxlength=\"55\" name=\"categorieSCAT\" value=\"".stripslashes($i2['categorie'])."\" />\n";
    echo '</div>';
    echo '<div class="col-sm-2">
-         <input type="submit" class="btn btn-outline-primary form-control m-y-1" name="action" value="Modifier" />
+         <button class="btn btn-outline-primary form-control m-y-1" type="submit" name="action" value="Modifier">'.ann_translate("Modifier").'</button>
          </div>';
    echo '<div class="col-sm-2">';
    echo '<button type="submit" class="btn btn-outline-danger form-control m-y-1" name="action" value="supprimer"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
@@ -186,7 +184,7 @@ echo '
    }
 }
 
-   echo '<p><a class="btn btn-outline-primary btn-sm" role="button" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-home" aria-hidden="true"></i> Admin P.A</a></p>';
+   echo '<p><a class="btn btn-outline-primary btn-sm" role="button" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-home" aria-hidden="true"></i> '.ann_translate("Admin P.A").'</a></p>';
    echo '</div>';
 include ("footer.php");
 ?>

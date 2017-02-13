@@ -220,7 +220,7 @@ function AddNewGal($galcat,$newgal,$acces) {
    echo '
       <div class="form-group row">
       <label class="col-sm-2 form-control-label">'.gal_trans("Image 1").'</label>
-      <div class="col-sm-6">
+      <div class="col-sm-10">
       <input type="file" class="form-control-file" name="newcard1" id="">
       <small class="text-muted">'.gal_trans("Sélectionner votre image").'</small>
       <input type="text" class="form-control" id=""  name="newdesc1" placeholder="'.gal_trans("Description").'">

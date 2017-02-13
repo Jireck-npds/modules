@@ -33,8 +33,11 @@
    $repertoire = opendir($dossier_traite);
 
    include ('header.php');
+   include ("modules/$ModPath/lang/annonces-$language.php");
+   
+   if (autorisation(1)) {
    echo '<div class="card">';
-   echo '<div class="card-block"><h3 class="card-title">'.$mNom.'</h3>';
+   echo '<div class="card-block"><h4 class="card-title">'.ann_translate("$mNom").'</h4>';
 
 //on lit chaque fichier du répertoire dans la boucle
    while (false !== ($fichier = readdir($repertoire)))
@@ -53,7 +56,7 @@
    $nomorigine = $_FILES['monfichier']['name'];
    if (empty($_FILES['monfichier']['name']))
    {
-   $selection = '<p class="card-text">Sélectionner sur votre ordinateur le fichier image .jpg &agrave; redimensionner <i>(3000 Ko max.)</i></p>';
+   $selection = '<p class="card-text lead">'.ann_translate("Sélectionner sur votre ordinateur le fichier image .jpg à redimensionner").' <i>(3000 Ko max)</i></p>';
    }
    echo '</div>';
    echo '<div class="card-block">';
@@ -62,31 +65,27 @@
    $extensionsautorisees = array("jpeg", "jpg", "JPG", "JPEG");
    if (!(in_array($extensionfichier, $extensionsautorisees)))
    {
-   $messagefjpg = '<p class="text-danger"><i class="fa fa-info-circle" aria-hidden="true"></i> Le fichier doit être impérativement une image au format jpg</p>';
+   $messagefjpg = '<p class="text-danger"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Le fichier doit être impérativement une image au format jpg").'</p>';
    }
-
-//si c'est bon
    else
    {
-
-
 // Copie dans le repertoire du script avec un nom incluant l'heure à la seconde près
    $repertoiredestination = dirname(__FILE__)."/images/";
    $nomdestination = $quidam[uname]."_original.jpg";
    if (move_uploaded_file($_FILES["monfichier"]["tmp_name"],$repertoiredestination.$nomdestination))
    {
-   echo '<p class="lead text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> L\'opération s\'est bien passée</p>';
+   echo '<p class="lead text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("L'opération s'est bien passée").'</p>';
    }
    else
    {
-   echo '<p class="lead text-danger">Le fichier n\'a pas été uploadé, trop volumineux</p>';
+   echo '<p class="lead text-danger">'.ann_translate("Le fichier n'a pas été uploadé, trop volumineux").'</p>';
    }
    }
 
    //fonction de redimensionnement de l'image
    $img_src = "modules/$ModPath/images/".$quidam[uname]."_original.jpg";
    $img_dest = "modules/$ModPath/images/".$quidam[uname]."_".mktime().".jpg";
-   if ($choix =="Demi")
+   if ($choix =="Mini")
    {
    $dst_w = 400;
    $dst_h = 300;
@@ -139,32 +138,42 @@ echo '<form enctype="multipart/form-data" action="modules.php?ModPath='.$ModPath
             <p class="text-muted">'.$messagefjpg.'</p>
          </fieldset>
          <fieldset class="form-group has-success">
-            <select class="form-control c-select" name="choix" id="choix">
+            <select class="custom-select" name="choix" id="choix">
                <option>Maxi</option>
-               <option>Normal</option>
-               <option>Demi</option>
+               <option selected>Normal</option>
+               <option>Mini</option>
             </select>
+            <p class="form-text">
+			<ul class="text-muted list-unstyled">
+            <li>'.ann_translate("Maxi = largeur 900 pixels").'</li>
+            <li>'.ann_translate("Normal = largeur 600 pixels").'</li>
+            <li>'.ann_translate("Mini = largeur 400 pixels").'</li>
+            </ul></p>
          </fieldset>
          <fieldset class="form-group">
-            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-check" aria-hidden="true"></i> Redimensionner</button>
+            <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-check" aria-hidden="true"></i> '.ann_translate("Redimensionner").'</button>
          </fieldset>
       </form>';
-   echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> Informations</p>';
+/*   echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Instructions").'</p>';
    echo '<div class="alert alert-info" role="alert"><ul class="lead">
-   <li>Choix Maxi donnera une largeur d\'image de 900 pixels</li>
-   <li>Choix Normal donnera une largeur d\'image de 600 pixels</li>
-   <li>Choix Demi donnera une largeur d\'image de 400 pixels</li>
-   </ul></div>';
+   <li>'.ann_translate("Maxi = largeur 900 pixels").'</li>
+   <li>'.ann_translate("Normal = largeur 600 pixels").'</li>
+   <li>'.ann_translate("Mini = largeur 400 pixels").'</li>
+   </ul></div>';*/
    if(file_exists('modules/'.$ModPath.'/images/'.$quidam[uname].'_original.jpg'))
    {
    redim_image($img_src, $img_dest, $dst_w, $dst_h);
    echo '<p><img src='.$img_dest.' alt="" class="img-fluid" /></p>';
 
-   echo '<p class="jumbotron">Une fois l\'image affichée, il vous faut faire un clic droit sur l\'image puis enregistrer l\'image sous...<br />Il est conseillé de l\'enregistrer sur votre bureau sans changer le nom du fichier qui est spécialement codé.<br />';
-   echo 'Cette opération réalisée, retournez sur la page de saisie de votre annonce.<br /><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=annonce_form">Retour P.A</a><br />';
+   echo '<div class="alert alert-info"><p>'.ann_translate("Clic droit sur l'image puis enregistrer l'image sous").'...<br />'.ann_translate("Enregistrer sur votre bureau sans changer le nom du fichier qui est spécialement codifié").'.</p>';
+   echo '<p>'.ann_translate("Retournez sur la page de saisie de votre annonce").'.</p>';
 
-   echo 'Placer ensuite le curseur clignotant à l\'endroit o&ugrave; vous voulez mettre la photo puis cliquer sur l\'icone téléchargement <img src="editeur/tinymce/plugins/npds/images/npds_upload.png" width="20px" /> de l\'éditeur intégré, cela ouvrira une fen&ecirc;tre o&ugrave; vous pointerez vers le fichier photo préparé puis cliquerez sur le bouton joindre, votre photo arrivera dans l\'éditeur.</p>';
+   echo '<p>'.ann_translate("Placer ensuite le curseur à l'endroit où vous voulez mettre la photo puis cliquer sur l'icone téléchargement").' <img src="editeur/tinymce/plugins/npds/images/npds_upload.png" width="20px" /> '.ann_translate("une fenêtre s'ouvrira où vous sélectionnerez le fichier photo préparée puis cliquez sur le bouton joindre").'.</p><p><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=annonce_form">'.ann_translate("Retour P.A").'</a></p></div>';
    }
    echo '</div></div>';
+   }
+   else {
+   redirect_url("index.php");
+   }
    include ('footer.php');
 ?>

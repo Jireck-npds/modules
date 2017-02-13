@@ -27,8 +27,9 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 if (file_exists('modules/'.$ModPath.'/admin/pages.php')) {
    include ('modules/'.$ModPath.'/admin/pages.php');
 }
-include ("modules/$ModPath/annonce.conf.php");
-
+   include ("modules/$ModPath/annonce.conf.php");
+   include ("modules/$ModPath/lang/annonces-$language.php");
+   
 if (isset($user)) {
    settype($id,"integer");
    settype($id_cat,"integer");
@@ -68,9 +69,13 @@ if (isset($user)) {
       include ("header.php");
 
    echo '<div class="card"><div class="card-block">';
-   echo '<h3>Gestion de vos petites annonces</h3>';
-   echo '<p>'.$del_sup_chapo.'</p>';
-   echo '<p class="text-warning">'.$warning.'</p>';
+
+   echo '<h3>'.ann_translate("Gestion de vos annonces").'</h3>';
+   
+   echo '<p class="lead">'.aff_langue($del_sup_chapo).'</p>';
+   echo '<h4><strong>'.$cookie[1].'</strong>, '.ann_translate("vous avez").' <span class="badge badge-pill badge-success">'.$count.'</span> '.ann_translate("annonce(s) en ligne").'</h4>';   
+   
+   echo '<p class="lead font-weight-bold text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> '.aff_langue($warning).'</p>';
    }
    $query="SELECT count(*) FROM $table_annonces WHERE id_user='$cookie[0]' AND en_ligne='0'";
    $succes = sql_query($query);
@@ -79,8 +84,9 @@ if (isset($user)) {
    if (!isset($min)) $min=0;
    $inf=$min+1;
    $max=1;
-   echo '<p><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annonce_form">Ajouter une annonce</a></p>';
-   echo '<h4>Vous avez <span class="badge badge-pill badge-success">'.$count.'</span> annonce(s) en ligne et <span class="badge badge-pill badge-warning">'.$count2[0].'</span> en attente de validation</h4>';
+
+
+
 
    settype ($min, "integer");
    settype ($max, "integer");
@@ -100,24 +106,24 @@ if (isset($user)) {
       echo "<input type=\"hidden\" name=\"ModStart\" value=\"$ModStart\" />\n";
       echo "<input type=\"hidden\" name=\"id\" value=\"".$id."\" />\n";
 
-      echo '<p><span class="badge badge-default">Annonce ID '.$id.'</span></p>';
+      echo '<p class="lead">'.ann_translate("Annonce").' <span class="badge badge-default">ID '.$id.'</span><span class="badge badge-success float-right">'.ann_translate("En ligne").'</p>';
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">Tél fixe</label>
+    <label for="" class="col-sm-4 form-control-label">'.ann_translate("Tél fixe").'</label>
     <div class="col-sm-8">
          <div class="input-group">
             <div class="input-group-addon">+33.0</div>
-            <input type="text" name="tel" class="form-control" id="" value="'.$tel.'" placeholder="'.$tel.'">
+            <input type="text" name="tel" class="form-control col-3" id="" value="'.$tel.'" placeholder="'.$tel.'">
          </div>
       </div>
   </div>';
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">Tél portable</label>
+    <label for="" class="col-sm-4 form-control-label">'.ann_translate("Tél portable").'</label>
     <div class="col-sm-8">
          <div class="input-group">
             <div class="input-group-addon">+33.0</div>
-            <input type="text" name="tel_2" class="form-control" id="" value="'.$tel_2.'" placeholder="'.$tel_2.'">
+            <input type="text" name="tel_2" class="form-control col-3" id="" value="'.$tel_2.'" placeholder="'.$tel_2.'">
          </div>
       </div>
   </div>';
@@ -125,22 +131,22 @@ if (isset($user)) {
    <div class="form-group row">
     <label for="" class="col-sm-4 form-control-label">Code postal</label>
     <div class="col-sm-8">
-      <input type="text" name="code" class="form-control" id="" value="'.$code.'" placeholder="'.$code.'">
+      <input type="text" name="code" class="form-control col-3" id="" value="'.$code.'" placeholder="'.$code.'">
     </div>
   </div>';
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">Ville</label>
+    <label for="" class="col-sm-4 form-control-label">'.ann_translate("Ville").'</label>
     <div class="col-sm-8">
       <input type="text" name="ville" class="form-control" id="" value="'.$ville.'" placeholder="'.$ville.'">
     </div>
   </div>';
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">Catégorie</label>
+    <label for="" class="col-sm-4 form-control-label">'.ann_translate("Catégorie").'</label>
     <div class="col-sm-8">';
 
-      echo '<select class="form-control c-select" name="id_cat">';
+      echo '<select class="custom-select" name="id_cat">';
       $select = sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
       while($e= sql_fetch_assoc($select)) {
          echo "<option value='".$e['id_cat']."'";
@@ -158,7 +164,7 @@ if (isset($user)) {
 
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-12 form-control-label">Libellé de l\'annonce</label>
+    <label for="" class="col-sm-12 form-control-label">'.ann_translate("Libellé de l'annonce").'</label>
     <div class="col-sm-12">';
 
       echo "<textarea name=\"xtext\" class=\"tin form-control\" rows=\"40\">$text</textarea>\n";
@@ -169,10 +175,9 @@ if (isset($user)) {
       if ($aff_prix) {
    echo '
    <div class="form-group row">
-    <label for="" class="col-sm-4 form-control-label">Prix en '.$prix_cur.'</label>
+    <label for="" class="col-sm-4 form-control-label">'.ann_translate("Prix en").' '.aff_langue($prix_cur).'</label>
     <div class="col-sm-8">
-
-      <input type="text" name="prix" class="form-control" id="" value="'.$prix.'" placeholder="'.$prix.'">
+      <input type="text" name="prix" class="form-control col-3" id="" value="'.$prix.'" placeholder="'.$prix.'">
     </div>
   </div>';
 
@@ -181,12 +186,12 @@ if (isset($user)) {
       }
 
       if ($tiny_mce) {
-         echo '<button type="submit" name="op" class="btn btn-outline-primary btn-sm" value="Modifier"><i class="fa fa-check" aria-hidden="true"></i> Modifier</button>';
+         echo '<p><button type="submit" name="op" class="btn btn-outline-primary btn-sm mr-2" value="Modifier"><i class="fa fa-check" aria-hidden="true"></i> '.ann_translate("Modifier").'</button>';
       } else {
-         echo "<input type=\"submit\" class=\"btn btn-outline-danger btn-sm\" name=\"op\" value=\"Modifier\" onClick=\"MM_validateForm('nom','','R','mail','','RisEmail','xtext','','R');return document.MM_returnValue\" />";
+         echo "<p><input type=\"submit\" class=\"btn btn-outline-danger btn-sm mr-2\" name=\"op\" value=\"Modifier\" onClick=\"MM_validateForm('nom','','R','mail','','RisEmail','xtext','','R');return document.MM_returnValue\" />";
       }
-      echo '&nbsp;&nbsp;';
-      echo '<button type="submit" name="op" class="btn btn-outline-danger btn-sm" value="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i> Supprimer</button>';
+
+      echo '<button type="submit" name="op" class="btn btn-outline-danger btn-sm" value="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i> '.ann_translate("Supprimer").'</button></p>';
       echo '</form>';
    }
 
@@ -194,14 +199,17 @@ if (isset($user)) {
   echo '<nav aria-label="">
        <ul class="pagination pagination-sm justify-content-center">';   
    if ($min>0) {
-      echo '<li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=modif_ann&amp;min='.($min-$max).'">Annonce précédente</a></li>';
+      echo '<li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=modif_ann&amp;min='.($min-$max).'">'.ann_translate("Précédente").'</a></li>';
       $pp=true;
    }
    if (($min+$max)<$count) {
-      echo '<li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=modif_ann&amp;min='.($min+$max).'">Annonce suivante</a></li>';
+      echo '<li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=modif_ann&amp;min='.($min+$max).'">'.ann_translate("Suivante").'</a></li>';
    }
    echo '</ul></nav>';
-   echo '<p><a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> Retour</a></p>';
+   echo '<hr />';
+   echo '<h4><span class="badge badge-pill badge-warning">'.$count2[0].'</span> '.ann_translate("annonce(s)").' '.ann_translate("en attente de validation").'</h4>';
+   echo '<p><a class="btn btn-outline-primary btn-sm mr-2" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annonce_form">'.ann_translate("Ajouter une annonce").'</a>';
+   echo '<a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=index"><i class="fa fa-home" aria-hidden="true"></i> '.ann_translate("Retour").'</a></p>';
    echo '</div></div>';
 include ('footer.php');
 ?>

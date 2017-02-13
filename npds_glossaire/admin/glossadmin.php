@@ -52,7 +52,7 @@ function admin_glo() {
       echo '<tr><td>'.$id_terme.'</td><td>'.$gcat.'</td>';
       echo '<td>'.$terme.'</td><td>'.$terme_def.'</td>';
       echo '<td class="text-right"><span class="mx-1"><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'&amp;subop=admin_add&amp;id='.$id_terme.'" title="'.glo_translate("Valider").'" data-toggle="tooltip"><i class="fa fa-check-square-o" aria-hidden="true"></i></a></span>';
-      echo '<span class="mx-1"><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&ModStart='.$ModStart.'&amp;subop=admin_supp&amp;id='.$id_terme.'"><i class="fa fa-trash-o text-danger" title="'.glo_translate("Supprimer").'" data-toggle="tooltip"></i></a></span></td></tr>';
+      echo '<span class="mx-1"><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'&amp;subop=admin_supp&amp;id='.$id_terme.'"><i class="fa fa-trash-o text-danger" title="'.glo_translate("Supprimer").'" data-toggle="tooltip"></i></a></span></td></tr>';
    }
    echo '</tbody></table>';
    echo '</div>';     
@@ -134,7 +134,7 @@ function admin_list() {
    }
    echo '</tbody></table>';
    
-   echo '<p class="text-right"><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart=admin/glossadmin">'.glo_translate("Retour à l'administration").'</a></p>';  
+   echo '<p class="text-right"><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/glossadmin">'.glo_translate("Retour à l'administration").'</a></p>';  
 }
 
 function admin_edit($id) {
@@ -175,7 +175,7 @@ switch ($subop) {
  case "admin_supp":
    sql_query("DELETE FROM ".$NPDS_Prefix."td_glossaire WHERE id='$id'");
    if ($typ==1) {
-      redirect_url("admin.php?op=Extend-Admin-SubModule&ModPath=$ModPath&ModStart=$ModStart&subop=admin_list");
+      redirect_url("admin.php?op=Extend-Admin-SubModule&amp;ModPath=$ModPath&ModStart=$ModStart&subop=admin_list");
    } else {
       redirect_url("admin.php?op=Extend-Admin-SubModule&ModPath=$ModPath&ModStart=$ModStart");
    }

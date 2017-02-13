@@ -13,9 +13,9 @@ $gro   = "1";
 $valid   = "3";
 $courriel   = "1";
 $revalid   = "3";
-$receveur   = "";
+$receveur   = "webmasterfleurey@hotmail.fr";
 $nb_admin   = "10";
 $nb_news   = "10";
-$bouton   = "départements";
+$bouton   = "1";
 
 ?>

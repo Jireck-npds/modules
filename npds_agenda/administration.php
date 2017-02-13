@@ -75,7 +75,7 @@ function suj()
 	$Xcontent = ob_get_contents();
 	ob_end_clean();
 	$npds_METALANG_words = array(
-		"'!titre!'i"=>"<a class=\"btn btn-primary-outline btn-sm pull-xs-right\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_trad("Agenda")."</a>",
+		"'!titre!'i"=>"<a class=\"btn btn-outline-primary btn-sm pull-xs-right\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_trad("Agenda")."</a>",
 		"'!ajeven!'i"=>"$ajeven",
 		"'!accesuj!'i"=>"$accesuj",
 		"'!vuannu!'i"=>"$vuannu",

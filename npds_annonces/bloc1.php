@@ -16,10 +16,14 @@
 /* MAJ Dev - 2011                                                       */
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
+$ModPath='npds_annonces';
 
-include ("modules/npds_annonces/annonce.conf.php");
+include ("modules/$ModPath/annonce.conf.php");
 
-if ($title=='') $title="Petites Annonces";
+
+if ($title=='')	
+$title ='[french]Petites Annonces[/french] [english]Offers[/english]';	
+$title = aff_langue("$title");
 
 global $long_chain;
 if (!$long_chain) {$long_chain=20;}
@@ -30,8 +34,8 @@ while (list($cat, $count) = sql_fetch_row($result)) {
    $num_ann_total+=$count;
 }
 
-if ( $num_ann_total > 1 ){ $pluriel = "s"; }
-$content = '<p class="text-center">Il y a <span class="badge badge-default">'.$num_ann_total.'</span> annonce'.$pluriel.' publiée'.$pluriel.'</span>';
+
+$content = '<p class="text-center"><span class="badge badge-pill badge-default">'.$num_ann_total.'</span> [french]annonce(s)[/french] [english]offer(s)[/english] [french]publiée(s)[/french] [english]published[/english]</span>';
 $select = sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
 while ($i= sql_fetch_assoc($select)) {
    $allcat=array('');
@@ -44,7 +48,7 @@ while ($i= sql_fetch_assoc($select)) {
    $content .= '
    <div class="card my-3">
       <h6 class="card-header card-title">
-         <a data-toggle="collapse" data-parent="#'.$id_cat.'" href="#catbb3_'.$id_cat.'" aria-expanded="true" aria-controls="catbb3_'.$id_cat.'"><i data-toggle="tooltip" data-placement="top" title="Cliquer pour déplier" class="toggle-icon fa fa-caret-down fa-lg mr-2"></i></a>';
+         <a data-toggle="collapse" data-parent="#'.$id_cat.'" href="#catbb3_'.$id_cat.'" aria-expanded="true" aria-controls="catbb3_'.$id_cat.'"><i data-toggle="tooltip" data-placement="top" title="[french]Cliquer pour déplier[/french] [english]Click to expand[/english]" class="toggle-icon fa fa-caret-down fa-lg mr-2"></i></a>';
 
    while ($i2=sql_fetch_array($select2)) {
       $id_catx=$i2['id_cat'];
@@ -52,7 +56,7 @@ while ($i= sql_fetch_assoc($select)) {
       $categoriex=stripslashes($i2[categorie]);
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
-            <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann='.$num_ann[$id_catx].'">'.$categoriex.'</a>
+            <a data-toggle="tooltip" data-placement="top" title="[french]Cliquer pour visualiser[/french] [english]Click to view[/english]" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann='.$num_ann[$id_catx].'"><span class="ml-3">'.$categoriex.'</span></a>
             <span class="badge badge-pill badge-default float-right">'.$num_ann[$id_catx].'</span>
          </div>';
       $cumu_num_ann += $num_ann[$id_catx];
@@ -64,11 +68,11 @@ while ($i= sql_fetch_assoc($select)) {
    if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann))
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
-            <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'">Autres</a>
+            <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'"><span class="ml-3">[french]Autres[/french] [english]Other[/english]</span></a>
             <span class="badge badge-pill badge-default float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
          </div>';
    $content .= '<a href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.($num_ann[$id_cat]+$cumu_num_ann).'">'.$categorie.'</a>
-         <span class="badge badge-pill badge-default float-right">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
+         <span class="badge badge-pill badge-default mr-1 float-right">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
       </h6>
       <div id="catbb3_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="headingb3_'.$id_cat.'">';
    $content .= $sous_content;
@@ -77,13 +81,14 @@ while ($i= sql_fetch_assoc($select)) {
    </div>';
 }
    $content .='
-   <p class="text-center"><a href="modules.php?ModPath=npds_annonces&amp;ModStart=index" class="btn btn-outline-primary btn-sm">Consulter</a>';
+   <p class="text-center"><a href="modules.php?ModPath=npds_annonces&amp;ModStart=index" class="btn btn-outline-primary btn-sm">[french]Consulter[/french] [english]Consult[/english]</a>';
 
 if ($user)
-   $content .=' <a href="modules.php?ModPath=npds_annonces&amp;ModStart=annonce_form" class="btn btn-outline-primary btn-sm">Ajouter</a>';
+   $content .=' <a href="modules.php?ModPath=npds_annonces&amp;ModStart=annonce_form" class="btn btn-outline-primary btn-sm">[french]Ajouter[/french] [english]Add[/english]</a>';
    $content .='
    </p>';
 if ($admin) 
    $content .='
-   <p class="text-center"><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=npds_annonces&amp;ModStart=admin/adm"><i class="fa fa-cogs" aria-hidden="true"></i> Admin P.A</a></p>';
+   <p class="text-center"><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=npds_annonces&amp;ModStart=admin/adm"><i class="fa fa-cogs" aria-hidden="true"></i> [french]Admin[/french] [english]Admin[/english]</a></p>';
+   $content = aff_langue($content);
 ?>

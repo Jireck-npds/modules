@@ -79,6 +79,8 @@ include_once("modules/$ModPath/lang/$language.php");
    } else {
       $content .= '<p class="card-text text-xs-center">'.gal_trans("vous avez accès à aucune galerie").'</p>';
    }
-   $content .='<div class="card-block"><p class="card-text text-xs-center"><a class="" data-toggle="tooltip" data-placement="bottom" title="'.gal_trans("Accès à la galerie").'" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$row[1].'">'.$gallery.'</a></p>';
+   $content .='<div class="card-block"><p class="card-text text-xs-center"><a class="" data-toggle="tooltip" data-placement="bottom" title="'.gal_trans("Accès à la galerie").'" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$row[1].'">';
+   $content .= stripslashes("$gallery");
+   $content .='</a></p>';
    $content .='</div></div>';
 ?>

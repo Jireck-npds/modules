@@ -64,7 +64,7 @@ function glofoot() {
       echo '<div class="form-group row">';
       echo '<div class="col-sm-3"><label for="">'.glo_translate("Catégorie").'</div>';
       echo '<div class="col-sm-4 mb-1"><input class="form-control" type="text" name="gcategory" size="25" maxlength="30"></div>';
-      echo '<div class="col-sm-4"><select class="form-control" name="sgcategory">';
+      echo '<div class="col-sm-4"><select class="custom-select" name="sgcategory">';
 
       $result = sql_query("SELECT DISTINCT gcat FROM ".$NPDS_Prefix."td_glossaire ORDER BY gcat");
 
@@ -137,7 +137,7 @@ function categ_glo($gcat, $debut) {
       settype($nb_affichage,"integer");
       $TableRep=sql_query("SELECT id, nom, definition, lien FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0' AND gcat='$cate' ORDER BY nom LIMIT $debut,$nb_affichage");
       $top=1;
-      $topsuivant="modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=$cate";
+      $topsuivant="modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=$cate";
 
       if ($top==1) {
       echo '<p class="lead text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> '.$nbe.' '.glo_translate("Réponse(s)").'</p>';
@@ -180,7 +180,7 @@ function rech_lettre($lettre, $gcat, $debut) {
       settype($nb_affichage,"integer");
       $TableRep=sql_query("SELECT id, nom, definition, lien FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0' AND lettre='$lettre'".($cate!=translate("All")?" AND gcat='$cate'":"")." ORDER BY nom LIMIT $debut,$nb_affichage");
       $top=1;
-      $topsuivant="modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=$cate&amp;op=rech_lettre&amp;lettre=$lettre";
+      $topsuivant="modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=$cate&op=rech_lettre&lettre=$lettre";
       if ($top==1) {
       echo '<p class="lead text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> '.$nbe.' '.glo_translate("Réponse(s)").'</p>';
       echo '<table class="table table-sm table-hover">';
@@ -231,7 +231,7 @@ function rech_terme($type, $terme, $debut) {
       settype($nb_affichage,"integer");
       $result = sql_query("SELECT id, nom, definition, lien FROM ".$NPDS_Prefix."td_glossaire WHERE $types AND affiche!='0' ORDER BY nom LIMIT $debut,$nb_affichage");
       $top=1;
-      $topsuivant="modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;op=rech_terme&amp;terme=$terme&amp;type=$type";
+      $topsuivant="modules.php?ModPath=$ModPath&ModStart=$ModStart&op=rech_terme&terme=$terme&type=$type";
       if ($top==1) {
       echo '<p class="lead text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> '.$nbe.' '.glo_translate("Réponse(s)").'</p>';
       echo '<table class="table table-sm table-hover">';
@@ -265,7 +265,7 @@ function tlist($acount) {
    if (($cate == translate("All")) OR ($cate == "")) {
    echo "<i class=\"fa fa-folder-open fa-2x text-muted\"></i> <strong>".translate("All")." ($acount)</strong>\n";
    } else {
-   echo "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=".translate("All")."&amp;sortby=$sortby\" class=\"\"><i class=\"fa fa-2x fa-folder\"></i> ".translate("All")."</a> ($acount)\n"; 
+   echo "<a href=\"modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=".translate("All")."&sortby=$sortby\" class=\"\"><i class=\"fa fa-2x fa-folder\"></i> ".translate("All")."</a> ($acount)\n"; 
    }
    $result = sql_query("SELECT DISTINCT gcat, count(gcat) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0' GROUP BY gcat ORDER BY gcat");
    echo '</div>';
@@ -278,7 +278,7 @@ function tlist($acount) {
    echo "<i class=\"fa fa-folder-open fa-2x text-muted\"></i><span class=\"\"> <strong>$category ($dcount)</strong></span> \n";
     } else {
         $category2 = urlencode($category);
-        echo "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=$category2&amp;sortby=$sortby\" class=\"noir\"><i class=\"fa fa-2x fa-folder\"></i> $category</a> ($dcount) \n";
+        echo "<a href=\"modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=$category2&sortby=$sortby\" class=\"noir\"><i class=\"fa fa-2x fa-folder\"></i> $category</a> ($dcount) \n";
     }
       echo '</div>';
     if ($rup>=5) {
@@ -292,10 +292,10 @@ function aff_forme_rech() {
    echo '<p class="lead"><a data-toggle="collapse" href="#rechcho" aria-expanded="true" aria-controls="rechcho"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-up"></i></a> '.glo_translate("Rechercher par choix multiples").'</p>';
    echo'<div id="rechcho" class="collapse show" role="tabpanel" aria-labelledby="">';
    echo '<div class="card-block">';   
-   echo '<form action="modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'" method="post">';
+   echo '<form action="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'" method="post">';
    echo '<div class="form-group row">';	  
    echo '<div class="col-sm-2 mt-1"><label for=""><strong>'.glo_translate("Sélectionner").'</strong></div>';
-   echo '<div class="col-sm-4 mb-1"><select class="form-control" name="type">';
+   echo '<div class="col-sm-4 mb-1"><select class="custom-select" name="type">';
    echo '<option value="1"> '.glo_translate("Termes")."\n";
    echo '<option value="2"> '.glo_translate("Définitions");
    echo '<option value="3"> '.glo_translate("Termes").' & '.glo_translate("Définitions");
@@ -317,9 +317,9 @@ function aff_alpha($type) {
    $counter = 0;
    while (list(, $ltr) = each($alphabet)) {
       if ($ltr!=translate("Other")) {
-         echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'&amp;gcat='.$gcat.'&amp;op=rech_lettre&amp;lettre='.$ltr.'" class="">'.$ltr.'</a>';
+         echo '<a href="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'&gcat='.$gcat.'&op=rech_lettre&lettre='.$ltr.'" class="">'.$ltr.'</a>';
       } else {
-         echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'&amp;gcat='.$gcat.'&amp;op=rech_lettre&amp;lettre=!AZ" class="">'.$ltr.'</a>';
+         echo '<a href="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'&gcat='.$gcat.'&op=rech_lettre&lettre=!AZ" class="">'.$ltr.'</a>';
       }
       if ( $counter != $num )
          echo ' | ';

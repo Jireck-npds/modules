@@ -26,10 +26,11 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 // For More security
 
 include ("modules/$ModPath/annonce.conf.php");
+include ("modules/$ModPath/lang/annonces-$language.php");
 
 include ("header.php");
    echo '<div class="card"><div class="card-block">';
-   echo '<p class="lead">'.$mess_acc.'</p>';
+   echo '<p class="lead">'.aff_langue($mess_acc).'</p>';
    
 // Purge
 $obsol=time()-($obsol*25*86400);
@@ -57,12 +58,8 @@ while (list($cat, $count) = sql_fetch_row($result2)) {
    $num_ann[$cat]=$count;
    $num_ann_total+=$count;
 }
-if ( $num_ann_total > 1 ){ $pluriel = "s"; }
-echo '<p class="lead text-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Il y a un total de '.$num_ann_total.' annonce'.$pluriel.' publiée'.$pluriel.'</p>';
 
-
-if (($admin) and $num_ann_apub_total>0)
-   echo '<p>Information pour l\'administrateur : <a class="btn btn-outline-warning btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm">'.$num_ann_apub_total.' annonce(s) à valider</a></p>';
+echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Il y a").' <span class="badge badge-default">'.$num_ann_total.'</span> '.ann_translate("annonce(s)").' '.ann_translate("publiée(s)").'</p>';
 
 $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
 while ($i= sql_fetch_assoc($select)) {
@@ -76,7 +73,7 @@ while ($i= sql_fetch_assoc($select)) {
    $content .= '
    <div class="card my-3">
       <h6 class="card-header card-title">
-         <a data-toggle="collapse" data-parent="#'.$id_cat.'" href="#catb3_'.$id_cat.'" aria-expanded="true" aria-controls="catb3_'.$id_cat.'"><i data-toggle="tooltip" data-placement="top" title="Cliquer pour déplier" class="toggle-icon fa fa-caret-down fa-lg mr-2"></i></a>';
+         <a data-toggle="collapse" data-parent="#'.$id_cat.'" href="#catb3_'.$id_cat.'" aria-expanded="true" aria-controls="catb3_'.$id_cat.'"><i data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour déplier").'" class="toggle-icon fa fa-caret-down fa-lg mr-2"></i></a>';
 
    while ($i2= sql_fetch_assoc($select2)) {
       $id_catx=$i2['id_cat'];
@@ -84,7 +81,7 @@ while ($i= sql_fetch_assoc($select)) {
       $categoriex=stripslashes($i2['categorie']);
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
-            <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann='.$num_ann[$id_catx].'">'.$categoriex.'</a>
+            <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann='.$num_ann[$id_catx].'"><span class="ml-3">'.$categoriex.'</span</a>
             <span class="badge badge-pill badge-default float-right">'.$num_ann[$id_catx].'</span>
          </div>';
       $cumu_num_ann += $num_ann[$id_catx];
@@ -103,11 +100,11 @@ while ($i= sql_fetch_assoc($select)) {
    if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann))
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
-            <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie=&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'">Autres</a>
+            <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie=&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'"><span class="ml-3">'.ann_translate("Autres").'</span></a>
             <span class="badge badge-pill badge-default float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
          </div>';
-   $content .= '<a href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.($num_ann[$id_cat]+$cumu_num_ann).'">'.$categorie.'</a>
-         <span class="badge badge-pill badge-default float-right">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
+   $content .= '<a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.($num_ann[$id_cat]+$cumu_num_ann).'">'.$categorie.'</a>
+         <span class="badge badge-pill badge-default mr-1 float-right">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
       </h6>
       <div id="catb3_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="headingb3_'.$id_cat.'">';
 /*
@@ -134,9 +131,8 @@ if (!$num_ann_archive[$id_cat]) $num_ann_archive[$id_cat]=0;
    </div>';
 }
 echo $content;
-
-if ($admin)
-   echo '<hr /><p><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm"><i class="fa fa-cogs" aria-hidden="true"></i> Admin P.A</a></p>';
+if (($admin) and $num_ann_apub_total>0)
+   echo '<hr /><p><a class="btn btn-outline-warning btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm">'.$num_ann_apub_total.' '.ann_translate("annonce(s) à valider").'</a></p>';
    
    echo '</div></div>';
 include ("footer.php");

@@ -48,34 +48,38 @@ if ($admin) {
    // En-Tête
    GraphicAdmin($hlpfile);   
 //   adminhead ($f_meta_nom, $f_titre, $adminimg);
-   echo '<div class="row" id="adm_men">';
+
+
+   echo '<div id="adm_men">';
+  echo '<h2><img src="modules/npds_galerie/npds_galerie.png" alt="icon_npds_galerie"> Galeries de photos du site '.$Titlesitename.'</h2>';
+   
    echo '<h3>'.gal_trans("Administration des galeries").'</h3>';
+   echo '<hr />';
    echo '
 <div class="btn-toolbar" role="toolbar" aria-label="commandes admin">
-   <div class="btn-group" role="group" aria-label="group1">
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'" role="button" data-original-title="'.gal_trans("Accueil").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-home" aria-hidden="true"></i></a>
+   <div class="btn-group mr-2" role="group" aria-label="group1">
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'" role="button" data-original-title="'.gal_trans("Accueil").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-home" aria-hidden="true"></i></a>
    </div>
-   <div class="btn-group" role="group" aria-label="group2">
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=config" role="button" data-original-title="'.gal_trans("Configuration").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+   <div class="btn-group mr-2" role="group" aria-label="group2">
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=config" role="button" data-original-title="'.gal_trans("Configuration").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-cogs" aria-hidden="true"></i></a>
    </div> 
-   <div class="btn-group" role="group" aria-label="group3">  
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=viewarbo" role="button" data-original-title="'.gal_trans("Arborescence").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-sitemap" aria-hidden="true"></i></a>
+   <div class="btn-group mr-2" role="group" aria-label="group3">  
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=viewarbo" role="button" data-original-title="'.gal_trans("Arborescence").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-sitemap" aria-hidden="true"></i></a>
    </div>      
-   <div class="btn-group" role="group" aria-label="group4">
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=formcregal" role="button" data-original-title="'.gal_trans("Ajout galerie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> Gal</a>
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=formcat" role="button" data-original-title="'.gal_trans("Ajout catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> Cat</a>
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=formsscat" role="button" data-original-title="'.gal_trans("Ajout sous-catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> s-Cat</a>
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=formimgs" role="button" data-original-title="'.gal_trans("Ajout images").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-picture-o"></i></a>
+   <div class="btn-group mr-2" role="group" aria-label="group4">
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=formcregal" role="button" data-original-title="'.gal_trans("Ajout galerie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> Gal</a>
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=formcat" role="button" data-original-title="'.gal_trans("Ajout catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> Cat</a>
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=formsscat" role="button" data-original-title="'.gal_trans("Ajout sous-catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> s-Cat</a>
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=formimgs" role="button" data-original-title="'.gal_trans("Ajout images").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus" aria-hidden="true"></i> <i class="fa fa-picture-o"></i></a>
    </div>
-   <div class="btn-group" role="group" aria-label="group5">
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=import" role="button" data-original-title="'.gal_trans("Import images").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-down" aria-hidden="true"></i></a>
+   <div class="btn-group mr-2" role="group" aria-label="group5">
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=import" role="button" data-original-title="'.gal_trans("Import images").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-down" aria-hidden="true"></i></a>
    </div>
-   <div class="btn-group" role="group" aria-label="group6">
-      <a class="btn btn-primary-outline" href="'.$ThisFile.'&amp;subop=export" role="button" data-original-title="'.gal_trans("Export catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></a>
+   <div class="btn-group mr-2" role="group" aria-label="group6">
+      <a class="btn btn-outline-primary" href="'.$ThisFile.'&amp;subop=export" role="button" data-original-title="'.gal_trans("Export catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></a>
    </div>
-</div>
-';
-
+</div>';
+echo '<hr />';
    switch($subop) {
    case "formcat" :
      PrintFormCat();
@@ -169,19 +173,19 @@ if ($admin) {
      $nvotes = sql_fetch_row(sql_query("SELECT COUNT(id) FROM ".$NPDS_Prefix."tdgal_vot"));
      $nviews = sql_fetch_row(sql_query("SELECT SUM(view) FROM ".$NPDS_Prefix."tdgal_img"));
 
-   echo '<br />';
+
    
    echo '<h4><i class="fa fa-info-circle" aria-hidden="true"></i> '.gal_trans("Tableau récapitulatif").'</h4>';
-   echo '<ul class="list-group">
-   <li class="list-group-item">'.gal_trans("Nombre de catégories").'<span class="label label-default pull-xs-right">'.$ncateg[0].'</span></li>
-   <li class="list-group-item">'.gal_trans("Nombre de sous-catégories").'<span class="label label-default pull-xs-right">'.$nsscat[0].'</span></li>   
-   <li class="list-group-item">'.gal_trans("Nombre de galeries").'<span class="label label-default pull-xs-right">'.$numgal[0].'</span></li>
-   <li class="list-group-item">'.gal_trans("Nombre d'images").'<span class="label label-default pull-xs-right">'.$ncards[0].'</span></li>   
-   <li class="list-group-item">'.gal_trans("Nombre de commentaires").'<span class="label label-default pull-xs-right">'.$ncomms[0].'</span></li> 
-   <li class="list-group-item">'.gal_trans("Nombre de votes").'<span class="label label-default pull-xs-right">'.$nvotes[0].'</span></li>   
-   <li class="list-group-item">'.gal_trans("Images vues").'<span class="label label-default pull-xs-right">'.$nviews[0].'</span></li>
-   <li class="list-group-item">'.gal_trans("Version du module").'<span class="label label-default pull-xs-right">Version : '.$npds_gal_version.'</span></li>   
-   </ul>
+   echo '<h5><ul class="list-group">
+   <li class="list-group-item justify-content-between">'.gal_trans("Nombre de catégories").'<span class="badge badge-default">'.$ncateg[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_trans("Nombre de sous-catégories").'<span class="badge badge-default">'.$nsscat[0].'</span></li>   
+   <li class="list-group-item justify-content-between">'.gal_trans("Nombre de galeries").'<span class="badge badge-default">'.$numgal[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_trans("Nombre d'images").'<span class="badge badge-default">'.$ncards[0].'</span></li>   
+   <li class="list-group-item justify-content-between">'.gal_trans("Nombre de commentaires").'<span class="badge badge-default">'.$ncomms[0].'</span></li> 
+   <li class="list-group-item justify-content-between">'.gal_trans("Nombre de votes").'<span class="badge badge-default">'.$nvotes[0].'</span></li>   
+   <li class="list-group-item justify-content-between">'.gal_trans("Images vues").'<span class="badge badge-default">'.$nviews[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_trans("Version du module").'<span class="badge badge-default">Version : '.$npds_gal_version.'</span></li>   
+   </ul></h5>
    ';
      break;
    }

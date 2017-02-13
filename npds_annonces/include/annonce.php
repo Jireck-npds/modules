@@ -36,7 +36,7 @@ function aff_annonces($select) {
       list($nom, $mail)= sql_fetch_row($result);
 
       $ibid='<div class="card my-3"><div class="card-block">';
-      $ibid.='<h4 class="card-title">Annonce passée par '.$nom.', le '.$date.'</h4>';
+      $ibid.='<h4 class="card-title">'.ann_translate("Annonce de").' '.$nom.', le '.$date.'</h4>';
       $ibid.='<div class="card-text row"><div class="col-md-1"><a class="btn btn-secondary btn-sm" href="mailto:'.anti_spam($mail).'"><i class="fa fa-envelope" aria-hidden="true"></i></a></div>';
       if ($tel!="")
          $ibid.='<div class="col-md-3"><i class="fa fa-phone" aria-hidden="true"></i> <a data-rel="external" href="tel:+33'.$tel.'" target="_blank">+33'.$tel.'</a></div>';
@@ -45,15 +45,15 @@ function aff_annonces($select) {
       $ibid.='</div>';
       $ibid.='<div class="card-text row">';	  
       if ($ville)
-         $ibid.='<div class="col-md-3">Ville : '.$ville.'</div>';
+         $ibid.='<div class="col-md-3">'.ann_translate("Ville").' : '.$ville.'</div>';
       if ($code)
-         $ibid.='<div class="col-md-3">code postal : '.$code.'</div>';
+         $ibid.='<div class="col-md-3">'.ann_translate("Code postal").' : '.$code.'</div>';
       $ibid.='</div>';
       $ibid.='<div class="card-text mt-3">';
       $ibid.=$text;
       $ibid.='</div>';
       if ($aff_prix) {
-         $ibid.='<h4>Prix : '.$prix.'&nbsp;&nbsp;'.$prix_cur.'</h4>';
+         $ibid.='<h4>'.ann_translate("Prix").' : '.$prix.' '.aff_langue($prix_cur).'</h4>';
       }
       $ibid.="<p>##imp##</p>";
       $ibid.='</div></div>';
