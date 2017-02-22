@@ -1,18 +1,19 @@
 <?php
 /************************************************************************/
 /* DUNE by NPDS                                                         */
-/*======================================================================*/
-/* From Glossaire version 1.3 pour myPHPNuke 1.8                        */
-/* Copyright © 2001, Pascal Le Boustouller                              */
 /*                                                                      */
-/* This version name NPDS Copyright (c) 2001-2017 by Philippe Brunier   */
-/*                                                                      */
-/* module npds_glossaire v 3.0 pour revolution 16                       */
-/* by team jpb/phr 2017                                                 */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
+/* Module npds_glossaire v 3.0 pour revolution 16                       */
+/* by team jpb/phr 2017                                                 */
+/*                                                                      */
+/* From Glossaire version 1.3 pour myPHPNuke 1.8                        */
+/* Copyright © 2001, Pascal Le Boustouller                              */
+/* Tribal-dolphin 2008                                                  */
 /************************************************************************/
 
 // cartouche de sécurité ==> requis !!
@@ -31,8 +32,8 @@ include ("modules/$ModPath/lang/glossaire-$language.php");
 
    GraphicAdmin($hlpfile);
    echo '<div id="adm_men">';
-   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> Glossaire du site '.$Titlesitename.'</h2>';
-   echo '<h3>Administration</h3>';
+   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate(Glossaire).'</h2>';
+//   echo '<h3>Administration</h3>';
 
 function admin_glo() {
    global $ModPath, $ModStart, $ok_submit, $activ_rech, $nb_affichage, $css, $NPDS_Prefix;
@@ -69,7 +70,7 @@ function admin_glo() {
    echo '<div class="form-group row">';
    echo '<div class="col-sm-3">'.glo_translate("Catégorie").'</div>';
    echo '<div class="col-sm-4"><input class="form-control" type="text" name="gcategory" size="25" maxlength="30"></div>';
-   echo '<div class="col-sm-4"><select class="form-control" name="sgcategory">';
+   echo '<div class="col-sm-4"><select class="custom-select" name="sgcategory">';
       $result = sql_query("SELECT DISTINCT gcat FROM ".$NPDS_Prefix."td_glossaire ORDER BY gcat");
       while (list($dcategory) = sql_fetch_row($result)) {
          $dcategory=stripslashes($dcategory);

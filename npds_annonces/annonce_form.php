@@ -58,7 +58,7 @@ include ("modules/$ModPath/lang/annonces-$language.php");
             $message='catégorie : '.StripSlashes($categorie).'<br /><br />';
             $message.="texte de l'annonce : ".StripSlashes(StripSlashes($text)).'<br />';
             include ("signat.php");
-            @send_email($notify_email, "Nouvelle annonce publiée (module annonces)", $message, $notify_from , true, "html");
+            @send_email($notify_email, "Nouvelle annonce publiée (module annonces)", $message, $notify_from , false, "html");
             redirect_url ("modules.php?ModPath=$ModPath&ModStart=index");
             die();
          }
@@ -148,7 +148,7 @@ include ("modules/$ModPath/lang/annonces-$language.php");
          <div class="col-sm-8">
             <div class="input-group">
                <div class="input-group-addon">+33.0</div>
-               <input type="text" name="tel" class="form-control col-4" id="" value="" placeholder="'.ann_translate("sans").' 0">
+               <input type="text" name="tel" class="form-control" id="" value="" placeholder="'.ann_translate("sans").' 0">
             </div>
          </div>
       </div>
@@ -157,21 +157,21 @@ include ("modules/$ModPath/lang/annonces-$language.php");
          <div class="col-sm-8">
             <div class="input-group">
                <div class="input-group-addon">+33.0</div>
-               <input type="text" name="tel_2" class="form-control col-4" id="" value="" placeholder="'.ann_translate("sans").' 0">
+               <input type="text" name="tel_2" class="form-control" id="" value="" placeholder="'.ann_translate("sans").' 0">
             </div>
          </div>
       </div>
       <div class="form-group row">
          <label for="code" class="col-sm-4 form-control-label">'.ann_translate("Code postal").'</label>
          <div class="col-sm-8">
-            <input type="text" name="code" class="form-control col-2" id="" value="" placeholder="">
+            <input type="text" name="code" class="form-control" id="" value="" placeholder="">
 			<small id="" class="form-text text-muted">format 00000</small>
          </div>
       </div>
       <div class="form-group row">
          <label for="ville" class="col-sm-4 form-control-label">'.ann_translate("Ville").'</label>
          <div class="col-sm-8">
-            <input type="text" name="ville" class="form-control col-6" id="" value="" placeholder="">
+            <input type="text" name="ville" class="form-control" id="" value="" placeholder="">
          </div>
       </div>
       <div class="form-group row">
@@ -213,7 +213,7 @@ include ("modules/$ModPath/lang/annonces-$language.php");
       <label for="" class="col-sm-4 form-control-label">'.ann_translate("Prix en").' '.aff_langue($prix_cur).' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
       <div class="col-sm-8">
          <div class="input-group">
-            <input type="text" name="prix" class="form-control col-3" required="required" id="" value="'.$prix.'" placeholder="">
+            <input type="text" name="prix" class="form-control" required="required" id="" value="'.$prix.'" placeholder="">
             <div class="input-group-addon">.00</div>
          </div>
       </div>

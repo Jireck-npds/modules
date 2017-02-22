@@ -24,7 +24,7 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    die();
 }
 // For More security
-
+   include ("modules/$ModPath/admin/pages.php");
 include ("modules/$ModPath/annonce.conf.php");
 include ("modules/$ModPath/lang/annonces-$language.php");
 

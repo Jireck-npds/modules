@@ -7,7 +7,7 @@
 
 
 	//annee
-	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['title']="[french]Ann&eacute;e[/french][english]Year[/english]+|$title+";
+	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['title']="[french]Année[/french][english]Year[/english]+|$title+";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['run']="yes";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['blocs']="0";
 
@@ -19,14 +19,14 @@
 
 
 	//ajout
-	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['title']="[french]Ajouter un &eacute;v&egrave;nement[/french][english]Add an event[/english]+|$title+";
+	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['title']="[french]Ajouter un évènement[/french][english]Add an event[/english]+|$title+";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['run']="yes";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['blocs']="0";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['TinyMce']=1;
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['TinyMce-theme']="short";
 
 	//administration
-	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['title']="[french]Administrer votre &eacute;v&egrave;nement[/french][english]Manage your event[/english]+|$title+";
+	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['title']="[french]Administrer votre évènement[/french][english]Manage your event[/english]+|$title+";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['run']="yes";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['blocs']="0";
 	$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['TinyMce']=1;

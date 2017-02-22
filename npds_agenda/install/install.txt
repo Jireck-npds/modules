@@ -1,31 +1,24 @@
 ######################################################################################
 ##
-## Nom:  Agenda
-## Version: 1.0
-## Date:  2008
-## Auteurs: Oim
-## 
-## Description: Module d'agenda
-## 
-## Niveau d'installation : Facile
-## Temps d'installation : 1 minutes
-## Minimum Requis : NPDS SABLE
+## DUNE by NPDS
+##
+## NPDS Copyright (c) 2002-2017 by Philippe Brunier
+##
+## This program is free software. You can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License.
+##
+## Module npds_agenda 2.0
+##
+## Auteur Oim
+## Changement de nom du module version Rev16 par jpb/phr janv 2017
 ##
 #######################################################################################
 ##
 ## INSTALLATION AUTOMATIQUE (RECOMMANDEE)
-## 1. Décompresser l'archive dans le dossier modules de votre site
+## 1. DÃ©compresser l'archive dans le dossier modules de votre site
 ## 2. Via l'administration du portail aller dans Gestion/Installation Modules
-## 3. En face de agenda, cliquer sur installer le module et suivez la procédure
-## 4. Copier le fichier install/agenda.css dans le dossier style de vos themes
-## 5. Copier le dossier install/agenda dans themes/VO(TRE)(s) THEME(s)/html/modules/
-##
-## INSTALLATION MANUELLE
-## 1. Décompresser l'archive dans le dossier modules de votre site
-## 2. Créer la base de données à l'aide du fichier install/table.txt
-## 3. Copier le contenu de install/extend-modules.txt dans votre admin/extend-modules.txt
-## 4. Copier le fichier install/agenda.css dans le dossier style de votre theme
-## 5. Copier le dossier install/agenda dans themes/VO(TRE)(s) THEME(s)/html/modules/
+## 3. En face de agenda, cliquer sur installer le module et suivez la procÃ©dure
 ##
 ## CHMOD
 ## 1. Mettez un CHMOD 777 ou 755 sur les dossiers
@@ -36,22 +29,14 @@
 ## Via Admin-Plugins de NPDS. 
 ##
 ## UTILISATION DU MODULE
-## Appel grace à une URL du type : 
-## <a href=modules.php?ModPath=agenda&amp;ModStart=calendrier>Agenda</a>
+## Appel grace Ã  une URL du type : 
+## <a href=modules.php?ModPath=npds_agenda&amp;ModStart=calendrier>Agenda</a>
 ##
 ## BLOC
 ## Affiche un mini-calendrier du mois en cours avec naviguation
-## include#modules/agenda/bloc/agbloc.php
+## include#modules/npds_agenda/bloc/agbloc.php
 ##
 ## COMMUNAUTE: 
-## Support NPDS : http://modules.npds.org/
-## Support Auteur :
-## ## Fiche du module : http://www.modnpds.tuxfamily.org/modules.php?ModPath=sectionsbis&ModStart=article&rubid=1&secid=1&artid=9
-## ## Rapport de bug : http://modnpds.tuxfamily.org/modules.php?ModPath=bug&ModStart=bug&subop=fiche&id_cat=3
-## ## Demonstration : http://modnpds.tuxfamily.org/modules.php?ModPath=agenda&ModStart=calendrier
+## Support NPDS : http://modules.npds.org
 ##
-#######################################################################################
-##
-## Tutorial Agenda 1.0
-## Realisation : Oim
 #######################################################################################

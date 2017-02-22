@@ -1,44 +1,41 @@
 <?php
-/*************************************************/
-/* NPDS : Net Portal Dynamic System              */
-/* ==========================                    */
-/*                                               */
-/*                                               */
-/* Module npds_agenda                            */
-/* Version 2.0                                   */
-/* Auteur Oim                                    */
-/* Renommé npds_agenda version rev 16            */
-/* repris par jpb/phr avril 2016                 */
-/*************************************************/
+/************************************************************************/
+/* DUNE by NPDS                                                         */
+/*                                                                      */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
+/* Module npds_agenda 2.0                                               */
+/*                                                                      */
+/* Auteur Oim                                                           */
+/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
+/************************************************************************/
 	global $language, $user, $cookie, $Default_Theme, $nuke_url;
 	global $mois, $annee;
 	$ModPath = 'npds_agenda';
 
-	if (file_exists('modules/'.$ModPath.'/lang/'.$language.'.php'))
-	{
-		include_once('modules/'.$ModPath.'/lang/'.$language.'.php');
-	}
-	else
-	{
-		include_once('modules/'.$ModPath.'/lang/french.php');
-	}
+	include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
+
 	require_once('modules/'.$ModPath.'/ag_fonc.php');
 	include('modules/'.$ModPath.'/admin/config.php');
 
-	// Récupération du jour, mois, et année actuelle
+// Récupération du jour, mois, et année actuelle
 	$Bjour_actuel = date("j", time());
 	$Bmois_actuel = date("m", time());
 	$Ban_actuel = date("Y", time());
 	$Bjour = $Bjour_actuel;
 
-	// Si la variable mois n'existe pas, mois et année correspondent au mois et à l'année courante
+// Si la variable mois n'existe pas, mois et année correspondent au mois et à l'année courante
 	if(!isset($_GET["mois"]))
 	{
 		$mois = $Bmois_actuel;
 		$annee = $Ban_actuel;
 	}
 
-	// Mois suivant
+// Mois suivant
 	$Bmois_suivant = $mois + 1;
 	$Ban_suivant = $annee;
 	if ($Bmois_suivant == 13)
@@ -58,18 +55,18 @@
 
 	// Affichage du mois et année
 	$Bmois_de_annee = array(
-						''.ag_trad('Janvier').'',
-						''.ag_trad('Février').'',
-						''.ag_trad('Mars').'',
-						''.ag_trad('Avril').'',
-						''.ag_trad('Mai').'',
-						''.ag_trad('Juin').'',
-						''.ag_trad('Juillet').'',
-						''.ag_trad('Août').'',
-						''.ag_trad('Septembre').'',
-						''.ag_trad('Octobre').'',
-						''.ag_trad('Novembre').'',
-						''.ag_trad('Décembre').'');
+						''.ag_translate('Janvier').'',
+						''.ag_translate('Février').'',
+						''.ag_translate('Mars').'',
+						''.ag_translate('Avril').'',
+						''.ag_translate('Mai').'',
+						''.ag_translate('Juin').'',
+						''.ag_translate('Juillet').'',
+						''.ag_translate('Août').'',
+						''.ag_translate('Septembre').'',
+						''.ag_translate('Octobre').'',
+						''.ag_translate('Novembre').'',
+						''.ag_translate('Décembre').'');
 	$Bmois_en_clair = $Bmois_de_annee[$mois - 1];
 
 	// Création tableau à 31 entrées sans réservation
@@ -105,7 +102,7 @@
    // Si membre appartient au bon groupe
 		if(autorisation($groupvoir))
 		{
-			$titre = stripslashes(aff_langue($titre));
+			$Btitre = stripslashes(aff_langue($Btitre));
 
    // Transforme aaaa/mm/jj en jj
 			$Bjour_reserve = (int)substr($Bdate, 8, 2);
@@ -114,7 +111,7 @@
 			$Btab_jours[$Bjour_reserve] = (bool)true;
          
    // Récupére titre des événements
-			$Bafftitre[$Bjour_reserve] .= $Btitre;
+			$Bafftitre[$Bjour_reserve] .= $Btitre.'&lt;br /&gt;';
 		}
 	}
 
@@ -149,13 +146,13 @@
 	$content .= '<table class="table table-bordered table-sm">'
    .'<thead class="thead-default">'   
 	.'<tr>'
-	.'<th class="text-center">'.ag_trad('L').'</th>'
-	.'<th class="text-center">'.ag_trad('M').'</th>'
-	.'<th class="text-center">'.ag_trad('M ').'</th>'
-	.'<th class="text-center">'.ag_trad('J').'</th>'
-	.'<th class="text-center">'.ag_trad('V').'</th>'
-	.'<th class="text-center">'.ag_trad('S').'</th>'
-	.'<th class="text-center">'.ag_trad('D').'</th>'
+	.'<th class="text-center">'.ag_translate('L').'</th>'
+	.'<th class="text-center">'.ag_translate('M').'</th>'
+	.'<th class="text-center">'.ag_translate('M ').'</th>'
+	.'<th class="text-center">'.ag_translate('J').'</th>'
+	.'<th class="text-center">'.ag_translate('V').'</th>'
+	.'<th class="text-center">'.ag_translate('S').'</th>'
+	.'<th class="text-center">'.ag_translate('D').'</th>'
 	.'</tr>'
    .'</thead>'
    .'<tbody>'
@@ -201,7 +198,7 @@
 			else if ($Bafftitre[$Btab_jours[1]] != '' && $Bfetetitre[$Btab_jours[1]] != ''){$Bcla = 'table-info';}
 			/*Ajoute le jour et reste sur la meme page + css jour evenement*/
 			$content .= '<td class="text-center '.$Bcla.'">'
-			.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Btab_jours[1]]).''.$Bafftitre[1].'"><span class="'.$Bcs.'">1</span></a>'
+			.'<a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Btab_jours[1]]).''.$Bafftitre[1].'"><span class="'.$Bcs.'">1</span></a>'
 			.'</td>';
 		}
 		else
@@ -242,7 +239,7 @@
             
    // Ajoute le jour et reste sur la même page + css jour évènement
 				$content .= '<td class="text-center '.$Bcla.'">'
-				.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>'
+				.'<a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>'
 				.'</td>';
 			}
 			else
@@ -287,7 +284,7 @@
 					
    // Ajoute le jour et reste sur la même page + css jour évènement
 					$content .= '<td class="text-center '.$Bcla.'">'
-					.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a>'
+					.'<a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a>'
 					.'</td>';
 				}
 				else
@@ -307,17 +304,17 @@
 	if(autorisation($gro))
 	{
 		$content .= '<p>'
-		.'<a class="btn btn-block btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_trad('Ajouter un évènement').'</a>'
+		.'<a class="btn btn-block btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Proposer évènement').'</a>'
 		.'</p>';
 	}
-	$content .= '<table table table-bordered table-sm>'
+	$content .= '<table>'
 	.'<tr>'
 	.'<td class="table-info" width="20px"></td>'
-	.'<td class="pl-2">'.ag_trad('Jour avec un évènement').'</td>'
+	.'<td class="pl-2">'.ag_translate('Jour avec évènement(s)').'</td>'
 	.'</tr>'
 	.'<tr>'
 	.'<td class="table-warning"></td>'
-	.'<td class="pl-2">'.ag_trad('Jour férié').'</td>'
+	.'<td class="pl-2">'.ag_translate('Jour férié').'</td>'
 	.'</tr>'
 	.'</table>';
 ?>

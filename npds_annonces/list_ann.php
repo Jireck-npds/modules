@@ -76,12 +76,12 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
             <li class="page-item active"><a class="page-link" href="#">'.$inf.' à '.$sup.'</a></li>';
    if ($min>0) {
       echo '
-            <li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;min='.($min-$max).'&amp;num_ann='.$num_ann.'">'.ann_translate("Précédente").'</a></li>';
+            <li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;min='.($min-$max).'&amp;num_ann='.$num_ann.'"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>';
       $pp=true;
    }
    if (($min+$max)<$num_ann) {
       echo '
-            <li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;min='.($min+$max).'&amp;num_ann='.$num_ann.'">'.ann_translate("Suivante").'</a></li>';
+            <li class="page-item"><a class="page-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;min='.($min+$max).'&amp;num_ann='.$num_ann.'"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>';
    }
    echo '
          </ul>

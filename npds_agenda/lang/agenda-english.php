@@ -17,7 +17,7 @@ function ag_translate($phrase) {
    case "0 Tous le monde - 1 Tous les membres - ou groupe": $tmp = "0 All the world - 1 All members - or group"; break;
    case "A valider": $tmp = "To validate"; break;
    case "A Valider": $tmp = "To Validate"; break;
-   case "Accès direct à un sujet": $tmp = "Direct access to a subject"; break;
+   case "Accès catégorie(s)": $tmp = "Access catégories"; break;
    case "Accueil": $tmp = "Home"; break;
    case "Administration d'Agenda": $tmp = "Administration Diary"; break;
    case "Agenda": $tmp = "Diary"; break;
@@ -120,7 +120,7 @@ function ag_translate($phrase) {
    case "Mail du receveur": $tmp = "Mail recipient"; break;
    case "Mar": $tmp = "Tue"; break;
    case "Mars": $tmp = "March"; break;
-   case "MARS": $tmp = "MARS"; break;
+   case "MARS": $tmp = "MARCH"; break;
    case "Mer": $tmp = "Wen"; break;
    case "Merci de votre contribution, un administrateur la validera rapidement.": $tmp = "Thank you for your contribution, the Administrator will validate quickly."; break;
    case "Modification évènement pour agenda": $tmp = "Change event for agenda"; break;

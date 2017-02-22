@@ -47,7 +47,7 @@ $obsol=1;
 $mess_no_result='[french]Aucune annonce ne correspond à votre recherche[/french] [english]No ads found corresponding to your search[/english]';
 
 // chapeau de la page d'accueil
-$mess_acc='<h2><img src="modules/npds_annonces/npds_annonces.png" alt="icon_npds_annonces"> [french]Petite(s) annonce(s)[/french] [english]Offer(s)[/english]  '.$Titlesitename.'</h2>';
+$mess_acc='<h2><img src="modules/npds_annonces/npds_annonces.png" alt="icon_npds_annonces"> [french]Petite(s) annonce(s)[/french] [english]Offer(s)[/english]</h2>';
 
 // chapeau de la page de choix d'un utilisateur
 $del_sup_chapo='[french]A partir de cette page, vous pouvez ajouter, modifier ou supprimer vos annonce(s)[/french] [english]From this page you can add, modify or delete your ad (s)[/english]';

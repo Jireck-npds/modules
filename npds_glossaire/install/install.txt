@@ -1,36 +1,40 @@
-----------------------------------------------------------------------
-Installation : TD-Glossaire V2.3
-Créateur: tribal-dolphin, développeur
-Date: 16/12/2008
-Support: http://modules.npds.org
-----------------------------------------------------------------------
-De base :
- - Créer un sous répertoire [td-glossaire] dans le répertoire modules
- - Créer la table td-glossaire à l'aide de glossaire.sql
 
-Associé à Meta-lang et à infobulle :
- - rajouter dans le fichier header_head la ligne suivante EN DESSOUS DE la base fermante php : ?> (c'est de l'HTML que nous incluons)
-   <link href="modules/td-glossaire/css/style.css" title="default" rel="stylesheet" type="text/css" media="all" />
+/************************************************************************/
+/* DUNE by NPDS                                                         */
+/*======================================================================*/
+/* From Glossaire version 1.3 pour myPHPNuke 1.8                        */
+/* Copyright Â© 2001, Pascal Le Boustouller                              */
+/* Tribal-dolphin 2008                                                  */
+/* This version name NPDS Copyright (c) 2001-2017 by Philippe Brunier   */
+/*                                                                      */
+/* module npds_glossaire v 3.0 pour revolution 16                       */
+/* by team jpb/phr 2017                                                 */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/************************************************************************/
 
-
- - Dans l'administration de td-glossaire / liste des définitions - Vous n'avez ensuite plus qu'à cliquer sur "Meta" pour transférer
-   votre terme, sa définition et le lien associé dans meta-lang !
- - Si vous éditer le terme : il faudra refaire le transfert vers meta-lang
- - Si vous supprimer le terme : il ne sera pas supprimé automatiquement de meta-lang (passer par l'admin de meta-lang pour ce faire) 
-----------------------------------------------------------------------
 
 ----------------------------------------------------------------------
-Lancement : Glossaire
+Installation
 ----------------------------------------------------------------------
- - via une url de type : modules.php?ModPath=td-glossaire&ModStart=glossaire
+Automatique via Module-Install (Admin/Gestion installation des modules)
+
+AssociÃ© Ã  Meta-lang et Ã  infobulle :
+
+ - Dans l'administration de npds_glossaire / liste des dÃ©finitions - Vous n'avez ensuite plus qu'Ã  cliquer sur "Meta" pour transfÃ©rer
+   votre terme, sa dÃ©finition et le lien associÃ© dans meta-lang !
+ - Si vous Ã©ditez le terme : il faudra refaire le transfert vers meta-lang
+ - Si vous supprimer le terme : il ne sera pas supprimÃ© automatiquement de meta-lang (passer par l'admin de meta-lang pour ce faire) 
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Lancement : npds_glossaire
+----------------------------------------------------------------------
+ - via une url de type : modules.php?ModPath=npds_glossaire&ModStart=index
 
 ----------------------------------------------------------------------
 Administration : Glossaire
 ----------------------------------------------------------------------
- - via Admin Plugins en copiant le texte suivant dans admin/extend-modules.txt
-[module]
-   [nom]TD-Glossaire[/nom]
-   [ModPath]td-glossaire[/ModPath]
-   [ModStart]admin/glossadmin[/ModStart]
-   [niveau]radminsuper[/niveau]
-[/module]
+Via l'administration des Plugins - npds_glossaire

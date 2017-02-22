@@ -1,18 +1,19 @@
 <?php
 /************************************************************************/
 /* DUNE by NPDS                                                         */
-/*======================================================================*/
-/* From Glossaire version 1.3 pour myPHPNuke 1.8                        */
-/* Copyright © 2001, Pascal Le Boustouller                              */
 /*                                                                      */
-/* This version name NPDS Copyright (c) 2001-2017 by Philippe Brunier   */
-/*                                                                      */
-/* module npds_glossaire v 3.0 pour revolution 16                       */
-/* by team jpb/phr 2017                                                 */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
+/* Module npds_glossaire v 3.0 pour revolution 16                       */
+/* by team jpb/phr 2017                                                 */
+/*                                                                      */
+/* From Glossaire version 1.3 pour myPHPNuke 1.8                        */
+/* Copyright © 2001, Pascal Le Boustouller                              */
+/* Tribal-dolphin 2008                                                  */
 /************************************************************************/
 
 // For More security
@@ -34,7 +35,7 @@ function glohead() {
 
    include("header.php");
    echo '<div class="card"><div class="card-block">';
-   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.$Titlesitename.'</h2>';
+   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate(Glossaire).'</h2>';
 
    $acounter = sql_query("SELECT count(*) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0'");
    list($acount) = sql_fetch_row($acounter);
@@ -137,7 +138,7 @@ function categ_glo($gcat, $debut) {
       settype($nb_affichage,"integer");
       $TableRep=sql_query("SELECT id, nom, definition, lien FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0' AND gcat='$cate' ORDER BY nom LIMIT $debut,$nb_affichage");
       $top=1;
-      $topsuivant="modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=$cate";
+      $topsuivant="modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=$cate";
 
       if ($top==1) {
       echo '<p class="lead text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> '.$nbe.' '.glo_translate("Réponse(s)").'</p>';
@@ -180,7 +181,7 @@ function rech_lettre($lettre, $gcat, $debut) {
       settype($nb_affichage,"integer");
       $TableRep=sql_query("SELECT id, nom, definition, lien FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0' AND lettre='$lettre'".($cate!=translate("All")?" AND gcat='$cate'":"")." ORDER BY nom LIMIT $debut,$nb_affichage");
       $top=1;
-      $topsuivant="modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=$cate&op=rech_lettre&lettre=$lettre";
+      $topsuivant="modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=$cate&amp;op=rech_lettre&amp;lettre=$lettre";
       if ($top==1) {
       echo '<p class="lead text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> '.$nbe.' '.glo_translate("Réponse(s)").'</p>';
       echo '<table class="table table-sm table-hover">';
@@ -231,7 +232,7 @@ function rech_terme($type, $terme, $debut) {
       settype($nb_affichage,"integer");
       $result = sql_query("SELECT id, nom, definition, lien FROM ".$NPDS_Prefix."td_glossaire WHERE $types AND affiche!='0' ORDER BY nom LIMIT $debut,$nb_affichage");
       $top=1;
-      $topsuivant="modules.php?ModPath=$ModPath&ModStart=$ModStart&op=rech_terme&terme=$terme&type=$type";
+      $topsuivant="modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;op=rech_terme&amp;terme=$terme&amp;type=$type";
       if ($top==1) {
       echo '<p class="lead text-success"><i class="fa fa-info-circle" aria-hidden="true"></i> '.$nbe.' '.glo_translate("Réponse(s)").'</p>';
       echo '<table class="table table-sm table-hover">';
@@ -265,7 +266,7 @@ function tlist($acount) {
    if (($cate == translate("All")) OR ($cate == "")) {
    echo "<i class=\"fa fa-folder-open fa-2x text-muted\"></i> <strong>".translate("All")." ($acount)</strong>\n";
    } else {
-   echo "<a href=\"modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=".translate("All")."&sortby=$sortby\" class=\"\"><i class=\"fa fa-2x fa-folder\"></i> ".translate("All")."</a> ($acount)\n"; 
+   echo "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=".translate("All")."&amp;sortby=$sortby\" class=\"\"><i class=\"fa fa-2x fa-folder\"></i> ".translate("All")."</a> ($acount)\n"; 
    }
    $result = sql_query("SELECT DISTINCT gcat, count(gcat) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0' GROUP BY gcat ORDER BY gcat");
    echo '</div>';
@@ -278,7 +279,7 @@ function tlist($acount) {
    echo "<i class=\"fa fa-folder-open fa-2x text-muted\"></i><span class=\"\"> <strong>$category ($dcount)</strong></span> \n";
     } else {
         $category2 = urlencode($category);
-        echo "<a href=\"modules.php?ModPath=$ModPath&ModStart=$ModStart&gcat=$category2&sortby=$sortby\" class=\"noir\"><i class=\"fa fa-2x fa-folder\"></i> $category</a> ($dcount) \n";
+        echo "<a href=\"modules.php?ModPath=$ModPath&amp;ModStart=$ModStart&amp;gcat=$category2&amp;sortby=$sortby\"><i class=\"fa fa-2x fa-folder\"></i> $category</a> ($dcount) \n";
     }
       echo '</div>';
     if ($rup>=5) {
@@ -294,15 +295,15 @@ function aff_forme_rech() {
    echo '<div class="card-block">';   
    echo '<form action="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'" method="post">';
    echo '<div class="form-group row">';	  
-   echo '<div class="col-sm-2 mt-1"><label for=""><strong>'.glo_translate("Sélectionner").'</strong></div>';
-   echo '<div class="col-sm-4 mb-1"><select class="custom-select" name="type">';
+   echo '<div class="col-md-2 mt-1"><label for=""><strong>'.glo_translate("Sélectionner").'</strong></div>';
+   echo '<div class="col-md-4 mb-1"><select class="custom-select" name="type">';
    echo '<option value="1"> '.glo_translate("Termes")."\n";
    echo '<option value="2"> '.glo_translate("Définitions");
    echo '<option value="3"> '.glo_translate("Termes").' & '.glo_translate("Définitions");
    echo '</select></div>';
    echo '<input type="hidden" name="op" value="rech_terme">';
-   echo '<div class="col-sm-4 mb-1"><input class="form-control" type="text" name="terme" size="13" maxsize="100"></div>';
-   echo '<div class="col-sm-2 mb-1"><input class="btn-outline-primary btn-sm" type="submit" value="'.glo_translate("Valider").'"></div></div>';
+   echo '<div class="col-md-4 mb-1"><input class="form-control" type="text" name="terme" size="13" maxsize="100"></div>';
+   echo '<div class="col-md-2 mb-1"><input class="btn-outline-primary btn-sm" type="submit" value="'.glo_translate("Valider").'"></div></div>';
    echo '</form>';
    echo '</div></div>';
 }
@@ -317,9 +318,9 @@ function aff_alpha($type) {
    $counter = 0;
    while (list(, $ltr) = each($alphabet)) {
       if ($ltr!=translate("Other")) {
-         echo '<a href="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'&gcat='.$gcat.'&op=rech_lettre&lettre='.$ltr.'" class="">'.$ltr.'</a>';
+         echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'&amp;gcat='.$gcat.'&amp;op=rech_lettre&amp;lettre='.$ltr.'" class="">'.$ltr.'</a>';
       } else {
-         echo '<a href="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'&gcat='.$gcat.'&op=rech_lettre&lettre=!AZ" class="">'.$ltr.'</a>';
+         echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'&amp;gcat='.$gcat.'&amp;op=rech_lettre&amp;lettre=!AZ" class="">'.$ltr.'</a>';
       }
       if ( $counter != $num )
          echo ' | ';

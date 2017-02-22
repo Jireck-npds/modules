@@ -17,23 +17,23 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=index*']['title']="[french]Petites Annonces[/french][english]Ads[/english]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=index*']['title']="[french]Petites Annonces[/french][english]Offers[/english]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=index*']['run']="yes";
 
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=list_ann*']['title']="[french]Petites Annonces[/french][english]Ads[/english]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=list_ann*']['title']="[french]Petites Annonces[/french][english]Offers[/english]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=list_ann*']['run']="yes";
 
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annonce_form*']['title']="[french]Petites Annonces[/french][english]Ads[/english]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annonce_form*']['title']="[french]Petites Annonces[/french][english]Offers[/english]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annonce_form*']['run']="yes";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annonce_form*']['TinyMce']=1;
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annonce_form*']['TinyMce-theme']="short";
 
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=modif_ann*']['title']="[french]Petites Annonces[/french][english]Ads[/english]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=modif_ann*']['title']="[french]Petites Annonces[/french][english]Offers[/english]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=modif_ann*']['run']="yes";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=modif_ann*']['TinyMce']=1;
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=modif_ann*']['TinyMce-theme']="short";
 
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=admin*']['title']="[french]Petites Annonces[/french][english]Ads[/english]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=admin*']['title']="[french]Petites Annonces[/french][english]Offers[/english]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=admin*']['run']="yes";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=admin*']['TinyMce']=1;
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=admin*']['TinyMce-theme']="full";

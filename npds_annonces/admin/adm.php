@@ -77,8 +77,6 @@ if (!array_search($table_annonces,$tables)) {
    <div id="adm_men">';
    echo aff_langue($mess_acc);
    echo '
-   <h3>'.ann_translate("Admin P.A").'</h3>
-   <hr />
    <p class="lead">'.ann_translate("Annonces en ligne").'<span class="badge badge-success float-right">'.$num_ann_total.'</span></p>
    <p class="lead">'.ann_translate("Annonces à valider").'<span class="badge badge-danger float-right">'.$num_ann_apub_total.'</span></p>
    <p class="lead">'.ann_translate("Annonces archivées").'<span class="badge badge-default float-right">'.$num_ann_archive_total.'</span></p>

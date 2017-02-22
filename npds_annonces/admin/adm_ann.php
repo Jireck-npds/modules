@@ -130,11 +130,11 @@ if ($action=="Supprimer") {
 
 //id de l'annonce
       echo '<p class="lead">';
-      echo ''.ann_translate("Annonce").' <span class="badge badge-default">ID : '.$id.'</span>';
+      echo ''.ann_translate("Annonce").' ID : <span class="badge badge-default">'.$id.'</span>';
       if ($values['en_ligne']=="1") {
          echo '<span class="badge badge-success float-right">'.ann_translate("En ligne").'</span>';
       } elseif ($values['en_ligne']=="0") {
-         echo '<span class="badge badge-danger float-right">'.ann_translate("En attente").'</span>';
+         echo '<span class="badge badge-danger mt-1 float-right">'.ann_translate("En attente").'</span>';
       } else {
       echo '<span class="badge badge-default float-right">'.ann_translate("En archive").'</span>';
       }
@@ -182,7 +182,7 @@ if ($action=="Supprimer") {
       <div class="form-group row">
          <label for="" class="col-sm-4 form-control-label">'.ann_translate("Catégorie").' <i class="fa fa-asterisk text-danger" aria-hidden="true"></i></label>
          <div class="col-sm-8">
-            <select class="form-control custom-select" name="Xid_cat">';
+            <select class="custom-select" name="Xid_cat">';
 
       $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
       while($e= sql_fetch_assoc($select)) {
@@ -224,7 +224,7 @@ if ($action=="Supprimer") {
 //boutons supp modif
       echo '
          <div class="form-group row">
-            <div class="col-md-1"><button class="btn btn-outline-primary btn-sm" type="submit" name="action" value="Valider">'.ann_translate("Valider").'</button></div>
+            <div class="col-md-1"><button class="btn btn-outline-primary btn-sm mb-1" type="submit" name="action" value="Valider">'.ann_translate("Valider").'</button></div>
             <div class="col-md-1"><button class="btn btn-outline-danger btn-sm" type="submit" name="action" value="Supprimer">'.ann_translate("Supprimer").'</button></div>
          </div>
       </form>';

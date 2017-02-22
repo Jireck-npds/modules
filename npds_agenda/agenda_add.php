@@ -1,15 +1,18 @@
 <?php
-/*************************************************/
-/* NPDS : Net Portal Dynamic System              */
-/* ==========================                    */
-/*                                               */
-/*                                               */
-/* Module npds_agenda                            */
-/* Version 2.0                                   */
-/* Auteur Oim                                    */
-/* Renommé npds_agenda version rev 16            */
-/* repris par jpb/phr avril 2016                 */
-/*************************************************/
+/************************************************************************/
+/* DUNE by NPDS                                                         */
+/*                                                                      */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
+/* Module npds_agenda 2.0                                               */
+/*                                                                      */
+/* Auteur Oim                                                           */
+/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
+/************************************************************************/
 
 // For More security
 if (!stristr($_SERVER['PHP_SELF'],"modules.php")) { die(); }
@@ -29,41 +32,42 @@ function ajout($month, $an, $debut)
 	global $ThisFile, $user, $cookie, $menu, $bouton;
 
 //Debut securite
-	settype($month,"integer");
-	settype($an,"integer");
-	$debut = removeHack($debut);
-	$fin = removeHack($fin);
+   settype($month,"integer");
+   settype($an,"integer");
+   $debut = removeHack($debut);
+   $fin = removeHack($fin);
 // Fin securite
-	
-	echo '<form method="post" action="modules.php" name="adminForm">'
-	.'<input type="hidden" name="ModPath" value="'.$ModPath.'" />'
-	.'<input type="hidden" name="ModStart" value="'.$ModStart.'" />'
-	.'<input type="hidden" name="debut" value="'.$debut.'" />';
-   
+
+   echo '<form method="post" action="modules.php" name="adminForm">
+   <input type="hidden" name="ModPath" value="'.$ModPath.'">
+   <input type="hidden" name="ModStart" value="'.$ModStart.'">
+   <input type="hidden" name="debut" value="'.$debut.'">';   
    cal($month, $an, $debut);
-   	echo '<fieldset class="form-group">';
-	if ($debut != '')
-	{
-		echo '<label><strong>'.ag_trad('Jours séléctionnés').'&nbsp;:</strong></label>';
-      echo '<ul class="list-group">';
-		$name = explode(",",$debut);
+   echo '<fieldset class="form-group">';
+   if ($debut != '')
+   {
+   echo '<label><strong>'.ag_translate('Jour(s) séléctionné(s)').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>';
+   echo '<ul class="list-inline">';
+   $name = explode(",",$debut);
 		for ($i = 0; $i < sizeof($name); $i++ )
 		{
-			echo '<li class="list-group-item">'.formatfrancais($name[$i]).'<span class="pull-xs-right"><a href="'.$ThisFile.'&amp;subop=retire&amp;ladate='.$name[$i].'&amp;debut='.$debut.'&amp;month='.$month.'&amp;an='.$an.'" class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a></span></li>';
+			echo '<li class="list-inline-item"><span class="badge badge-default">'.formatfrancais($name[$i]).'</span><a class="text-danger mx-2" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate("Supprimer").'" href="'.$ThisFile.'&amp;subop=retire&amp;ladate='.$name[$i].'&amp;debut='.$debut.'&amp;month='.$month.'&amp;an='.$an.'"><i class="fa fa-window-close" aria-hidden="true"></i></a></li>';
 		}
       echo '</ul>';
 	}
 	else
 	{
-		echo '<p class="lead">'.ag_trad('Pour ajouter des dates, utilisez le calendrier en naviguant de mois en mois avec les flèches et en cliquant sur les jours').'.&nbsp;<span class="text-danger">*</span></p>';
+		echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Pour ajouter des dates, sélectionner le(s) jour(s) dans le calendrier').'<i class="fa fa-asterisk text-danger ml-2" aria-hidden="true"></i></p>';
 	}
    echo '</fieldset>';
-	echo '<fieldset class="form-group">'
-	.'<label for=""><strong>'.ag_trad('Sujet').'&nbsp;<span class="text-danger">*</span></strong></label>'
-	.'<select class="form-control c-select" name="topicid">';
-	/*Requete liste categorie*/
+
+   echo '<fieldset class="form-group">
+   <label class="mr-sm-2" for=""><strong>'.ag_translate('Sujet').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+	<select class="custom-select" name="topicid">';
+
+/*Requete liste categorie*/
 	$toplist = sql_query("SELECT topicid, topictext FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext");
-	echo '<option value="">'.aff_langue('Liste des sujets disponibles').'</option>';
+	echo '<option value="">'.aff_langue('Choix catégorie').'</option>';
 	while(list($topicid, $topics) = sql_fetch_row($toplist))
 	{
 		$topics = stripslashes(aff_langue($topics));
@@ -74,26 +78,25 @@ function ajout($month, $an, $debut)
 		echo '<option '.$sel.' value="'.$topicid.'">'.$topics.'</option>';
 		$sel = "";
 	}
-	echo '</select>'
-	.'</fieldset>';
+	echo '</select>
+	</fieldset>';
 
-	echo '<fieldset class="form-group">'
-	.'<label for=""><strong>'.ag_trad('Titre').'&nbsp;<span class="text-danger">*</span></strong></label>'
-	.'<input type="hidden" name="groupvoir" value="0" />'
-	.'<input class="form-control" name="titre">'
-	.'</fieldset>'
-	.'<fieldset class="form-group">'
-	.'<label for=""><strong>'.ag_trad('Résumé de l\'évènement').'&nbsp;<span class="text-danger">*</span></strong></label>'
-	.'<textarea class="tin form-control" rows="" name="desc"></textarea>'
-	.'</fieldset>'
-	.'<fieldset class="form-group">'
-	.'<label for=""><strong>'.ag_trad('Description complète').'&nbsp;<span class="text-danger">*</span></strong></label>'
-	.'<textarea class="tin form-control" name="longdesc" rows=""></textarea>';
-
-   echo aff_editeur("longdesc", "true");
-	echo '</fieldset>'
-	.'<fieldset class="form-group">'
-	.'<label for=""><strong>'.ag_trad('Lieu').'</strong></label>';
+	echo '<fieldset class="form-group">
+	<label for=""><strong>'.ag_translate('Titre').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+	<input type="hidden" name="groupvoir" value="0">
+	<input class="form-control" name="titre">
+	</fieldset>';
+	echo '<fieldset class="form-group">
+	<label for=""><strong>'.ag_translate('Résumé de l\'évènement').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+	<textarea class="tin form-control" rows="" name="desc"></textarea>
+	</fieldset>';
+	echo '<fieldset class="form-group">
+	<label for=""><strong>'.ag_translate('Description complète').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+	<textarea class="tin form-control" name="longdesc" rows=""></textarea>';
+    echo aff_editeur("longdesc", "true");
+	echo '</fieldset>';
+	echo '<fieldset class="form-group">
+	<label for=""><strong>'.ag_translate('Lieu').'</strong><span class="text-danger mx-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>';
 	if ($bouton == '1')
 	{
 		echo '<input class="form-control" type="text" name="lieu">';
@@ -101,22 +104,22 @@ function ajout($month, $an, $debut)
 	else
 	{
 		include('modules/'.$ModPath.'/recherche/'.$bouton.'.php');
-		echo '<select class="form-control c-select" name="lieu">'
-		.'<option>'.ag_trad('Sélectionner un département dans la liste').'</option>';
+		echo '<select class="custom-select" name="lieu">'
+		.'<option>'.ag_translate('Sélection région ou département').'  </option>';
 		foreach($try as $na)
 		{
 			echo '<option value="'.$na.'">'.$na.'</option>';
 		}
 		echo '</select>';
 	}
-	echo '</fieldset>'
-	.'<input type="hidden" name="member" value="'.$cookie[1].'" />'
-	.'<input type="hidden" name="subop" value="catcreer" />'
-	.'<input class="btn btn btn-primary btn-sm" type="submit" value="'.ag_trad('Ajouter l\'Evènement').'" />'
-	.'</form>'
-	.'<br />'
-   .'<p><a class="btn btn-outline-primary btn-sm" href="javascript:history.back()">'.ag_trad('Retour').'</a></p>';
+	echo '</fieldset>';
+	echo '
+	<input type="hidden" name="member" value="'.$cookie[1].'">
+	<input type="hidden" name="subop" value="catcreer">
+	<button type="submit" class="btn btn btn-outline-primary btn-sm"><i class="fa fa-check"></i> '.ag_translate('Valider').'</button>
+	</form>';
 	
+	echo '<div class="float-right"><a class="btn btn-secondary btn-sm" href="javascript:history.back()">'.ag_translate('Retour').'</a></div>';
 }
 /// FIN AJOUT ///
 
@@ -161,45 +164,45 @@ function cal($month, $an, $debut)
 	}
 	/*Affichage du mois et annee*/
 	$mois_de_annee = array(
-		''.ag_trad('Janvier').'',
-		''.ag_trad('Février').'',
-		''.ag_trad('Mars').'',
-		''.ag_trad('Avril').'',
-		''.ag_trad('Mai').'',
-		''.ag_trad('Juin').'',
-		''.ag_trad('Juillet').'',
-		''.ag_trad('Août').'',
-		''.ag_trad('Septembre').'',
-		''.ag_trad('Octobre').'',
-		''.ag_trad('Novembre').'',
-		''.ag_trad('Décembre').'');
+		''.ag_translate('Janvier').'',
+		''.ag_translate('Février').'',
+		''.ag_translate('Mars').'',
+		''.ag_translate('Avril').'',
+		''.ag_translate('Mai').'',
+		''.ag_translate('Juin').'',
+		''.ag_translate('Juillet').'',
+		''.ag_translate('Août').'',
+		''.ag_translate('Septembre').'',
+		''.ag_translate('Octobre').'',
+		''.ag_translate('Novembre').'',
+		''.ag_translate('Décembre').'');
 	$mois_en_clair = $mois_de_annee[$month - 1];
 	/*Creation tableau a 31 entree sans reservation*/
 	for($j = 1; $j < 32; $j++)
 	{
 		$tab_jours[$j] = (bool)false;
 	}
-	echo '<h3 class="text-xs-center">'
-	.'<a href="'.$ThisFile.'&amp;month='.$mois_prec.'&amp;an='.$an_prec.'&amp;debut='.$debut.'" class="btn btn-lg"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>'
-	.'<span class="label label-default">'.$mois_en_clair.'&nbsp;'.$an.'</span>'
-	.'<a href="'.$ThisFile.'&amp;month='.$mois_suivant.'&amp;an='.$an_suivant.'&amp;debut='.$debut.'" class="btn btn-lg"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>'
-	.'</h3>';
+	echo '<h4 class="text-center">
+	<a href="'.$ThisFile.'&amp;month='.$mois_prec.'&amp;an='.$an_prec.'&amp;debut='.$debut.'" class="mr-2"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+	<span class="label label-default">'.$mois_en_clair.'&nbsp;'.$an.'</span>
+	<a href="'.$ThisFile.'&amp;month='.$mois_suivant.'&amp;an='.$an_suivant.'&amp;debut='.$debut.'" class="ml-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+	</h4>';
 
-	echo '<table class="table table-bordered table-sm">'
-   .'<thead class="thead-default">'
-	.'<tr class="">'
-	.'<th class="text-xs-center">'.ag_trad('Sem').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('L').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('M').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('M ').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('J').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('V').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('S').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('D').'</th>'
-	.'</tr>'
-   .'</thead>'
-   .'<tbody>'
-	.'<tr class="text-xs-center">';
+	echo '<table class="table table-bordered table-sm">
+    <thead class="thead-default">
+	<tr>
+	<th class="text-center">'.ag_translate('Sem').'</th>
+	<th class="text-center">'.ag_translate('L').'</th>
+	<th class="text-center">'.ag_translate('M').'</th>
+	<th class="text-center">'.ag_translate('M ').'</th>
+	<th class="text-center">'.ag_translate('J').'</th>
+	<th class="text-center">'.ag_translate('V').'</th>
+	<th class="text-center">'.ag_translate('S').'</th>
+	<th class="text-center">'.ag_translate('D').'</th>
+	</tr>
+    </thead>
+    <tbody>
+	<tr class="text-center">';
 	/*Detection du 1er et dernier jour du mois*/
 	$nombre_date = mktime(0,0,0, $month, 1, $an);
 	$premier_jour = date('w', $nombre_date);
@@ -223,12 +226,12 @@ function cal($month, $an, $debut)
 		/*Calcul numero semaine +0 pour enlever le 0 de 01,02,...*/
 		$semaine0 = $semaine + 0;
 		$semaine1 = $semaine + 1;
-		echo '<td class="">'.$semaine0.'</td>';
+		echo '<td class="text-center">'.$semaine0.'</td>';
 		/*Boucle pour les 6 premieres colonnes/jours*/
 		for ($debutdimanche = 1; $debutdimanche <= 6; $debutdimanche++)
 		{
 			/*Si case calendrier vide*/
-			echo '<td class="">&nbsp;</td>'; 
+			echo '<td class="text-center">&nbsp;</td>'; 
 		}
 		/*Permet la naviguation du calendrier*/
 		$date = ajout_zero(01, $month, $an);
@@ -244,28 +247,28 @@ function cal($month, $an, $debut)
 		$pos = strpos($debut, $date);
 		if ($pos === false)
 		{
-			echo '<td class="text-xs-center"><a href="'.$ThisFile.'&amp;month='.$month.'&amp;an='.$an.'&amp;debut='.$newlien.'">1</a></td>';
+			echo '<td class="text-center"><a href="'.$ThisFile.'&amp;month='.$month.'&amp;an='.$an.'&amp;debut='.$newlien.'">1</a></td>';
 		}
 		else
 		{
-			echo '<td class="text-xs-center">1</td>';
+			echo '<td class="text-center">1</td>';
 		}
-		echo '</tr>'
-		.'<tr class="text-xs-center">';
+		echo '</tr>
+		<tr>';
 	}
 	else
 	{
 		/*Calcul numero semaine +0 pour enlever le 0 de 01,02,...*/
 		$semaine1 = $semaine + 0;
 	}
-	echo '<td class="text-xs-center ag_sem">'.$semaine1.'</td>';
+	echo '<td class="text-center">'.$semaine1.'</td>';
 	/*7 premiers jour du mois*/
 	for ($i = 1; $i < 8; $i++)
 	{
 		/*Si case calendrier vide*/
 		if ($i < $premier_jour)
 		{
-			echo '<td class="text-xs-center">&nbsp;</td>';
+			echo '<td class="text-center">&nbsp;</td>';
 		}
 		else
 		{
@@ -285,11 +288,11 @@ function cal($month, $an, $debut)
 			$pos = strpos($debut, $date);
 			if ($pos === false)
 			{
-				echo '<td class="text-xs-center"><a href="'.$ThisFile.'&amp;month='.$month.'&amp;an='.$an.'&amp;debut='.$newlien.'">'.$ce_jour.'</a></td>';
+				echo '<td class="text-center"><a href="'.$ThisFile.'&amp;month='.$month.'&amp;an='.$an.'&amp;debut='.$newlien.'">'.$ce_jour.'</a></td>';
 			}
 			else
 			{
-				echo '<td class="text-xs-center">'.$ce_jour.'</td>';
+				echo '<td class="text-center">'.$ce_jour.'</td>';
 			}
 		}
 	}
@@ -302,13 +305,13 @@ function cal($month, $an, $debut)
 		/*Calcul numero semaine*/
 		$semaine2 = $semaine1 + $rangee + 1;
 		if ($semaine2 == 53){$semaine2 = "01";}
-		echo '<td class="text-xs-center">'.$semaine2.'</td>';
+		echo '<td class="text-center">'.$semaine2.'</td>';
 		for ($i = 1; $i < 8; $i++)
 		{
 			if($jour_suiv > $dernier_jour)
 			{
 				/*Case avec class pour vide*/
-				echo '<td class="text-xs-center">&nbsp;</td>';
+				echo '<td class="text-center">&nbsp;</td>';
 			}
 			else
 			{
@@ -326,19 +329,19 @@ function cal($month, $an, $debut)
 				$pos = strpos($debut, $date);
 				if ($pos === false)
 				{
-					echo '<td class="text-xs-center"><a href="'.$ThisFile.'&amp;month='.$month.'&amp;an='.$an.'&amp;debut='.$newlien.'">'.$jour_suiv.'</a></td>';
+					echo '<td class="text-center"><a href="'.$ThisFile.'&amp;month='.$month.'&amp;an='.$an.'&amp;debut='.$newlien.'">'.$jour_suiv.'</a></td>';
 				}
 				else
 				{
-					echo '<td class="text-xs-center">'.$jour_suiv.'</td>';
+					echo '<td data-toggle="tooltip" data-placement="bottom" title="Réservée" class="text-center font-weight-bold alert alert-info">'.$jour_suiv.'</td>';
 				}
 			}
 			$jour_suiv++;
 		}
 	}
-	echo '</tr>'
-   .'</tbody>'
-	.'</table>';
+	echo '</tr>
+   </tbody>
+	</table>';
 }
 /// FIN AFFICHAGE CALENDRIER ///
 /// DEBUT VALID AJOUT ///
@@ -359,119 +362,106 @@ function catcreer ($debut, $topicid, $groupvoir, $titre, $desc, $longdesc, $lieu
 	/*Fin securite*/
 	
 	echo $menu;
-	if ($debut == '' || $topicid == '' || $titre == '' || $desc == '' || $longdesc == '')
+	if ($debut == '' || $topicid == '' || $titre == '' || $desc == '' || $longdesc == '' || $lieu == '')
 	{
-		echo '<p class="text-danger">'.ag_trad('Vous n\'avez pas rempli les champs obligatoires').'</p><br />'
-		.'<p class=""><a class="btn btn-primary" href="javascript:history.back()">'.ag_trad('Retour').'</a></p>';
+		echo '<p class="lead text-danger"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Vous n\'avez pas rempli les champs obligatoires').'</p>
+		<div class="float-right"><a class="btn btn-secondary btn-sm" href="javascript:history.back()">'.ag_translate('Retour').'</a></div>';
 	}
 	else
 	{
-		/*Enregistrement demande*/
-		$result = sql_query("INSERT INTO ".$NPDS_Prefix."agend_dem SET id = '', titre = '$titre', intro = '$desc', descript = '$longdesc', lieu = '$lieu', topicid = '$topicid', posteur = '$member', groupvoir = '$groupvoir', valid = '$valid'");
-		/*Recupere id demande*/
-		$result1 = sql_query("SELECT id FROM ".$NPDS_Prefix."agend_dem ORDER BY id DESC LIMIT 0,1");
-		list($sid) = sql_fetch_row($result1);
-		$namel = explode(",",$debut);
-		sort($namel);
-		for ($i = 0; $i < sizeof($namel); $i++)
-		{
-			/*Insertion des dates*/
-			$query = "INSERT INTO ".$NPDS_Prefix."agend values ('', '$namel[$i]', '$sid')";
-			sql_query($query) or die(sql_error());
-		}
-		if ($query)
-		{
-			/*Envoie mail si actif dans config*/
-			if ($courriel == 1 || $receveur != '')
-			{
-				$subject = ag_trad('Evènement nouveau pour agenda');
-				$message = ag_trad('Un Evènement nouveau est à valider pour l\'agenda.');
-				send_email($receveur,$subject, $message, "", true, "html");
-			}
-			if ($valid == 3)
-			{
-				echo '<p class="lead">'.ag_trad('Merci de votre contribution, un administrateur la validera rapidement.').'</p>';
-			}
-			else if ($valid == 1)
-			{
-				echo '<p class="lead">'.ag_trad('Votre nouvel évènement &agrave; bien été ajouté &agrave; l\'agenda.').'</p>';
-			}
-		}
-	}
+
+/*Enregistrement demande*/
+   $result = sql_query("INSERT INTO ".$NPDS_Prefix."agend_dem SET id = '', titre = '$titre', intro = '$desc', descript = '$longdesc', lieu = '$lieu', topicid = '$topicid', posteur = '$member', groupvoir = '$groupvoir', valid = '$valid'");
+
+/*Recupere id demande*/
+   $result1 = sql_query("SELECT id FROM ".$NPDS_Prefix."agend_dem ORDER BY id DESC LIMIT 0,1");
+   list($sid) = sql_fetch_row($result1);
+   $namel = explode(",",$debut);
+   sort($namel);
+   for ($i = 0; $i < sizeof($namel); $i++)
+   {
+
+/*Insertion des dates*/
+   $query = "INSERT INTO ".$NPDS_Prefix."agend values ('', '$namel[$i]', '$sid')";
+   sql_query($query) or die(sql_error());
+   }
+   if ($query)
+   {
+
+/*Envoie mail si actif dans config*/
+   if ($courriel == 1 || $receveur != '')
+   {
+   $subject = ag_translate('Evènement nouveau dans agenda');
+   $message = ag_translate('Un Evènement nouveau est à valider dans l\'agenda.');
+   send_email($receveur,$subject, $message, "", true, "html");
+   }
+   if ($valid == 3)
+   {
+   echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Merci pour votre contribution, un administrateur la validera rapidement').'</p>';
+   }
+   else if ($valid == 1)
+   {
+   echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Votre nouvel évènement à bien été ajouté à l\'agenda').'</p>';
+   }
+   }
+   }
 }
-/// FIN VALID AJOUT ///
-/// DEBUT RETIRE DATE ///
+// FIN VALID AJOUT
+
+// DEBUT RETIRE DATE
 function retire($ladate, $debut, $month, $an)
 {
-	global $ThisRedo;
-	/*Debut securite*/
-	settype($id,"integer");
-	settype($month,"integer");
-	settype($an,"integer");
-	$debut = removeHack($debut);
-	/*Fin securite*/
-	/*On rajoute une virgule quon enleve apres sinon double virgules*/
-	$debut1 = ''.$debut.',';
-	$newdebut = str_replace("$ladate,", "", "$debut1");
-	$newdebut = substr("$newdebut", 0, -1);
-	redirect_url(''.$ThisRedo.'&subop=editevt&month='.$month.'&an='.$an.'&debut='.$newdebut.'');
+   global $ThisRedo;
+   /*Debut securite*/
+   settype($id,"integer");
+   settype($month,"integer");
+   settype($an,"integer");
+   $debut = removeHack($debut);
+   /*Fin securite*/
+
+/*On rajoute une virgule qu'on enlève après sinon double virgules*/
+   $debut1 = ''.$debut.',';
+   $newdebut = str_replace("$ladate,", "", "$debut1");
+   $newdebut = substr("$newdebut", 0, -1);
+   redirect_url(''.$ThisRedo.'&subop=editevt&month='.$month.'&an='.$an.'&debut='.$newdebut.'');
 }
-/// FIN RETIRE DATE ///
-////////////////////
-/// FIN FONCTION ///
-////////////////////
+// FIN RETIRE DATE
+
+/// FIN FONCTION
 
 //Affichage de la page
 
-	if (file_exists('modules/'.$ModPath.'/admin/pages.php'))
-	{
-		include ('modules/'.$ModPath.'/admin/pages.php');
-	}
-	global $pdst, $language, $tiny_mce, $cookie;
+include ('modules/'.$ModPath.'/admin/pages.php');
+include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
+include('modules/'.$ModPath.'/admin/config.php');
+include_once('modules/'.$ModPath.'/ag_fonc.php');
+include('header.php');
 
-	if (file_exists('modules/'.$ModPath.'/lang/'.$language.'.php'))
-	{
-		include_once('modules/'.$ModPath.'/lang/'.$language.'.php');
-	}
-	else
-	{
-		include_once('modules/'.$ModPath.'/lang/french.php');
-	}
-	/*Parametres utilises par le script*/
-	$ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
-	$ThisRedo = 'modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'';
+/*Parametres utilises par le script*/
+   $ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
+   $ThisRedo = 'modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'';
 
-	include('modules/'.$ModPath.'/admin/config.php');
-	include_once('modules/'.$ModPath.'/ag_fonc.php');   
-   
-	include('header.php');
-	echo '<div class="card"><div class="card-block">';
-   
-	echo '<p><a class="btn btn-outline-primary btn-sm pull-xs-right" href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier"><i class="fa fa-home" aria-hidden="true"></i> '.ag_trad('L\'agenda').'</a></p>'
-	.'<h3><i class="fa fa-plus" aria-hidden="true"></i> '.ag_trad('Ajouter un évènement').'</a></h3>';
-	
-  
-   /*Si membre appartient au bon groupe*/
-   
-   if(autorisation($gro))
-	{
-		switch($subop)
-		{
-			default:
-				ajout($month, $an, $debut);
-			break;
-			case 'catcreer':
-				catcreer ($debut, $topicid, $groupvoir, $titre, $desc, $longdesc, $lieu, $statut, $member);
-			break;
-			case 'retire':
-				retire($ladate, $debut, $month, $an);
-			break;
-		}
-	}
-	else
-	{
-		redirect_url('index.php');
-	}
+echo '<div class="card"><div class="card-block">';
+echo '<h4><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Proposer un évènement').'</h4>';
+
+/*Si membre appartient au bon groupe*/
+
+   if(autorisation($gro)) {
+   switch($subop) {
+   default:
+   ajout($month, $an, $debut);
+      break;
+   case 'catcreer':
+   catcreer ($debut, $topicid, $groupvoir, $titre, $desc, $longdesc, $lieu, $statut, $member);
+      break;
+   case 'retire':
+   retire($ladate, $debut, $month, $an);
+      break;
+   }
+   }
+   else {
+   redirect_url('index.php');
+   }
    echo '</div></div>';
-	include('footer.php');
+   include('footer.php');
 ?>

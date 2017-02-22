@@ -18,32 +18,35 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 /// DEBUT FONCTION ///
 //////////////////////
 
-/// DEBUT LISTE SUJET ///
-function suj()
-{	global $NPDS_Prefix, $ModPath, $theme, $bouton;
+/// DEBUT FONCTION LISTE SUJET ///
+function suj() {
+	global $NPDS_Prefix, $ModPath, $theme, $bouton;
 	global $ThisRedo, $ThisFile, $gro;
 	/*debut theme html partie 1/2*/
 //	$inclusion = false;
 
-		$inclusion = "modules/".$ModPath."/html/sujet.html";
+$inclusion = "modules/".$ModPath."/html/sujet.html";
 
-	/*fin theme html partie 1/2*/
-	/*Si membre appartient au bon groupe*/
-	if(autorisation($gro))
-	{
+/*fin theme html partie 1/2*/
+
+/*Si membre appartient au bon groupe*/
+	if(autorisation($gro)) {
 		$ajeven = '
-         <div class="btn-group" role="group" aria-label="">
-            <a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_trad('Vos ajouts').'</a>
-         </div>
-         <div class="btn-group" role="group" aria-label="">
-            <a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_trad('Ajouter un évènement').'</a>
-         </div>';
+         <li class="nav-item">
+            <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_translate('Vos ajouts').'</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evènement').'</a>
+         </li>';
 	}
 
-	$accesuj = '<label><strong>'.ag_trad('Accès direct à un sujet').'</strong></label>'
-	.'<select class="form-control c-select" onchange="window.location=(\''.$ThisRedo.'&subop=listsuj&sujet='.$stopicid.'\'+this.options[this.selectedIndex].value)">'
-	.'<option>'.aff_langue('Liste des sujets disponibles').'</option>';
-	/*Requete liste sujet*/
+//Accès direct à un sujet
+	
+	$accesuj = '<li class="nav-item ml-3">
+	<select class="custom-select" onchange="window.location=(\''.$ThisRedo.'&subop=listsuj&sujet='.$stopicid.'\'+this.options[this.selectedIndex].value)">
+	<option>'.aff_langue('Accès catégorie(s)').'</option>';
+
+/*Requete liste sujet*/
 	$result = sql_query("SELECT topicid, topictext FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext ASC"); 
 	while(list($stopicid, $topictext) = sql_fetch_row($result))
 	{
@@ -52,36 +55,38 @@ function suj()
 	}
 	if($bouton == '1')
 	{
-		$rech = ''.ag_trad('Par ville').'';
+		$rech = ag_translate('Par ville');
 	}
 	else
 	{
-		$rech = ''.ag_trad('Par').'&nbsp;'.$bouton.'';
+		$rech = ''.ag_translate('Par').'&nbsp;'.$bouton.'';
 	}
-	$accesuj .= '</select>';
-     
-	$vuannu ='<div class="btn-group" role="group" aria-label="">
-               <a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annee">'.ag_trad('Vue annuelle').'</a>
-            </div>';
+	$accesuj .= '</select></li>';
+	
+// fin Accès direct à un sujet
 
-	$vulieu ='<div class="btn-group" role="group" aria-label="">
-               <a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=lieu">'.$rech.'</a>
-            </div>';
+	$vuannu ='<li class="nav-item">
+               <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annee">'.ag_translate('Vue annuelle').'</a>
+            </li>';
+
+	$vulieu ='<li class="nav-item">
+               <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=lieu">'.$rech.'</a>
+            </li>';
    
-	/*debut theme html partie 2/2*/
+/*debut theme html partie 2/2*/
 	ob_start();
 	include ($inclusion);
 	$Xcontent = ob_get_contents();
 	ob_end_clean();
 	$npds_METALANG_words = array(
-		"'!titre!'i"=>"<a class=\"btn btn-outline-primary btn-sm pull-xs-right\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_trad("Agenda")."</a>",
+		"'!titre!'i"=>"<a class=\"btn btn-outline-primary btn-sm\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_translate("Agenda")."</a>",
 		"'!ajeven!'i"=>"$ajeven",
 		"'!accesuj!'i"=>"$accesuj",
 		"'!vuannu!'i"=>"$vuannu",
 		"'!vulieu!'i"=>"$vulieu"
 	);
 	echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words),array_values($npds_METALANG_words), $Xcontent)));
-	/*fin theme html partie 2/2*/
+/*fin theme html partie 2/2*/
 }
 /// FIN LISTE SUJET ///
 
@@ -110,11 +115,11 @@ function listsuj($an)
 
 
 
-	echo '<h3 class="text-xs-center">'
-	.'<a class="btn btn-lg" href="'.$ThisFile.'&amp;an='.$prec.'"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>'
-	.'<a href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier&month=01&an='.$an.'"><span class="label label-default">'.ag_trad('Année').'&nbsp;'.$an.'</span></a>'
-	.'<a class="btn btn-lg" href="'.$ThisFile.'&amp;an='.$suiv.'"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>'
-   .'</h3>';
+	echo '<h4 class="text-center">
+	<a class="mr-2" href="'.$ThisFile.'&amp;an='.$prec.'"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+	<a href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier&month=01&an='.$an.'"><span class="label label-default">'.ag_translate('Année').' '.$an.'</span></a>
+	<a class="ml-2" href="'.$ThisFile.'&amp;an='.$suiv.'"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+   </h4>';
 	echo '<div class="row">';
   
 	for ($month = 1; $month < 4; $month++)
@@ -147,8 +152,8 @@ function listsuj($an)
 		calend($an, $month);
 		echo '</div>';
 	}
-	echo '</div>'
-	.'<br />';
+	echo '</div>
+	<br />';
 	/*debut theme html partie 2/2*/
 	ob_start();
 	include ($inclusion);
@@ -158,7 +163,6 @@ function listsuj($an)
 	);
 	echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words),array_values($npds_METALANG_words), $Xcontent)));
 	/*fin theme html partie 2/2*/
-	Closetable();
 }
 /// FIN LISTE EVENEMENT ///
 /// DEBUT CALENDRIER ///
@@ -175,18 +179,18 @@ function calend($an, $month)
 	$an_actuel = date("Y", time());
 	/*Affichage du mois et annee*/
 	$mois_de_annee = array(
-						''.ag_trad('Janvier').'',
-						''.ag_trad('Février').'',
-						''.ag_trad('Mars').'',
-						''.ag_trad('Avril').'',
-						''.ag_trad('Mai').'',
-						''.ag_trad('Juin').'',
-						''.ag_trad('Juillet').'',
-						''.ag_trad('Août').'',
-						''.ag_trad('Septembre').'',
-						''.ag_trad('Octobre').'',
-						''.ag_trad('Novembre').'',
-						''.ag_trad('Décembre').'');
+						''.ag_translate('Janvier').'',
+						''.ag_translate('Février').'',
+						''.ag_translate('Mars').'',
+						''.ag_translate('Avril').'',
+						''.ag_translate('Mai').'',
+						''.ag_translate('Juin').'',
+						''.ag_translate('Juillet').'',
+						''.ag_translate('Août').'',
+						''.ag_translate('Septembre').'',
+						''.ag_translate('Octobre').'',
+						''.ag_translate('Novembre').'',
+						''.ag_translate('Décembre').'');
 	$mois_en_clair = $mois_de_annee[$month - 1];
 	/*Creation tableau a 31 entree sans reservation*/
 	for($j = 1; $j < 32; $j++)
@@ -223,24 +227,24 @@ function calend($an, $month)
 			/*Insertion des jours reserve dans le tableau*/
 			$tab_jours[$jour_reserve] = (bool)true;
 			/*Recupere titre des evenements*/
-			$afftitre[$jour_reserve] .= $titre;
+			$afftitre[$jour_reserve] .= $titre.'&lt;br /&gt;';
 		}
 	}
-	echo '<p class="text-xs-center"><a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$month.'&an='.$an.'">'.$mois_en_clair.'</a></p>';
-   echo '<table class="table table-bordered table-sm table-striped">'
-   .'<thead class="thead-default">'
-	.'<tr >'
-	.'<th class="text-xs-center">'.ag_trad('L').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('M').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('M').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('J').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('V').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('S').'</th>'
-	.'<th class="text-xs-center">'.ag_trad('D').'</th>'
-	.'</tr>'
-   .'</thead>'
-   .'<tbody>'
-	.'<tr>';
+	echo '<p class="text-center"><a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$month.'&an='.$an.'">'.$mois_en_clair.'</a></p>';
+   echo '<table class="table table-bordered table-sm table-striped">
+    <thead class="thead-default">
+	<tr >
+	<th class="text-center">'.ag_translate('L').'</th>
+	<th class="text-center">'.ag_translate('M').'</th>
+	<th class="text-center">'.ag_translate('M').'</th>
+	<th class="text-center">'.ag_translate('J').'</th>
+	<th class="text-center">'.ag_translate('V').'</th>
+	<th class="text-center">'.ag_translate('S').'</th>
+	<th class="text-center">'.ag_translate('D').'</th>
+	</tr>
+    </thead>
+    <tbody>
+	<tr>';
 	/*Detection du 1er et dernier jour du mois*/
 	$nombre_date = mktime(0,0,0, $month, 1, $an);
 	$premier_jour = date('w', $nombre_date);
@@ -260,12 +264,12 @@ function calend($an, $month)
 		for ($debutdimanche = 1; $debutdimanche <= 6; $debutdimanche++)
 		{
 			/*Si case calendrier vide*/
-			echo  '<td class="text-xs-center">&nbsp;</td>'; 
+			echo  '<td class="text-center">&nbsp;</td>'; 
 		}
 		/*Permet la naviguation du calendrier*/
 		$date = ajout_zero(01, $month, $an);
 		/*Met en rouge ce jour*/
-		if ($jour_suiv == $jour_actuel && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger';}else{$cs = 'text-muted';}
+		if ($jour_suiv == $jour_actuel && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger font-weight-bold';}else{$cs = 'text-muted';}
 		/*Si ce premier dimanche est "reserve"*/
 		if($tab_jours[1])
 		{
@@ -274,17 +278,17 @@ function calend($an, $month)
 			else if ($afftitre[$tab_jours[1]] != '' && $fetetitre[$tab_jours[1]] == ''){$cla = 'text-info';}
 			else if ($afftitre[$tab_jours[1]] != '' && $fetetitre[$tab_jours[1]] != ''){$cla = 'text-info';}
 			/*Ajoute le jour et reste sur la meme page + css jour evenement*/
-			echo  '<td class="text-xs-center '.$cla.'">'
-			.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;subop=jour&amp;date='.$date.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($fetetitre[$tab_jours[1]]).''.$afftitre[1].'"><span class="'.$cs.'">1</span></a>'
-			.'</td>';
+			echo  '<td class="text-center '.$cla.'">
+			<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;subop=jour&amp;date='.$date.'" class="" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($fetetitre[$tab_jours[1]]).''.$afftitre[1].'"><span class="'.$cs.'">1</span></a>
+			</td>';
 		}
 		else
 		{
 			//css jour libre
-			echo  '<td class="text-xs-center"><span class="'.$cs.'">1</span></td>';
+			echo  '<td class="text-center"><span class="'.$cs.'">1</span></td>';
 		}
-		echo  '</tr>'
-		.'<tr>';
+		echo  '</tr>
+		<tr>';
 	}
 	/*7 premiers jour du mois*/
 	for ($i = 1; $i < 8; $i++)
@@ -292,7 +296,7 @@ function calend($an, $month)
 		/*Si case calendrier vide*/
 		if ($i < $premier_jour)
 		{
-			echo  '<td class="text-xs-center">&nbsp;</td>';
+			echo  '<td class="text-center">&nbsp;</td>';
 		}
 		else
 		{
@@ -301,7 +305,7 @@ function calend($an, $month)
 			/*Permet la naviguation du calendrier*/
 			$date = ajout_zero($ce_jour, $month, $an);
 			/*Met en rouge ce jour*/
-			if ($jour_suiv == $jour_actuel && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger';}else{$cs = 'text-muted';}
+			if ($jour_suiv == $jour_actuel && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger font-weight-bold';}else{$cs = 'text-muted';}
 			if($tab_jours[$ce_jour])
 			{
 				/*Si jour ferie sans evenement*/
@@ -309,14 +313,14 @@ function calend($an, $month)
 				else if ($afftitre[$ce_jour] != '' && $fetetitre[$ce_jour] == ''){$cla = 'text-info';}
 				else if ($afftitre[$ce_jour] != '' && $fetetitre[$ce_jour] != ''){$cla = 'text-info';}
 				/*Ajoute le jour et reste sur la meme page + css jour evenement*/
-				echo  '<td class="text-xs-center '.$cla.'">'
-				.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;subop=jour&amp;date='.$date.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($fetetitre[$ce_jour]).''.$afftitre[$ce_jour].'"><span class="'.$cs.'">'.$ce_jour.'</span></a>'
-				.'</td>';
+				echo  '<td class="text-center '.$cla.'">
+				<a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($fetetitre[$ce_jour]).''.$afftitre[$ce_jour].'"><span class="'.$cs.'">'.$ce_jour.'</span></a>
+				</td>';
 			}
 			else
 			{
 				//css libre
-				echo  '<td class="text-xs-center"><span class="'.$cs.'">'.$ce_jour.'</span></td>';
+				echo  '<td class="text-center"><span class="'.$cs.'">'.$ce_jour.'</span></td>';
 			}
 		}
 	}
@@ -331,14 +335,14 @@ function calend($an, $month)
 			if($jour_suiv > $dernier_jour)
 			{
 				/*Case avec class pour vide*/
-				echo  '<td class="text-xs-center">&nbsp;</td>';
+				echo  '<td class="text-center">&nbsp;</td>';
 			}
 			else
 			{
 				/*Permet la naviguation du calendrier*/
 				$date = ajout_zero($jour_suiv, $month, $an);
 				/*Met en rouge ce jour*/
-				if ($jour_suiv == $jour_actuel && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger';}else{$cs = 'text-muted';}
+				if ($jour_suiv == $jour_actuel && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger font-weight-bold';}else{$cs = 'text-muted';}
 				/*Case avec class pour reserver*/
 				if($tab_jours[$jour_suiv])
 				{
@@ -347,48 +351,36 @@ function calend($an, $month)
 					else if ($afftitre[$jour_suiv] != '' && $fetetitre[$jour_suiv] == ''){$cla = 'table-info';}
 					else if ($afftitre[$jour_suiv] != '' && $fetetitre[$jour_suiv] != ''){$cla = 'table-info';}
 					/*Ajoute le jour et reste sur la meme page + css jour evenement*/
-					echo  '<td class="text-xs-center '.$cla.'">'
-					.'<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;subop=jour&amp;date='.$date.'" class="" data-toggle="tooltip" data-placement="bottom" title="'.aff_langue($fetetitre[$jour_suiv]).''.$afftitre[$jour_suiv].'"><span class="'.$cs.'">'.$jour_suiv.'</span></a>'
-					.'</td>';
+					echo  '<td class="text-center '.$cla.'">
+					<a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($fetetitre[$jour_suiv]).''.$afftitre[$jour_suiv].'"><span class="'.$cs.'">'.$jour_suiv.'</span></a>
+					</td>';
 				}
 				else
 				{
 					//css libre
-					echo  '<td class="text-xs-center"><span class="'.$cs.'">'.$jour_suiv.'</span></td>';
+					echo  '<td class="text-center"><span class="'.$cs.'">'.$jour_suiv.'</span></td>';
 				}
 			}
 			$jour_suiv++;
 		}
 	}
-	echo  '</tr>'
-   .'</tbody>'
-	.'</table>';
+	echo  '</tr>
+    </tbody>
+	</table>';
 }
 /// FIN CALENDRIER ///
 ////////////////////
 /// FIN FONCTION ///
 ////////////////////
-	/*Debut Retro compatibilité SABLE*/
-	if (!function_exists('sql_connect'))
-	{
-		include ('modules/'.$ModPath.'/retro-compat/mysql.php');
-	} 
-	/*Fin Retro compatibilité SABLE*/
-	if (file_exists('modules/'.$ModPath.'/admin/pages.php'))
-	{
-		include ('modules/'.$ModPath.'/admin/pages.php');
-	}
-	global $pdst, $language;
-	if (file_exists('modules/'.$ModPath.'/lang/'.$language.'.php'))
-	{
-		include_once('modules/'.$ModPath.'/lang/'.$language.'.php');
-	}
-	else
-	{
-		include_once('modules/'.$ModPath.'/lang/french.php');
-	}
+
+
+include ('modules/'.$ModPath.'/admin/pages.php');
+include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
+global $pdst, $language;
+
 	/*Parametres utilises par le script*/
 	$ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
+	$ThisRedo = 'modules.php?ModPath='.$ModPath.'&ModStart=calendrier';
 	include('header.php');
 	include('modules/'.$ModPath.'/admin/config.php');
 	require_once('modules/'.$ModPath.'/ag_fonc.php');

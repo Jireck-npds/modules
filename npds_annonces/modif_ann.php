@@ -50,7 +50,7 @@ if (isset($user)) {
       $message="Catégorie : ".StripSlashes($categorie)."<br /><br />";
       $message.="Texte de l'annonce : ".StripSlashes(StripSlashes($text))."<br />";
       include ("signat.php");
-      @send_email($notify_email, "Annonce revalidation (module annonces)", $message, $notify_from , true, "html");
+      @send_email($notify_email, "Annonce revalidation (module annonces)", $message, $notify_from , false, "html");
    }
    if ($op=="Supprimer") {
       $query="DELETE FROM $table_annonces WHERE id='$id' AND id_user='$cookie[0]'";
@@ -113,7 +113,7 @@ if (isset($user)) {
     <div class="col-sm-8">
          <div class="input-group">
             <div class="input-group-addon">+33.0</div>
-            <input type="text" name="tel" class="form-control col-3" id="" value="'.$tel.'" placeholder="'.$tel.'">
+            <input type="text" name="tel" class="form-control" id="" value="'.$tel.'" placeholder="'.$tel.'">
          </div>
       </div>
   </div>';
@@ -123,7 +123,7 @@ if (isset($user)) {
     <div class="col-sm-8">
          <div class="input-group">
             <div class="input-group-addon">+33.0</div>
-            <input type="text" name="tel_2" class="form-control col-3" id="" value="'.$tel_2.'" placeholder="'.$tel_2.'">
+            <input type="text" name="tel_2" class="form-control" id="" value="'.$tel_2.'" placeholder="'.$tel_2.'">
          </div>
       </div>
   </div>';
@@ -131,7 +131,7 @@ if (isset($user)) {
    <div class="form-group row">
     <label for="" class="col-sm-4 form-control-label">Code postal</label>
     <div class="col-sm-8">
-      <input type="text" name="code" class="form-control col-3" id="" value="'.$code.'" placeholder="'.$code.'">
+      <input type="text" name="code" class="form-control" id="" value="'.$code.'" placeholder="'.$code.'">
     </div>
   </div>';
    echo '
@@ -177,7 +177,7 @@ if (isset($user)) {
    <div class="form-group row">
     <label for="" class="col-sm-4 form-control-label">'.ann_translate("Prix en").' '.aff_langue($prix_cur).'</label>
     <div class="col-sm-8">
-      <input type="text" name="prix" class="form-control col-3" id="" value="'.$prix.'" placeholder="'.$prix.'">
+      <input type="text" name="prix" class="form-control" id="" value="'.$prix.'" placeholder="'.$prix.'">
     </div>
   </div>';
 
