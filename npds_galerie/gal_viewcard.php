@@ -35,7 +35,7 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 
    $message = "<!DOCTYPE html>\n";
    $message.= "<head>\n";
-   $message.= "<title>".gal_trans("Une e-carte pour vous")."</title>\n";
+   $message.= "<title>".gal_translate("Une e-carte pour vous")."</title>\n";
    $message.= '<meta http-equiv="content-type" content="text/html" />';
    $message.= '<meta charset="utf-8" />';
    $message.= '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />';

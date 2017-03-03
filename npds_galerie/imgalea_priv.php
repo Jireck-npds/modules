@@ -111,12 +111,12 @@ $content .= "\n//]]>\n</script>";
    if ($image!="") {
       $content .="<a href=\"javascript:picview('$chemin', '$image', '$comment', '$w_i', '$h_i')\">$ibid</a>";
    } else {
-      $content .="<p class=\"card-text text-xs-center\">".gal_trans("vous n'avez accés à aucune galerie")."</p>";
+      $content .="<p class=\"card-text text-xs-center\">".gal_translate("vous n'avez accés à aucune galerie")."</p>";
    }
 
    //Affichage de l'invite de connexion dans le bloc si galerie privée
    if( (!isset($user) and $gal_acces!=0)) { /* 0 pour accès public */
-       $content .="<div class=\"card-block\"><p class=\"card-text text-xs-center\"><a href=\"user.php\">".gal_trans("Galerie Privée, connectez vous")."</a></p>";
+       $content .="<div class=\"card-block\"><p class=\"card-text text-xs-center\"><a href=\"user.php\">".gal_translate("Galerie Privée, connectez vous")."</a></p>";
        $content .='</div></div>';
    } else {
        $content .="<div class=\"card-block\"><p class=\"card-text text-xs-center\"><a href=\"modules.php?ModPath=$ModPath&ModStart=gal&op=gal&galid=$row[1]\">".$gallery."</a></p>";

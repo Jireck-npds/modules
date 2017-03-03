@@ -1,22 +1,21 @@
 <?php
 /************************************************************************/
 /* DUNE by NPDS                                                         */
-/* ===========================                                          */
-/*                                                                      */
-/* Encapsuleur  V 5.0                                                   */
 /*                                                                      */
 /* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
 /*                                                                      */
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
-/************************************************************************/
+/*                                                                      */
+/* npds_encapsuleur  v 5.0                                              */
+/*                                                                      */
 /* 05.01.2001 - martvin@box43.pl                                        */
 /* 12.09.2002 - Achel_Jay, Benjee, Capcaverne                           */
 /* 02.11.2002 - Snipe                                                   */
 /* 25.11.2008 - Lopez - MAJ pouir Evolution                             */
 /* 2010 et 2011 - Adaptation REvolution                                 */
-/* 2017 Changement de nom du module version Rev16 par jpb/phr           */
+/* Changement de nom du module version Rev16 par jpb/phr jan  2017      */
 /************************************************************************/
 
 
@@ -28,7 +27,6 @@ function encap_translate($phrase) {
    case "Espagnol" : $tmp = "Spanish"; break;
    case "Chinois" : $tmp = "Chinese"; break;
    case "Adresse web sans http:// si externe ou nom du fichier si interne": $tmp = "Web address without http:// if external or file name if internal"; break;
-   case "(interne ou externe)": $tmp = "(internal ou external)"; break;
    case "Adresse" : $tmp = "Weblink"; break;
    case "Administration de l'encapsuleur": $tmp = "Encapsuler Administration"; break;
    case "Affichage du titre": $tmp = "Title visible"; break;
@@ -42,11 +40,11 @@ function encap_translate($phrase) {
    case "colonne droite": $tmp = "right column"; break; 
    case "colonne gauche": $tmp = "left column"; break;
    case "Configuration des blocs du portail": $tmp = "Blocs configuration"; break;
-   case "defaut": $tmp = "default"; break;
    case "Désolé, cette requête ne renvoie aucun résultat": $tmp = "Sorry, this request do not have any answer"; break;
    case "Display": $tmp = "Display"; break;
    case "effacé": $tmp = "deleted"; break;
    case "Effacer": $tmp = "Delete"; break;
+   case "Encapsuleur": $tmp = "Encapsuleur"; break;
    case "encapsulation(s) dans la table": $tmp = "encapsulation(s) in the table"; break;
    case "Enregistrement effectué": $tmp = "Record's add."; break;
    case "Enregistrement N°": $tmp = "Record number"; break;
@@ -55,9 +53,7 @@ function encap_translate($phrase) {
    case "Externe": $tmp = "External"; break;
    case "Fermer": $tmp = "Close"; break;
    case "Forme": $tmp = "Kind"; break;
-   case "Hauteur": $tmp = "Height"; break;
-   case "Il y a": $tmp = "There are"; break;
-   case "Infos de configuration des blocs": $tmp = "Informations"; break; 
+   case "Hauteur": $tmp = "Height"; break; 
    case "Interne": $tmp = "Internal"; break;
    case "Le lien de votre page encapsulée est": $tmp = "The encapsulation link is"; break;
    case "Le lien n'existe pas": $tmp = "The link doesn't exist"; break;

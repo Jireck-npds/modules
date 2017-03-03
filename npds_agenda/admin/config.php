@@ -19,7 +19,7 @@ $valid   = "3";
 $courriel   = "1";
 $revalid   = "3";
 $receveur   = "previlliod@yahoo.fr";
-$nb_admin   = "5";
+$nb_admin   = "10";
 $nb_news   = "10";
 $bouton   = "1";
 

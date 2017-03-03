@@ -1,5 +1,13 @@
 <?php
 /************************************************************************/
+/* DUNE by NPDS                                                         */
+/*                                                                      */
+/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */
+/*                                                                      */
+/* This program is free software. You can redistribute it and/or modify */
+/* it under the terms of the GNU General Public License as published by */
+/* the Free Software Foundation; either version 2 of the License.       */
+/*                                                                      */
 /* NMIG : NPDS Module Installer Generator                               */
 /* --------------------------------------                               */
 /* Version 2.0 - 2015                                                   */
@@ -9,15 +17,7 @@
 /* Module-Install est un installeur inspiré du programme d'installation */
 /* d'origine du module Hot-Projet développé par Hotfirenet              */
 /*                                                                      */
-/* NPDS : Net Portal Dynamic System                                     */
-/*                                                                      */
-/* NPDS Copyright (c) 2002-2015 by Philippe Brunier                     */
-/*                                                                      */
-/* v2.0 for NPDS 16 jpb 2016                                            */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 2 of the License.       */
-/*                                                                      */
+/* v2.1 for NPDS 16 jpb 2017                                            */
 /************************************************************************/
 global $ModInstall;
 

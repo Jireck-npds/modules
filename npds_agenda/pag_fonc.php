@@ -20,83 +20,83 @@ function ag_pag($total,$courante,$adjacentes,$ThisFile,$css)
 {
 
 /* Variables */
-	$prec = $courante - 1; // numero de la page precedente
-	$suiv = $courante + 1; // numero de la page suivante
-	$avder = $total - 1; // avant derniere page
-	$pagination = "";
-	if($total > 1)
-	{
-		$pagination .= '<nav aria-label="">
-                        <ul class="pagination pagination-sm">';
-		if ($courante == 2)
-			$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">&laquo; préc</a></li>';
-		elseif ($courante > 2)
-			$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$prec.'">&laquo; préc</a></li>';
-		else
-			$pagination.= '<li class="page-item"><span class="page-link">&laquo; préc</span></li>';
-		if ($total < 7 + ($adjacentes * 2))
-		{
-			$pagination.= ($courante == 1) ? '<li class="page-item active"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
-			for ($compteur = 2; $compteur <= $total; $compteur++)
-			{
-				if ($compteur == $courante)
-					$pagination.= '<li class="page-item active"><span class="page-link">'.$compteur.'</span></li>';
-				else
-					$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
-			}
-		}
-		elseif($total > 5 + ($adjacentes * 2))
-		{
-			if($courante < 1 + ($adjacentes * 2))
-			{
-				$pagination.= ($courante == 1) ? '<li class="page-item"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
-				for ($compteur = 2; $compteur < 4 + ($adjacentes * 2); $compteur++)
-				{
-					if ($compteur == $courante)
-						$pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
-					else
-						$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
-				}
-				$pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$avder.'">'.$avder.'</a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$total.'">'.$total.'</a></li>';
-			}
-			elseif($total - ($adjacentes * 2) > $courante && $courante > ($adjacentes * 2))
-			{
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page=2">2</a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
-				for ($compteur = $courante - $adjacentes; $compteur <= $courante + $adjacentes; $compteur++)
-				{
-					if ($compteur == $courante)
-						$pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
-					else
-						$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&page='.$compteur.'">'.$compteur.'</a></li>';
-				}
-				$pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$avder.'">'.$avder.'</a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$total.'">'.$total.'</a></li>';
-			}
-			else
-			{
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page=2">2</a></li>';
-				$pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
-				for ($compteur = $total - (2 + ($adjacentes * 2)); $compteur <= $total; $compteur++)
-				{
-					if ($compteur == $courante)
-						$pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
-					else
-						$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
-				}
-			}
-		}
-		if ($courante < $compteur - 1)
-			$pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$suiv.'">suiv &raquo;</a></li>';
-		else
-			$pagination.= '<li class="page-item"><span class="page-link">suiv &raquo;</span></li>';
-			$pagination.= '</ul></nav>';
-	}
-	return ($pagination);
+   $prec = $courante - 1; // numero de la page precedente
+   $suiv = $courante + 1; // numero de la page suivante
+   $avder = $total - 1; // avant derniere page
+   $pagination = "";
+   if($total > 1)
+   {
+   $pagination .= '<nav aria-label="">
+                     <ul class="pagination pagination-sm">';
+      if ($courante == 2)
+         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">&laquo;</a></li>';
+      elseif ($courante > 2)
+         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$prec.'">&laquo;</a></li>';
+      else
+         $pagination.= '<li class="page-item"><span class="page-link">&laquo;</span></li>';
+      if ($total < 7 + ($adjacentes * 2))
+      {
+         $pagination.= ($courante == 1) ? '<li class="page-item active"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
+         for ($compteur = 2; $compteur <= $total; $compteur++)
+         {
+            if ($compteur == $courante)
+               $pagination.= '<li class="page-item active"><span class="page-link">'.$compteur.'</span></li>';
+            else
+               $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
+         }
+      }
+      elseif($total > 5 + ($adjacentes * 2))
+      {
+         if($courante < 1 + ($adjacentes * 2))
+         {
+            $pagination.= ($courante == 1) ? '<li class="page-item"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
+            for ($compteur = 2; $compteur < 4 + ($adjacentes * 2); $compteur++)
+            {
+               if ($compteur == $courante)
+                  $pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
+               else
+                  $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
+            }
+            $pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$avder.'">'.$avder.'</a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$total.'">'.$total.'</a></li>';
+         }
+         elseif($total - ($adjacentes * 2) > $courante && $courante > ($adjacentes * 2))
+         {
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page=2">2</a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
+            for ($compteur = $courante - $adjacentes; $compteur <= $courante + $adjacentes; $compteur++)
+            {
+               if ($compteur == $courante)
+                  $pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
+               else
+                  $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&page='.$compteur.'">'.$compteur.'</a></li>';
+            }
+            $pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$avder.'">'.$avder.'</a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$total.'">'.$total.'</a></li>';
+         }
+         else
+         {
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page=2">2</a></li>';
+            $pagination.= '<li class="page-item"><a class="page-link" href=""> ... </a></li>';
+            for ($compteur = $total - (2 + ($adjacentes * 2)); $compteur <= $total; $compteur++)
+            {
+               if ($compteur == $courante)
+                  $pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
+               else
+                  $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
+            }
+         }
+      }
+      if ($courante < $compteur - 1)
+         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$suiv.'">&raquo;</a></li>';
+      else
+         $pagination.= '<li class="page-item"><span class="page-link">&raquo;</span></li>';
+         $pagination.= '</ul></nav>';
+   }
+   return ($pagination);
 }
 ?>

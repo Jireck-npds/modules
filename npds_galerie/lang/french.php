@@ -7,7 +7,7 @@
 /*                                                                      */
 /************************************************************************/
 
-function gal_trans($phrase) {
+function gal_translate($phrase) {
    settype($englishname,'string');
    switch($phrase) {
       case "$englishname": $tmp="$englishname"; break;

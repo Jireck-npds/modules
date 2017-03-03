@@ -4,7 +4,7 @@
 /* ===================================================                                            */
 /* (c) 2004-2005 Tribal-Dolphin - http://www.tribal-dolphin.net                                   */
 /* (c) 2007 Xgonin, Lopez - http://modules.npds.org                                               */
-/* MAJ conformitÃ© XHTML pour REvolution 10.02 par jpb/phr en mars 2010                            */
+/* MAJ conformité XHTML pour REvolution 10.02 par jpb/phr en mars 2010                            */
 /* MAJ Dev - 2011                                                                                 */
 /*                                                                                                */
 /* This program is free software. You can redistribute it and/or modify it under the terms of     */
@@ -13,54 +13,64 @@
 /**************************************************************************************************/
 
 // For More security
-if (!strstr($PHP_SELF,'admin.php')) { Access_Error(); }
+if (!stristr($_SERVER['PHP_SELF'],"admin.php")) { die(); }
 if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script") || stristr($ModPath, "cookie") || stristr($ModPath, "iframe") || stristr($ModPath, "applet") || stristr($ModPath, "object") || stristr($ModPath, "meta") || stristr($ModStart, "script") || stristr($ModStart, "cookie") || stristr($ModStart, "iframe") || stristr($ModStart, "applet") || stristr($ModStart, "object") || stristr($ModStart, "meta")) {
    die();
 }
 // For More security
 
-$f_meta_nom ='npds_galerie';
-//==> controle droit
-admindroits($aid,$f_meta_nom);
-//<== controle droit
+// Retro compatibilité SABLE
+if (!function_exists("sql_connect")) {
+   include ("modules/$ModPath/retro-compat/mysql.php");
+}
+// Retro compatibilité SABLE
 
 /**************************************************************************************************/
 /* Administration du MODULE                                                                       */
 /**************************************************************************************************/
 if ($admin) {
-   global $language, $ModPath, $ModStart, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
+   global $language, $ModPath, $ModStart, $NPDS_Prefix;
+
    include_once("modules/$ModPath/gal_conf.php");
    include_once("modules/$ModPath/admin/adm_func.php");
-   include_once("modules/$ModPath/lang/$language.php");
+   include_once("modules/".$ModPath."/admin/lang/adm-".$language.".php");
 
-//update Tables for 2.2 release
+   //update Tables for 2.2 release
    $result=sql_query("SELECT noaff from ".$NPDS_Prefix."tdgal_img");
    if (sql_num_rows($result)==0) {
       sql_query("ALTER TABLE ".$NPDS_Prefix."tdgal_img ADD `noaff` int(1) unsigned default '0'");
    }
-//update Tables for 2.1 release
+   //update Tables for 2.1 release
 
-   // ParamÃ¨tres utilisÃ© par le script
+   // Paramètres utilisé par le script
    $ThisFile = "admin.php?op=Extend-Admin-SubModule&amp;ModPath=$ModPath&amp;ModStart=$ModStart";
    $ThisRedo = "admin.php?op=Extend-Admin-SubModule&ModPath=$ModPath&ModStart=$ModStart";
 
-// En-TÃªte
-   GraphicAdmin($hlpfile);
-   echo '<h2><img class="mr-2" src="modules/npds_galerie/npds_galerie.png" alt="icon_npds_galerie">'.gal_translate('Galeries de photos').'<small class="float-right">'.$npds_gal_version.'</small></h2>';
-   echo '<div id="adm_men">';
-   echo '<div class="card mb-2"><div class="card-block"><ul class="list-inline">
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'" role="button" data-original-title="'.gal_translate("Accueil").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=config" role="button" data-original-title="'.gal_translate("Configuration").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-cogs" aria-hidden="true"></i></a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=viewarbo" role="button" data-original-title="'.gal_translate("Arborescence").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-sitemap" aria-hidden="true"></i></a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=formcregal" role="button" data-original-title="'.gal_translate("Ajout galerie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Gal</a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=formcat" role="button" data-original-title="'.gal_translate("Ajout catÃ©gorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Cat</a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=formsscat" role="button" data-original-title="'.gal_translate("Ajout sous-catÃ©gorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus mr-2" aria-hidden="true"></i>S-Cat</a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=formimgs" role="button" data-original-title="'.gal_translate("Ajout images").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-plus mr-2" aria-hidden="true"></i><i class="fa fa-picture-o"></i></a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=import" role="button" data-original-title="'.gal_translate("Import images").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-down" aria-hidden="true"></i></a></li>
-   <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=export" role="button" data-original-title="'.gal_translate("Export catÃ©gorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></a></li>
-   </ul>
-   </div></div>';
+   OpenTable();
+   // En-Tête
+   echo "<br \><table width=\"100%\" cellspacing=\"2\" cellpadding=\"2\" border=\"0\"><tr><td class=\"header\">\n";
+   echo adm_gal_trans("Administration des galeries");
+   echo "</td></tr>\n";
 
+   echo "<tr><td align=\"center\"><br />\n";
+   echo "<a href=\"".$ThisFile."\" class=\"noir\">".adm_gal_trans("Accueil")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=viewarbo\" class=\"noir\">".adm_gal_trans("Voir l'arborescence")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=import\" class=\"noir\">".adm_gal_trans("Importer des images")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=export\" class=\"noir\">".adm_gal_trans("Exporter une catégorie")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=config\" class=\"noir\">".adm_gal_trans("Configuration")."</a><br /><br />";
+   echo "</td></tr>\n";
+    
+   echo "<tr><td align=\"center\">\n";
+   echo "[ <a href=\"".$ThisFile."&amp;subop=formcat\" class=\"noir\">".adm_gal_trans("Ajouter une catégorie")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=formsscat\" class=\"noir\">".adm_gal_trans("Ajouter une sous-catégorie")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=formcregal\" class=\"noir\">".adm_gal_trans("Ajouter une galerie")."</a>&nbsp;|&nbsp;";
+   echo "<a href=\"".$ThisFile."&amp;subop=formimgs\" class=\"noir\">".adm_gal_trans("Ajouter des images")."</a>&nbsp; ]";
+   echo "</td></tr>\n";
+   echo "</table>";
+   CloseTable();
+   echo "<hr noshade class=\"ongl\" />";
+
+   OpenTable();
    switch($subop) {
    case "formcat" :
      PrintFormCat();
@@ -154,22 +164,25 @@ if ($admin) {
      $nvotes = sql_fetch_row(sql_query("SELECT COUNT(id) FROM ".$NPDS_Prefix."tdgal_vot"));
      $nviews = sql_fetch_row(sql_query("SELECT SUM(view) FROM ".$NPDS_Prefix."tdgal_img"));
 
-
-   
-   echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Tableau rÃ©capitulatif").'</p>';
-   echo '<ul class="list-group">
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de catÃ©gories").'<span class="badge badge-default">'.$ncateg[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de sous-catÃ©gories").'<span class="badge badge-default">'.$nsscat[0].'</span></li>   
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de galeries").'<span class="badge badge-default">'.$numgal[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-default">'.$ncards[0].'</span></li>   
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-default">'.$ncomms[0].'</span></li> 
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de votes").'<span class="badge badge-default">'.$nvotes[0].'</span></li>   
-   <li class="list-group-item justify-content-between">'.gal_translate("Images vues").'<span class="badge badge-default">'.$nviews[0].'</span></li>   
-   </ul>
-   ';
+     echo "<p align=\"center\">";
+     OpenTableGal();
+     $rowcolor=tablos();
+     echo "<tr $rowcolor><td>".adm_gal_trans("Nombre de catégories :")."</td><td><b>".$ncateg[0]."</b></td>";
+     echo "<td>".adm_gal_trans("Nombre de sous-catégories :")."</td><td><b>".$nsscat[0]."</b></td>";
+     echo "<td>".adm_gal_trans("Nombre de galeries :")."</td><td><b>".$numgal[0]."</b></td></tr>";
+     $rowcolor=tablos();
+     echo "<tr $rowcolor><td>".adm_gal_trans("Nombre d'images :")."</td><td><b>".$ncards[0]."</b></td>";
+     echo "<td>".adm_gal_trans("Nombre de commentaires :")."</td><td><b>".$ncomms[0]."</b></td>";
+     echo "<td>".adm_gal_trans("Nombre de votes :")."</td><td><b>".$nvotes[0]."</b></td></tr>";
+     $rowcolor=tablos();
+     echo "<tr $rowcolor><td colspan=\"6\" align=\"center\">".adm_gal_trans("Images vues :")." <b>".$nviews[0]."</b></td>";
+     CloseTableGal();
+     echo "</p>";
+     opentable();
+     echo "</td><td align=\"right\">Version : ".$TDGAL_version."\n";
+     closetable();
      break;
    }
-   echo '</div>';
-include "footer.php";
+   CloseTable();
 }
 ?>

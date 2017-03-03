@@ -35,14 +35,7 @@ if ($admin) {
    $ThisFile = 'admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
    $ThisRedo = 'admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart='.$ModStart.'';
    $tipath = 'modules/'.$ModPath.'/images/categories/';
-   if (file_exists('modules/'.$ModPath.'/lang/agenda-'.$language.'.php'))
-   {
 
-   }
-   else
-   {
-   	include_once('modules/'.$ModPath.'/lang/agenda-french.php');
-   }
    $tabMois = array();
    $tabMois[1] = ''.ag_translate('Janvier').'';
    $tabMois[2] = ''.ag_translate('Février').'';

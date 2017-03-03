@@ -67,7 +67,7 @@ include_once("modules/$ModPath/lang/$language.php");
 
    $content ='<div class="card">';
    if ($image!="") {
-      $content .= '<span data-toggle="modal" data-target="#photomodal"><span data-toggle="tooltip" data-placement="bottom" title="'.gal_trans("Cliquer sur image").'">'.$ibid.'</span></span>';
+      $content .= '<span data-toggle="modal" data-target="#photomodal"><span data-toggle="tooltip" data-placement="bottom" title="'.gal_translate("Cliquer sur image").'">'.$ibid.'</span></span>';
    echo '
    <div class="modal fade" id="photomodal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -77,9 +77,9 @@ include_once("modules/$ModPath/lang/$language.php");
       </div>
    </div>';
    } else {
-      $content .= '<p class="card-text text-xs-center">'.gal_trans("vous avez accès à aucune galerie").'</p>';
+      $content .= '<p class="card-text text-xs-center">'.gal_translate("vous avez accès à aucune galerie").'</p>';
    }
-   $content .='<div class="card-block"><p class="card-text text-xs-center"><a class="" data-toggle="tooltip" data-placement="bottom" title="'.gal_trans("Accès à la galerie").'" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$row[1].'">';
+   $content .='<div class="card-block"><p class="card-text text-xs-center"><a class="" data-toggle="tooltip" data-placement="bottom" title="'.gal_translate("Accès à la galerie").'" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$row[1].'">';
    $content .= stripslashes("$gallery");
    $content .='</a></p>';
    $content .='</div></div>';

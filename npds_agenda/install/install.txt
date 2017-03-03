@@ -18,7 +18,7 @@
 ## INSTALLATION AUTOMATIQUE (RECOMMANDEE)
 ## 1. Décompresser l'archive dans le dossier modules de votre site
 ## 2. Via l'administration du portail aller dans Gestion/Installation Modules
-## 3. En face de agenda, cliquer sur installer le module et suivez la procédure
+## 3. En face de npds_agenda, cliquer sur installer le module et suivez la procédure
 ##
 ## CHMOD
 ## 1. Mettez un CHMOD 777 ou 755 sur les dossiers
@@ -33,7 +33,7 @@
 ## <a href=modules.php?ModPath=npds_agenda&amp;ModStart=calendrier>Agenda</a>
 ##
 ## BLOC
-## Affiche un mini-calendrier du mois en cours avec naviguation
+## Affiche un mini-calendrier du mois en cours avec navigation
 ## include#modules/npds_agenda/bloc/agbloc.php
 ##
 ## COMMUNAUTE: 

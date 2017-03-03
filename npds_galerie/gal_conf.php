@@ -40,5 +40,5 @@ $post_anon = true;
 $notif_admin = true;
 
 // Version du module
-$npds_gal_version = "3";
+$npds_gal_version = 'V 3.0';
 ?>

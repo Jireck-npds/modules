@@ -28,98 +28,130 @@ global $language, $NPDS_Prefix;
 include_once("modules/$ModPath/gal_conf.php");
 include_once("modules/$ModPath/gal_func.php");
 include_once("modules/$ModPath/lang/$language.php");
+include ("modules/$ModPath/admin/pages.php");
 
 // Paramètres utilisé par le script
 $ThisFile = "modules.php?ModPath=$ModPath&amp;ModStart=$ModStart";
 $ThisRedo = "modules.php?ModPath=$ModPath&ModStart=$ModStart";
 
 include("header.php");
+
 switch($op) {
-  // Affichage des catégories et ses galeries
-  case "cat":
-     FabMenuCat($catid);
-     echo "<br />";
-     ListGalCat($catid);
-     echo "<br />";
-  break;
-  // Affichage des sous-catégories et ses galeries
-  case "sscat":
-     FabMenuSsCat($catid, $sscid);
-     echo "<br />";
-     ListGalCat($sscid);
-     echo "<br />";
-  break;
-  // Affichage d'une galerie
-  case "gal":
-     FabMenuGal($galid);
-     echo "<br />";
-     settype($page, "integer");
-     if (empty($page)) { $page = 1; }
-     ViewGal($galid, $page);
-     echo "<br />";
-  break;
-  // Affichage d'une image
-  case "img":
-     if ($pos < 0) { $pos = GetPos($galid, $pos); }
-     FabMenuImg($galid, $pos);
-     echo "<br />";
-     ViewImg($galid, $pos, "");
-     echo "<br />";
-  break;
-  // Diaporama sur un album
-  case "diapo":
-     ViewDiapo($galid, $pos, $pid);
-  break;
-  // Ecard sur une image
-  case "ecard":
-     PrintFormEcard($galid, $pos, $pid);
-  break;
-  // Post d'un commentaire
-  case "postcomment":
-     PostComment($gal_id, $pos, $pic_id, $comm);
-  break;
-  // Top des commentaires
-  case "topcomment":
-     TopCV("comment",$nbtopcomment);
-  break;
-  // Top des commentaires
-  case "topvote":
-     TopCV("vote",$nbtopvote);
-  break;
-  // Vote pour une image
-  case "vote":
-     PostVote($gal_id, $pos, $pic_id, $value);
-  break;
-  case "sendcard":
-     PostEcard($galid, $pos, $pid, $from_name, $from_mail, $to_name, $to_mail, $card_sujet, $card_msg);
-  break;
-  // Affichage d'une seule image sans sa galerie
-  case "one-img":
-     ViewImg($galid, $pos, "no");
-  break;
-  // Proposition d'images par les membres
-  case "formimgs" :
-     if(autorisation(1)) {
-       PrintFormImgs();
-    } else {
-       redirect_url($nuke_url);
-    }
-     break;
-  case "addimgs" :
-     AddImgs($imggal,$newcard1,$newdesc1,$newcard2,$newdesc2,$newcard3,$newdesc3,$newcard4,$newdesc4,$newcard5,$newdesc5,$user_connecte);
-     break;
-  default :
-     FabMenu();
-     echo "<br />";
-     if ($view_alea) {
-        ViewAlea();
-        echo "<br />";
+
+// Affichage des catégories et ses galeries
+   case "cat":
+      echo '<div class="card">';
+      FabMenuCat($catid);
+//      ListGalCat($catid);
+      echo '</div>';
+   break;
+
+// Affichage des sous-catégories et ses galeries
+   case "sscat":
+      echo '<div class="card">';
+      FabMenuSsCat($catid, $sscid);
+      ListGalCat($sscid);
+      echo '</div>';
+   break;
+
+// Affichage d'une galerie
+   case "gal":
+      echo '<div class="card">';
+      FabMenuGal($galid);
+      settype($page, "integer");
+      if (empty($page)) { $page = 1; }
+      ViewGal($galid, $page);
+      echo '</div>';
+   break;
+
+// Affichage d'une image
+   case "img":
+      if ($pos < 0) { $pos = GetPos($galid, $pos); }
+      echo '<div class="card">';     
+      FabMenuImg($galid, $pos);
+      ViewImg($galid, $pos, "");
+      echo '</div>';
+   break;
+
+// Diaporama sur un album
+   case "diapo":
+      echo '<div class="card">';
+      ViewDiapo($galid, $pos, $pid);
+      echo '</div>';     
+   break;
+
+
+
+
+
+
+
+// Ecard sur une image
+   case "ecard":
+      echo '<div class="card">';
+      PrintFormEcard($galid, $pos, $pid);
+      echo '</div>'; 
+   break;
+
+// Post d'un commentaire
+   case "postcomment":
+      PostComment($gal_id, $pos, $pic_id, $comm);
+   break;
+
+// Top des commentaires
+   case "topcomment":
+      TopCV("comment",$nbtopcomment);
+   break;
+
+// Top des commentaires
+   case "topvote":
+      TopCV("vote",$nbtopvote);
+   break;
+
+// Vote pour une image
+   case "vote":
+      PostVote($gal_id, $pos, $pic_id, $value);
+   break;
+
+   case "sendcard":
+      PostEcard($galid, $pos, $pid, $from_name, $from_mail, $to_name, $to_mail, $card_sujet, $card_msg);
+   break;
+
+// Affichage d'une seule image sans sa galerie
+   case "one-img":
+      ViewImg($galid, $pos, "no");
+   break;
+
+// Proposition d'images par les membres
+   case "formimgs" :
+      if(autorisation(1)) {
+      PrintFormImgs();
+      }
+      else {
+      redirect_url($nuke_url);
+      }
+      break;
+
+   case "addimgs" :
+      AddImgs($imggal,$newcard1,$newdesc1,$newcard2,$newdesc2,$newcard3,$newdesc3,$newcard4,$newdesc4,$newcard5,$newdesc5,$user_connecte);
+   break;
+
+   default :
+      echo '<div class="card">';
+      FabMenu();
+      echo '</div>';
+      if ($view_alea) {
+      echo '<div class="card my-2">';
+      ViewAlea();
+      echo '</div>';
+      }
+      if ($view_last) {
+      echo '<div class="card my-2">';
+      ViewLastAdd();
+      echo '</div>';
      }
-     if ($view_last) {
-        ViewLastAdd();
-        echo "<br />";
-     }
-  break;
+   break;
 }
+
 include("footer.php");
 ?>

@@ -4,7 +4,7 @@
 /* ===================================================                                            */
 /* (c) 2004-2005 Tribal-Dolphin - http://www.tribal-dolphin.net                                   */
 /* (c) 2007 Xgonin, Lopez - http://modules.npds.org                                               */
-/* MAJ conformitÃ© XHTML pour REvolution 10.02 par jpb/phr en mars 2010                            */
+/* MAJ conformité XHTML pour REvolution 10.02 par jpb/phr en mars 2010                            */
 /* MAJ Dev - 2011                                                                                 */
 /*                                                                                                */
 /* This program is free software. You can redistribute it and/or modify it under the terms of     */
@@ -12,9 +12,9 @@
 /* of the License.                                                                                */
 /**************************************************************************************************/
 
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['title']="[french]Galerie d'image[/french][english]Pictures galery[/english][spanish]galeria de imagenes[/spanish]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['title']="[french]Galerie d'image[/french][english]Images galerie[/english][spanish]galer&iacute;a de im&aacute;genes[/spanish]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['run']="yes";
-$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['blocs']="2";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['blocs']="0";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['TinyMce']=1;
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['TinyMce-theme']="short";
 ?>

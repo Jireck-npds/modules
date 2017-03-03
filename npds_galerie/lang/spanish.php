@@ -7,7 +7,7 @@
 /*                                                                      */
 /************************************************************************/
 
-function gal_trans($phrase) {
+function gal_translate($phrase) {
     switch ($phrase) {
        case "Catégories": $tmp = "Categor&iacute;as"; break;
        case "Galeries": $tmp = "Albumes"; break;
