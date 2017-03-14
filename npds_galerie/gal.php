@@ -42,7 +42,7 @@ switch($op) {
    case "cat":
       echo '<div class="card">';
       FabMenuCat($catid);
-//      ListGalCat($catid);
+      ListGalCat($catid);
       echo '</div>';
    break;
 
@@ -80,12 +80,6 @@ switch($op) {
       echo '</div>';     
    break;
 
-
-
-
-
-
-
 // Ecard sur une image
    case "ecard":
       echo '<div class="card">';
@@ -95,37 +89,51 @@ switch($op) {
 
 // Post d'un commentaire
    case "postcomment":
+      echo '<div class="card">';
       PostComment($gal_id, $pos, $pic_id, $comm);
+      echo '</div>';
    break;
 
 // Top des commentaires
    case "topcomment":
+      echo '<div class="card">';
       TopCV("comment",$nbtopcomment);
+      echo '</div>';
    break;
 
 // Top des commentaires
    case "topvote":
+      echo '<div class="card">';
       TopCV("vote",$nbtopvote);
+      echo '</div>';
    break;
 
 // Vote pour une image
    case "vote":
+      echo '<div class="card">';
       PostVote($gal_id, $pos, $pic_id, $value);
+      echo '</div>';
    break;
 
    case "sendcard":
+      echo '<div class="card">';
       PostEcard($galid, $pos, $pid, $from_name, $from_mail, $to_name, $to_mail, $card_sujet, $card_msg);
+      echo '</div>';
    break;
 
 // Affichage d'une seule image sans sa galerie
    case "one-img":
+      echo '<div class="card">';
       ViewImg($galid, $pos, "no");
+      echo '</div>';
    break;
 
 // Proposition d'images par les membres
    case "formimgs" :
       if(autorisation(1)) {
+      echo '<div class="card">';
       PrintFormImgs();
+      echo '</div>';
       }
       else {
       redirect_url($nuke_url);
@@ -133,7 +141,9 @@ switch($op) {
       break;
 
    case "addimgs" :
+      echo '<div class="card">';
       AddImgs($imggal,$newcard1,$newdesc1,$newcard2,$newdesc2,$newcard3,$newdesc3,$newcard4,$newdesc4,$newcard5,$newdesc5,$user_connecte);
+      echo '</div>';
    break;
 
    default :

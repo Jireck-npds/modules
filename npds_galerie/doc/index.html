@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<title></title>
+<style>
+* {
+	box-sizing: border-box;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+.main-content table {
+	display: block;
+	width: 100%;
+	overflow: auto;
+	word-break: normal;
+	word-break: keep-all;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+	display: block;
+}
+/* @media screen and (min-width:64em) */
+.main-content {
+	max-width: 64rem;
+	padding: 2rem 6rem;
+	margin: 0 auto;
+	font-size: 1.1rem;
+}
+body {
+	margin: 0;
+}
+body {
+	padding: 0;
+	margin: 0;
+	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #606c71;
+}
+html {
+	font-family: sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+td, th {
+	padding: 0;
+}
+.main-content table th {
+	font-weight: bold;
+}
+.main-content table th, .main-content table td {
+	padding: 0.5rem 1rem;
+	border: 1px solid #e9ebec;
+}
+code, kbd, pre, samp {
+	font-family: monospace,monospace;
+	font-size: 1em;
+}
+.main-content code {
+	padding: 2px 4px;
+	font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+	font-size: 0.9rem;
+	color: #383e41;
+	background-color: #f3f6fa;
+	border-radius: 0.3rem;
+}
+</style>
+</head>
+<body><section class="main-content"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="center">Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>path</td>
+<td align="center">String</td>
+<td align="center">'watermark.png'</td>
+<td>Path contains images used as a watermark, can use base64 image.</td>
+</tr>
+<tr>
+<td>text</td>
+<td align="center">String</td>
+<td align="center">''</td>
+<td>Text used as a watermark.</td>
+</tr>
+<tr>
+<td>textWidth</td>
+<td align="center">Number</td>
+<td align="center">130</td>
+<td>Text width of frame surrounds, units: px.</td>
+</tr>
+<tr>
+<td>textSize</td>
+<td align="center">Number</td>
+<td align="center">12</td>
+<td>Font size of text, units: px.</td>
+</tr>
+<tr>
+<td>textColor</td>
+<td align="center">String</td>
+<td align="center">'white'</td>
+<td>Text color, you can use HEX or RGBA color codes.</td>
+</tr>
+<tr>
+<td>textBg</td>
+<td align="center">String</td>
+<td align="center">'rgba(0, 0, 0, 0.4)'</td>
+<td>Background color, you can use HEX or RGBA color codes.</td>
+</tr>
+<tr>
+<td>gravity</td>
+<td align="center">String</td>
+<td align="center">'se'</td>
+<td>The position of the watermark on the image (nw, n, ne, w, e, sw, s, se).</td>
+</tr>
+<tr>
+<td>opacity</td>
+<td align="center">Number</td>
+<td align="center">0.7</td>
+<td>The transparency of watermark, the value between 0 and 1.</td>
+</tr>
+<tr>
+<td>margin</td>
+<td align="center">Number</td>
+<td align="center">10</td>
+<td>Distance from watermark to edge of image.</td>
+</tr>
+<tr>
+<td>outputWidth</td>
+<td align="center">Number</td>
+<td align="center">'auto'</td>
+<td>Image width after adding watermark, units: px or use 'auto'.</td>
+</tr>
+<tr>
+<td>outputHeight</td>
+<td align="center">Number</td>
+<td align="center">'auto'</td>
+<td>Image height after adding watermark, units: px or use 'auto'.</td>
+</tr>
+<tr>
+<td>outputType</td>
+<td align="center">String</td>
+<td align="center">'jpeg'</td>
+<td>Image format after adding watermark, You can use one of three types (jpeg, png, webp).</td>
+</tr>
+<tr>
+<td>done</td>
+<td align="center">Function</td>
+<td align="center"><code>function(imgURL){this.src=imgURL;}</code></td>
+<td>Called after image with watermark is created.</td>
+</tr>
+<tr>
+<td>fail</td>
+<td align="center">Function</td>
+<td align="center"><code>function(){}</code></td>
+<td>Called after an error of images is occurring.</td>
+</tr>
+<tr>
+<td>always</td>
+<td align="center">Function</td>
+<td align="center"><code>function(){}</code></td>
+<td>Called when processing finishes (done and fail).</td>
+</tr>
+</tbody>
+</table></section></body>
+</html>

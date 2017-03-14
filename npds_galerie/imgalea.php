@@ -55,32 +55,33 @@ include_once("modules/$ModPath/lang/$language.php");
    $comment=$row[3];
    list($gallery)=sql_fetch_row(sql_query("SELECT nom FROM ".$NPDS_Prefix."tdgal_gal WHERE id='$row[1]'"));
 
-   $chemin="modules/$ModPath/imgs/".$image;
-   list($width, $height, $type, $attr) = @getimagesize("$chemin");
-   $h_i = $height+40;
-   $w_i = $width+40;
+//   $chemin="modules/$ModPath/imgs/".$image;
+//   list($width, $height, $type, $attr) = @getimagesize("$chemin");
+//   $h_i = $height+40;
+//   $w_i = $width+40;
 
-   if (file_exists($chemin)) {
-      if ($width>100) $width=100;
-      $ibid ='<img class="img-fluid card-img-top center-block" src="modules/'.$ModPath.'/imgs/'.$image.'" border="0" />';
-   }
-
-   $content ='<div class="card">';
+//   if (file_exists($chemin)) {
+//      if ($width>100) $width=100;
+//   }
+      $ibid ='<img class="img-fluid card-img-top img-thumbnail" src="modules/'.$ModPath.'/mini/'.$image.'" data-toggle="tooltip" data-placement="bottom" title="'.gal_translate("Cliquer sur image").'" />';
+      $ibidg ='<img class="img-fluid card-img-top" src="modules/'.$ModPath.'/imgs/'.$image.'" />';     
+   $content ='';
    if ($image!="") {
-      $content .= '<span data-toggle="modal" data-target="#photomodal"><span data-toggle="tooltip" data-placement="bottom" title="'.gal_translate("Cliquer sur image").'">'.$ibid.'</span></span>';
+      $content .= '<span class="d-flex justify-content-center" data-toggle="modal" data-target="#photomodal">'.$ibid.'</span>';
    echo '
    <div class="modal fade" id="photomodal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
          <div class="modal-content">
-         '.$ibid.'
+         '.$ibidg.'
          </div>
       </div>
    </div>';
-   } else {
-      $content .= '<p class="card-text text-xs-center">'.gal_translate("vous avez accès à aucune galerie").'</p>';
-   }
-   $content .='<div class="card-block"><p class="card-text text-xs-center"><a class="" data-toggle="tooltip" data-placement="bottom" title="'.gal_translate("Accès à la galerie").'" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$row[1].'">';
+   $content .='<p class="card-text d-flex justify-content-center"><a class="" data-toggle="tooltip" data-placement="bottom" title="'.gal_translate("Accès à la galerie").'" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$row[1].'">';
    $content .= stripslashes("$gallery");
-   $content .='</a></p>';
-   $content .='</div></div>';
+   $content .='</a></p>';   
+   }
+   else {
+      $content .= '<p class="card-text"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Aucune galerie").'</p>';
+   }
+
 ?>

@@ -32,32 +32,77 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    $card_data = array();
    $card_data = @unserialize(@base64_decode($data));
    list($width, $height, $type, $attr) = getimagesize($card_data['pf']);
+   
+/*   
+echo '
+   <!DOCTYPE html>
+   <head>
+   <title>'.gal_translate("Une E-carte pour vous").'</title>
+   <meta charset="utf-8" />   
+   <meta http-equiv="content-type" content="text/html" />
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />  
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta http-equiv="content-script-type" content="text/javascript" />   
+   <meta http-equiv="content-style-type" content="text/css" />  
+   <meta http-equiv="expires" content="0" />
+   <meta http-equiv="cache-control" content="no-cache" />
+   <meta http-equiv="identifier-url" content="" />
+   <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+   </head>
+   <body>';
+   echo '<br />';
+   echo '
+       <div class="col-md-8">   
+   <div class="card">
+   <div class="card-header">E-card de <a href="mailto:'.$card_data['se'].'">'.$card_data['sn'].'</a></div>
+   <img class="img-fluid" src="'.$card_data['pf'].'" '.$attr.' />
+   <div class="card-block">
+   <h4 class="card-title">'.$card_data['su'].'</h4>';
+   echo $card_data['ms'];
+   echo '</div> 
+   </div>
+   </div>   
+   <br />   
+   </body></html>';*/
 
-   $message = "<!DOCTYPE html>\n";
-   $message.= "<head>\n";
-   $message.= "<title>".gal_translate("Une e-carte pour vous")."</title>\n";
+   
+   
+   $message = '<!DOCTYPE html>';
+   $message.= '<head>';
+   $message.= '<title>'.gal_translate("Une E-carte pour vous").'</title>';
+   $message.= '<meta charset="utf-8" />';   
    $message.= '<meta http-equiv="content-type" content="text/html" />';
-   $message.= '<meta charset="utf-8" />';
-   $message.= '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />';
-   $message.= '<meta http-equiv="x-ua-compatible" content="ie=edge" />';
-   $message.= '<meta http-equiv="content-script-type" content="text/javascript" />';
-   $message.= '<meta http-equiv="content-style-type" content="text/css" />';
-   $message.= "<meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\" />\n";
-   $message.= "</head>\n";
-   $message.= "<body>\n";
-   $message.= "<br />\n";
-   $message.= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"1\" align=\"center\">\n";
-   $message.= "<tr><td bgcolor=\"#000000\">\n";
-   $message.= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"10\" bgcolor=\"#ffffff\">\n";
-   $message.= "<tr><td valign=\"top\">\n";
-   $message.= "<img src=\"".$card_data['pf']."\" border=\"1\" $attr /><br />\n";
-   $message.= "</td><td valign=\"top\" width=\"200\" height=\"250\">\n";
-   $message.= "<br />\n";
-   $message.= "<b><font face=\"arial\" color=\"#000000\" size=\"4\">".$card_data['su']."</font></b>\n";
-   $message.= "<br /><br /><font face=\"arial\" color=\"#000000\" size=\"2\">".$card_data['ms']."</font>\n";
-   $message.= "<br /><br /><font face=\"arial\" color=\"#000000\" size=\"2\">".$card_data['sn']."</font>\n";
-   $message.= "( <a href=\"mailto:".$card_data['se']."\"><font face=\"arial\" color=\"#000000\" size=\"2\">".$card_data['se']."</font></a> )\n";
-   $message.= "</td></tr></table></td></tr></table>\n";
-   $message.= "</body></html>\n";
+   $message.= '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />';  
+   $message.= '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+   $message.= '<meta http-equiv="content-script-type" content="text/javascript" />';   
+   $message.= '<meta http-equiv="content-style-type" content="text/css" />';  
+   $message.= '<meta http-equiv="expires" content="0" />';
+   $message.= '<meta http-equiv="cache-control" content="no-cache" />';
+   $message.= '<meta http-equiv="identifier-url" content="" />';
+   $message.= '<link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">';
+   $message.= '<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />';
+   $message.= '</head>';
+   $message.= '<body>';
+   $message.= '<br />';
+   $message.= '<div class="col-md-7">';   
+   $message.= '<div class="card">';
+   $message.= '<div class="card-header">E-card de <a href="mailto:'.$card_data['se'].'">'.$card_data['sn'].'</a></div>';
+   $message.= '<img class="card-img-top img-fluid" src="'.$card_data['pf'].'" '.$attr.' />';
+   $message.= '<div class="card-block">';
+   $message.= '<h4 class="card-title">'.$card_data['su'].'</h4>';
+   
+   $message.= $card_data['ms'];
+//   preg_replace("''", "'", $card_data['ms']);   
+   $message.= '</div>'; 
+   $message.= '</div>';
+   $message.= '</div>';   
+   $message.= '<br />';   
+   $message.= '</body></html>';   
    echo $message;
+   
+   
+   
+   
+   
 ?>

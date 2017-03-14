@@ -13,6 +13,7 @@
 /**************************************************************************************************/
 
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['title']="[french]Galerie d'image[/french][english]Pictures galery[/english][spanish]galeria de imagenes[/spanish]+|$title+";
+$PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['js']=array($nuke_url.'/modules/npds_galerie/js/jquery.watermark.min.js');
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['run']="yes";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['blocs']="2";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['TinyMce']=1;
