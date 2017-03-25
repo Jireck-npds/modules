@@ -18,4 +18,5 @@ $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['run']="yes";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['blocs']="2";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['TinyMce']=1;
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=gal*']['TinyMce-theme']="short";
+
 ?>

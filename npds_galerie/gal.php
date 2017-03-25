@@ -25,9 +25,11 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 global $language, $NPDS_Prefix;
 // For More security
 
+//   include ("mainfile.php");
+
 include_once("modules/$ModPath/gal_conf.php");
 include_once("modules/$ModPath/gal_func.php");
-include_once("modules/$ModPath/lang/$language.php");
+include_once("modules/$ModPath/lang/galerie-$language.php");
 include ("modules/$ModPath/admin/pages.php");
 
 // Paramètres utilisé par le script

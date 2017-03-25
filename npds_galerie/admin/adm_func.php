@@ -216,7 +216,7 @@ function AddNewGal($galcat,$newgal,$acces) {
       if (sql_num_rows(sql_query("SELECT id FROM ".$NPDS_Prefix."tdgal_gal WHERE cid='$galcat' AND nom='$newgal'"))) {
          echo '<p class="lead font-weight-bold text-warning"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Cette galerie existe déjà").'</p>';
       } else {
-         $regdate = time()+($gmt*3600);
+         $regdate = time()+((integer)$gmt*3600);
          if ($add = sql_query("INSERT INTO ".$NPDS_Prefix."tdgal_gal VALUES ('','$galcat','$newgal','$regdate','$acces')")) {
             $new_gal_id = sql_last_id();
 //   echo '<h4><i class="fa fa-plus"></i> '.gal_translate("Ajouter des photos à cette nouvelle galerie").'</h4>';
@@ -658,7 +658,7 @@ function WriteConfig($maxszimg,$maxszthb,$nbimlg,$nbimpg,$nbimcomment,$nbimvote,
       $erreur=true;
    }
    
-   if (!is_integer($maxszthb) && ($maxszthb > 240) && !isset($erreur)) {
+   if (!is_integer($maxszthb) && ($maxszthb > 300) && !isset($erreur)) {
       $msg_erreur = gal_translate("Dimension maximale de la miniature incorrecte");
       $erreur=true;
    }
@@ -864,7 +864,7 @@ function PrintArbo() {
         $query = sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_cat WHERE cid='".$row_cat[0]."' ORDER BY nom ASC");
         // SOUS-CATEGORIE
         while ($row_sscat = sql_fetch_row($query)) {
-           echo '<div class="card-header"><h5>';
+           echo '<div class="card-header"><h5 class="ml-3">';
            echo '<a class="" data-toggle="collapse" href="#scat'.$row_sscat[0].'" aria-expanded="false" aria-controls="scat'.$row_sscat[0].'">
            <i class="toggle-icon fa fa-caret-down fa-lg mr-2" data-toggle="tooltip" data-placement="top" title="'.gal_translate("Cliquer pour déplier").'"></i></a>'.stripslashes($row_sscat[2]).' <small>( '.gal_translate("Sous-catégorie").' )</small>';
            echo '<span class="float-right"><a class="btn btn-sm" href="'.$ThisFile.'&amp;subop=editcat&amp;catid='.$row_sscat[0].'">';
@@ -878,7 +878,7 @@ function PrintArbo() {
            // SOUS-CATEGORIE
            while ($row_gal = sql_fetch_row($querx)) {
            echo '<div class="card-header alert-info">
-           <h5><a class="" data-toggle="collapse" href="#galscat'.$row_gal[0].'" aria-expanded="false" aria-controls="galscat'.$row_sscat[0].'">
+           <h5 class="ml-3"><a class="" data-toggle="collapse" href="#galscat'.$row_gal[0].'" aria-expanded="false" aria-controls="galscat'.$row_sscat[0].'">
            <i class="toggle-icon fa fa-caret-down fa-lg mr-2" data-toggle="tooltip" data-placement="top" title="'.gal_translate("Cliquer pour déplier").'"></i></a>'.stripslashes($row_gal[2]).' <small>( '.gal_translate("Galerie").' )</small>';
            echo '<span class="float-right"><a class="btn btn-sm" href="'.$ThisFile.'&amp;subop=editgal&amp;galid='.$row_gal[0].'"><i class="fa fa-edit fa-lg" data-original-title="Editer" data-toggle="tooltip"></i></a>';
            echo '<a class="btn btn-sm" href="'.$ThisFile.'&amp;subop=delgal&amp;galid='.$row_gal[0].'"><i class="fa fa-trash-o fa-lg text-danger" data-original-title="Effacer" data-toggle="tooltip"></i></a></span></h5>
@@ -1170,7 +1170,9 @@ function EditImg($id) {
    echo '<p><ul class="list-group">';
    while ($rowC = sql_fetch_row($qcomment)) {
      
-      echo '<li class="list-group-item"><h4><span class="label label-default">'.$rowC[2].'</span></h4> '.date(translate("dateinternal"),$rowC[5]).'</span><span class="pull-xs-right"><a href="'.$ThisFile.'&amp;subop=delcomimg&amp;id='.$rowC[0].'&amp;picid='.$rowC[1].'"><i class="fa fa-trash-o fa-lg text-danger" data-original-title="Effacer" data-toggle="tooltip"></i></a></span></li>';
+      echo '<li class="list-group-item list-group-item-info justify-content-between">
+      '.$rowC[2].' '.gal_translate("a posté le").' '.date(translate("dateinternal"),$rowC[5]).'
+      <a class="" href="'.$ThisFile.'&amp;subop=delcomimg&amp;id='.$rowC[0].'&amp;picid='.$rowC[1].'"><i class="fa fa-trash-o fa-lg text-danger" data-original-title="Effacer" data-toggle="tooltip"></i></a></li>';
       echo '<li class="list-group-item">'.stripslashes($rowC[3]).'</li>';
    }
    echo '</ul></p>';

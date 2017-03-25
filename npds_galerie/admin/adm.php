@@ -37,7 +37,7 @@ if ($admin) {
    global $language, $ModPath, $ModStart, $NPDS_Prefix, $f_meta_nom, $f_titre, $adminimg;
    include_once("modules/$ModPath/gal_conf.php");
    include_once("modules/$ModPath/admin/adm_func.php");
-   include_once("modules/$ModPath/lang/$language.php");
+   include_once("modules/$ModPath/lang/galerie-$language.php");
 
 //update Tables for 2.2 release
    $result=sql_query("SELECT noaff from ".$NPDS_Prefix."tdgal_img");
