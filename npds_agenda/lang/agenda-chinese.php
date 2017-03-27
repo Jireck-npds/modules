@@ -31,7 +31,6 @@ function ag_translate($phrase) {
    case "Armistice 14-18": $tmp = "停战14-18"; break;
    case "Armistice 39-45": $tmp = "39-45停战"; break;
    case "Assomption": $tmp = "假设"; break;
-   case "Astérisque = saisie obligatoire": $tmp = "星号=输入强制"; break;
    case "Aucun évènement trouvé": $tmp = "没有找到事件"; break;
    case "Auteur": $tmp = "作者"; break;
    case "Autre(s)": $tmp = "其他"; break;
@@ -46,14 +45,14 @@ function ag_translate($phrase) {
    case "Cet évènement dure 1 jour": $tmp = "本次活动是1天"; break;
    case "Cet évènement dure plusieurs jours": $tmp = "此事件持续数天"; break;
    case "Cet évènement est maintenant effacé": $tmp = "此事件已被清除"; break;
-   case "Champ obligatoire": $tmp = "必填字段"; break;
+   case "Saisie obligatoire": $tmp = "必填字段"; break;
    case "Chemin des images": $tmp = "照片道路"; break;
    case "Choix catégorie": $tmp = "选择类别"; break;
    case "Chinois": $tmp = "中国"; break;
    case "Cliquez pour éditer": $tmp = "点击编辑"; break;
    case "Configuration": $tmp = "组态"; break;
    case "Confirmez la suppression": $tmp = "确认删除"; break;
-   case "D": $tmp = "ð"; break;
+   case "D": $tmp = "七"; break;
    case "Décembre": $tmp = "十二月"; break;
    case "Date": $tmp = "日期"; break;
    case "DECEMBRE": $tmp = "十二月"; break;
@@ -81,7 +80,7 @@ function ag_translate($phrase) {
    case "Hors Ligne": $tmp = "当前离线"; break;
    case "ID": $tmp = "注册"; break;
    case "Image de la catégorie": $tmp = "图片为类别"; break;
-   case "J": $tmp = "Ĵ"; break;
+   case "J": $tmp = "四"; break;
    case "JANVIER": $tmp = "一月"; break;
    case "Janvier": $tmp = "一月"; break;
    case "Jeu": $tmp = "游戏"; break;
@@ -94,7 +93,7 @@ function ag_translate($phrase) {
    case "Juillet": $tmp = "七月"; break;
    case "JUIN": $tmp = "六月"; break;
    case "Juin": $tmp = "六月"; break;
-   case "L": $tmp = "大号"; break;
+   case "L": $tmp = "一"; break;
    case "La catégorie est créée": $tmp = "被创建的类别"; break;
    case "La catégorie est effacée": $tmp = "类别被清除"; break;
    case "La catégorie est mise à jour": $tmp = "类别更新"; break;
@@ -104,8 +103,8 @@ function ag_translate($phrase) {
    case "Liste de vos évènements": $tmp = "列出您的活动"; break;
    case "Lundi de Pâques": $tmp = "复活节后的星期一"; break;
    case "Lundi de Pentecôte": $tmp = "圣灵降临节"; break;
-   case "M ": $tmp = "中号"; break;
-   case "M": $tmp = "中号"; break;
+   case "M ": $tmp = "三"; break;
+   case "M": $tmp = "二"; break;
    case "MAI": $tmp = "五月"; break;
    case "Mai": $tmp = "五月"; break;
    case "Mail du receveur": $tmp = "邮件收件人"; break;
@@ -149,7 +148,7 @@ function ag_translate($phrase) {
    case "Retour au calendrier": $tmp = "返回到日历"; break;
    case "Retour au jour": $tmp = "早在一天"; break;
    case "Retour": $tmp = "回报"; break;
-   case "S": $tmp = "小号"; break;
+   case "S": $tmp = "六"; break;
    case "Sam": $tmp = "山姆"; break;
    case "Sauver les modifications": $tmp = "保存更改"; break;
    case "Sélectionner catégorie": $tmp = "选择类别"; break;
@@ -173,7 +172,7 @@ function ag_translate($phrase) {
    case "Trier par": $tmp = "排序方式"; break;
    case "Un administrateur validera vos changements rapidement": $tmp = "管理员将迅速确认自己的更改"; break;
    case "Un évènement nouveau est à valider dans agenda": $tmp = "一个新的事件是在议程验证"; break;
-   case "V": $tmp = "V"; break;
+   case "V": $tmp = "五"; break;
    case "Validation après modification": $tmp = "修改后的验证"; break;
    case "Validation par l'admin": $tmp = "验证由管理员"; break;
    case "Valider": $tmp = "验证"; break;

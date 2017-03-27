@@ -331,12 +331,13 @@ function ajout($month, $an, $debut)
       echo '</select>';
    }
    echo '</fieldset>';
+   echo '<p><small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span> '.ag_translate('Saisie obligatoire').'</small></p>';   
    echo '
    <input type="hidden" name="member" value="'.$cookie[1].'">
    <input type="hidden" name="subop" value="catcreer">
    <button type="submit" class="btn btn btn-outline-primary btn-sm"><i class="fa fa-check"></i> '.ag_translate('Valider').'</button>
    </form>';
-   echo '<small>'.ag_translate('Astérisque = saisie obligatoire').'</small>';
+
    
    echo '<div class="float-right"><a class="btn btn-secondary btn-sm" href="javascript:history.back()">'.ag_translate('Retour').'</a></div>';
 }

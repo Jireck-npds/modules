@@ -30,7 +30,7 @@
 ##
 ## UTILISATION DU MODULE
 ## Appel grace à une URL du type : 
-## <a href=modules.php?ModPath=npds_agenda&amp;ModStart=calendrier>Agenda</a>
+## <a href="modules.php?ModPath=npds_agenda&amp;ModStart=calendrier">Agenda</a>
 ##
 ## BLOC
 ## Affiche un mini-calendrier du mois en cours avec navigation

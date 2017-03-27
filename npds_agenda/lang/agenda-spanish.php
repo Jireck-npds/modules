@@ -32,7 +32,6 @@ function ag_translate($phrase) {
    case "Armistice 14-18": $tmp = "Armisticio 14-18"; break;
    case "Armistice 39-45": $tmp = "39-45 armisticio"; break;
    case "Assomption": $tmp = "Suposición"; break;
-   case "Astérisque = saisie obligatoire": $tmp = "Asterisco = entrada obligatoria"; break;
    case "Aucun évènement trouvé": $tmp = "No se han encontrado eventos"; break;
    case "Auteur": $tmp = "Autor"; break;
    case "Autre(s)": $tmp = "Otro(s)"; break;
@@ -47,7 +46,7 @@ function ag_translate($phrase) {
    case "Cet évènement dure 1 jour": $tmp = "Este evento es un 1 día"; break;
    case "Cet évènement dure plusieurs jours": $tmp = "Este evento dura varios días"; break;
    case "Cet évènement est maintenant effacé": $tmp = "Este evento se ha borrado"; break;
-   case "Champ obligatoire": $tmp = "Campo obligatorio"; break;
+   case "Saisie obligatoire": $tmp = "Campo obligatorio"; break;
    case "Chemin des images": $tmp = "Imágenes de carreteras"; break;
    case "Choix catégorie": $tmp = "Categoría de elección"; break;
    case "Chinois" : $tmp = "Chino"; break;

@@ -32,5 +32,6 @@ $try = array (
    'Martinique',
    'Guyane',
    'La Réunion',
-   'Mayotte',);
+   'Mayotte'
+   );
 ?>

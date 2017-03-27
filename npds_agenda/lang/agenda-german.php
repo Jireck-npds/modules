@@ -32,7 +32,6 @@ function ag_translate($phrase) {
    case "Armistice 14-18": $tmp = "Waffenstillstand 14-18"; break;
    case "Armistice 39-45": $tmp = "Waffenstillstand 39-45"; break;
    case "Assomption": $tmp = "Assomption"; break;
-   case "Astérisque = saisie obligatoire": $tmp = "Asterisk = Pflichteingabe"; break;
    case "Aucun évènement trouvé": $tmp = "Keine Termine gefunden"; break;
    case "Auteur": $tmp = "Autor"; break;
    case "Autre(s)": $tmp = "Andere(s)"; break;
@@ -47,7 +46,6 @@ function ag_translate($phrase) {
    case "Cet évènement dure 1 jour": $tmp = "Diese Veranstaltung ist ein 1 Tag"; break;
    case "Cet évènement dure plusieurs jours": $tmp = "Diese Veranstaltung dauert mehrere Tage"; break;
    case "Cet évènement est maintenant effacé": $tmp = "Dieses Ereignis wird jetzt gelöscht"; break;
-   case "Champ obligatoire": $tmp = "Pflichtfeld"; break;
    case "Chemin des images": $tmp = "Bilder Straßenbau"; break;
    case "Choix catégorie": $tmp = "Wahl der Kategorie"; break;
    case "Chinois" : $tmp = "Chinesisch"; break;
@@ -151,6 +149,7 @@ function ag_translate($phrase) {
    case "Retour au jour": $tmp = "Zurück in den Tag"; break;
    case "Retour": $tmp = "Rückkehr"; break;
    case "S": $tmp = "S"; break;
+   case "Saisie obligatoire": $tmp = "Pflichtfeld"; break;
    case "Sam": $tmp = "Sam"; break;
    case "Sauver les modifications": $tmp = "Änderungen speichern"; break;
    case "Sélectionner catégorie": $tmp = "Seleccione categoría"; break;

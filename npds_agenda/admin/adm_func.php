@@ -781,14 +781,14 @@ function deleteevt($id, $ok=0)
       $result1 = "DELETE FROM ".$NPDS_Prefix."agend_dem WHERE id = $id";
       $succes1 = sql_query($result1) or die ("erreur : ".sql_error());
       echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement est maintenant effacé').'</p>';
-      echo '<p><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';     
+      echo '<p><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
    }
    else
    {
       echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Etes-vous certain de vouloir supprimer cet évènement').'</p>
       <div class="btn-group"><a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=editevt&amp;id='.$id.'">'.ag_translate('NON').'</a>
       <a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=deleteevt&amp;id='.$id.'&amp;ok=1">'.ag_translate('OUI').'</a></div>';
-      echo '<p><a class="btn btn-secondary btn-sm mt-2" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';     
+      echo '<p><a class="btn btn-secondary btn-sm mt-2" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
    }
 }
 // FIN SUPPRIMER
@@ -836,7 +836,6 @@ function configuration()
    if ($bouton == '1')
    {
       $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" checked>'.ag_translate('Par ville (défaut)').'</label></div>';
-     
       $def1 = '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2">'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
       <option></option>';
       $nb = count($ListFiles);
@@ -850,7 +849,6 @@ function configuration()
    else
    {
       $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" />'.ag_translate('Par ville (défaut)').'</label></div>';
-      
       $def1 .= '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2" checked>'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
       <option></option>';
       $nb = count($ListFiles);
@@ -977,28 +975,28 @@ function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admi
    $file = fopen('modules/'.$ModPath.'/admin/config.php', 'w');
    $content = "<?php\n";
    $content .= "/************************************************************************/\n";
-   $content .= "/* DUNE by NPDS      */\n";
-   $content .= "/*       */\n";
-   $content .= "/* NPDS Copyright (c) 2002-2017 by Philippe Brunier   */\n";
-   $content .= "/*       */\n";
+   $content .= "/* DUNE by NPDS                                                         */\n";
+   $content .= "/*                                                                      */\n";
+   $content .= "/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */\n";
+   $content .= "/*                                                                      */\n";
    $content .= "/* This program is free software. You can redistribute it and/or modify */\n";
    $content .= "/* it under the terms of the GNU General Public License as published by */\n";
-   $content .= "/* the Free Software Foundation; either version 2 of the License.   */\n";
-   $content .= "/*       */\n";
-   $content .= "/* Module npds_agenda 2.0     */\n";
-   $content .= "/*       */\n";
-   $content .= "/* Auteur Oim      */\n";
-   $content .= "/* Changement de nom du module version Rev16 par jpb/phr janv 2017   */\n";
+   $content .= "/* the Free Software Foundation; either version 2 of the License.       */\n";
+   $content .= "/*                                                                      */\n";
+   $content .= "/* Module npds_agenda 2.0                                               */\n";
+   $content .= "/*                                                                      */\n";
+   $content .= "/* Auteur Oim                                                           */\n";
+   $content .= "/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */\n";
    $content .= "/************************************************************************/\n";
    $content .= "\n";
-   $content .= "\$gro   = \"$xgro\";\n";
-   $content .= "\$valid   = \"$xvalid\";\n";
-   $content .= "\$courriel   = \"$xcourriel\";\n";
-   $content .= "\$revalid   = \"$xrevalid\";\n";
-   $content .= "\$receveur   = \"$xreceveur\";\n";
-   $content .= "\$nb_admin   = \"$xnb_admin\";\n";
-   $content .= "\$nb_news   = \"$xnb_news\";\n";
-   $content .= "\$bouton   = \"$fich\";\n";
+   $content .= "\$gro = \"$xgro\";\n";
+   $content .= "\$valid = \"$xvalid\";\n";
+   $content .= "\$courriel = \"$xcourriel\";\n";
+   $content .= "\$revalid = \"$xrevalid\";\n";
+   $content .= "\$receveur = \"$xreceveur\";\n";
+   $content .= "\$nb_admin = \"$xnb_admin\";\n";
+   $content .= "\$nb_news = \"$xnb_news\";\n";
+   $content .= "\$bouton = \"$fich\";\n";
    $content .= "\n";
    $content .= "?>";
    fwrite($file, $content);
@@ -1008,24 +1006,24 @@ function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admi
    $file = fopen('modules/'.$ModPath.'/cache.timings.php', 'w');
    $content = "<?php\n";
    $content .= "/************************************************************************/\n";
-   $content .= "/* DUNE by NPDS      */\n";
-   $content .= "/*       */\n";
-   $content .= "/* NPDS Copyright (c) 2002-2017 by Philippe Brunier   */\n";
-   $content .= "/*       */\n";
+   $content .= "/* DUNE by NPDS                                                         */\n";
+   $content .= "/*                                                                      */\n";
+   $content .= "/* NPDS Copyright (c) 2002-2017 by Philippe Brunier                     */\n";
+   $content .= "/*                                                                      */\n";
    $content .= "/* This program is free software. You can redistribute it and/or modify */\n";
    $content .= "/* it under the terms of the GNU General Public License as published by */\n";
-   $content .= "/* the Free Software Foundation; either version 2 of the License.   */\n";
-   $content .= "/*       */\n";
-   $content .= "/* Module npds_agenda 2.0     */\n";
-   $content .= "/*       */\n";
-   $content .= "/* Auteur Oim      */\n";
-   $content .= "/* Changement de nom du module version Rev16 par jpb/phr janv 2017   */\n";
+   $content .= "/* the Free Software Foundation; either version 2 of the License.       */\n";
+   $content .= "/*                                                                      */\n";
+   $content .= "/* Module npds_agenda 2.0                                               */\n";
+   $content .= "/*                                                                      */\n";
+   $content .= "/* Auteur Oim                                                           */\n";
+   $content .= "/* Changement de nom du module version Rev16 par jpb/phr janv 2017      */\n";
    $content .= "/************************************************************************/\n";
    $content .= "\n";
-   $content .= "\$CACHE_TIMINGS['modules.php']   = $xtps;\n";
-   $content .= "\$CACHE_QUERYS['modules.php']   = \"^ModPath=$ModPath&ModStart=calendrier\";\n";
-   $content .= "\$CACHE_QUERYS['modules.php']   = \"^ModPath=$ModPath&ModStart=annee\";\n";
-   $content .= "\$CACHE_QUERYS['modules.php']   = \"^ModPath=$ModPath&ModStart=lieu\";\n";
+   $content .= "\$CACHE_TIMINGS['modules.php'] = $xtps;\n";
+   $content .= "\$CACHE_QUERYS['modules.php'] = \"^ModPath=$ModPath&ModStart=calendrier\";\n";
+   $content .= "\$CACHE_QUERYS['modules.php'] = \"^ModPath=$ModPath&ModStart=annee\";\n";
+   $content .= "\$CACHE_QUERYS['modules.php'] = \"^ModPath=$ModPath&ModStart=lieu\";\n";
    $content .= "\n";
    $content .= "?>";
    fwrite($file, $content);

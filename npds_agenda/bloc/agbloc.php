@@ -108,7 +108,7 @@
 
    // Insertion des jours réservés dans le tableau
          $Btab_jours[$Bjour_reserve] = (bool)true;
-         
+
    // Récupére titre des événements
          $Bafftitre[$Bjour_reserve] .= $Btitre.'&lt;br /&gt;';
       }
@@ -141,7 +141,6 @@
    <a href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier&month='.$mois.'&an='.$annee.'"><span class="badge badge-default">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>
    <a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_suivant.'&amp;annee='.$Ban_suivant.'" class="ml-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
    </p>';
-
    $content .= '<table class="table table-bordered table-sm">
    <thead class="thead-default">
    <tr>
@@ -163,7 +162,7 @@
    $Bdernier_jour = 28;
    while (checkdate($mois, $Bdernier_jour + 1, $annee))
    {
-      $Bdernier_jour++;
+   $Bdernier_jour++;
    }
    $Bsdate = "01/$mois/$annee";
    $BsEngDate = substr ($Bsdate, -4).substr ($Bsdate, 3, 2).substr ($Bsdate, 0, 2);
@@ -178,9 +177,9 @@
       {
 
    // Si case calendrier vide
-         $content .= '<td class="text-center">&nbsp;</td>'; 
+         $content .= '<td class="text-center">&nbsp;</td>';
       }
-      
+
    // Permet la navigation du calendrier
       $Bdate = ajout_zero(01, $mois, $annee);
 
@@ -208,7 +207,7 @@
       $content .= '</tr>'
       .'<tr>';
    }
-   
+
    // 7 premiers jour du mois
    for ($i = 1; $i < 8; $i++)
    {
@@ -223,10 +222,10 @@
 
    // Case avec class pour réserver
          $Bce_jour = ($i + 1) - $Bpremier_jour;
-   
+
    // Permet la navigation du calendrier
          $Bdate = ajout_zero($Bce_jour, $mois, $annee);
-   
+
    // Met en rouge ce jour
          if ($Bce_jour == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger font-weight-bold';}else{$Bcs = 'text-muted';}
          if($Btab_jours[$Bce_jour])
@@ -235,7 +234,7 @@
             if ($Bafftitre[$Bce_jour] == '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-warning';}
             else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] == ''){$Bcla = 'table-info';}
             else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-info';}
-            
+
    // Ajoute le jour et reste sur la même page + css jour évènement
             $content .= '<td class="text-center '.$Bcla.'">
             <a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>
@@ -271,16 +270,16 @@
 
    // Met en rouge ce jour
             if ($Bjour_suiv == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger font-weight-bold';}else{$Bcs = 'text-muted';}
-   
+
    // Case avec class pour réserver
             if($Btab_jours[$Bjour_suiv])
             {
-   
+
    // Si jour ferie sans évènement
                if ($Bafftitre[$Bjour_suiv] == '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-warning';}
                else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] == ''){$Bcla =  'table-info';}
                else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-info';}
-               
+
    // Ajoute le jour et reste sur la même page + css jour évènement
                $content .= '<td class="text-center '.$Bcla.'">
                <a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&subop=jour&date='.$Bdate.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a>
@@ -298,7 +297,7 @@
    }
    $content .= '</tr>
    </tbody></table>';
-   
+
    // Si membre appartient au bon groupe
    if(autorisation($gro))
    {

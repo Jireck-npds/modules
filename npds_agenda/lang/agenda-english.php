@@ -31,7 +31,6 @@ function ag_translate($phrase) {
    case "Armistice 14-18": $tmp = "Armistice 14-18"; break;
    case "Armistice 39-45": $tmp = "Armistice 39-45"; break;
    case "Assomption": $tmp = "Assumption"; break;
-   case "Astérisque = saisie obligatoire": $tmp = "Asterisk = mandatory input"; break;
    case "Aucun évènement trouvé": $tmp = "Not event find"; break;
    case "Auteur": $tmp = "Author"; break;
    case "Autre(s)": $tmp = "Other(s)"; break;
@@ -46,7 +45,6 @@ function ag_translate($phrase) {
    case "Cet évènement dure 1 jour": $tmp = "This event lasts 1 day"; break;
    case "Cet évènement dure plusieurs jours": $tmp = "The event lasts several days"; break;
    case "Cet évènement est maintenant effacé": $tmp = "This event is now clears"; break;
-//   case "Champ obligatoire": $tmp = "Mandatory field"; break;
    case "Chemin des images": $tmp = "Path of images"; break;
    case "Choix catégorie": $tmp = "Select catégory"; break;
    case "Chinois" : $tmp = "Chinese"; break;
@@ -152,6 +150,7 @@ function ag_translate($phrase) {
    case "Retour au jour": $tmp = "Back to day"; break;
    case "Retour": $tmp = "Back"; break;
    case "S": $tmp = "S"; break;
+   case "Saisie obligatoire": $tmp = "Mandatory field"; break;
    case "Sam": $tmp = "Sat"; break;
    case "Sauver les modifications": $tmp = "Save the changes"; break;
    case "Sélectionner catégorie": $tmp = "Select category"; break;
