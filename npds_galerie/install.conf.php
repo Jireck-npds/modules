@@ -21,14 +21,14 @@
 /************************************************************************/
 global $ModInstall;
 #autodoc $name_module: Nom du module
-$name_module = 'TD-Galerie 3.0';
+$name_module = 'npds_galerie';
 
 #autodoc $path_adm_module: chemin depuis $ModInstall #required si admin avec interface
 $path_adm_module = 'admin/adm';
 
 $req_adm='';//do not fill
 if ($path_adm_module!='')
-$req_adm="INSERT INTO fonctions (fid,fnom,fdroits1,fdroits1_descr,finterface,fetat,fretour,fretour_h,fnom_affich,ficone,furlscript,fcategorie,fcategorie_nom,fordre) VALUES ('', '".$ModInstall."', 1, '', 1, 1, '', '', 'TD-Galerie 3.0', 'td-galerie', 'href=\"admin.php?op=Extend-Admin-SubModule&ModPath=".$ModInstall."&ModStart=".$path_adm_module."\"', 6, 'Modules', 0);";
+$req_adm="INSERT INTO fonctions (fid,fnom,fdroits1,fdroits1_descr,finterface,fetat,fretour,fretour_h,fnom_affich,ficone,furlscript,fcategorie,fcategorie_nom,fordre) VALUES ('', '".$ModInstall."', 1, '', 1, 1, '', '', 'npds_galerie 3.0', 'npds_galerie', 'href=\"admin.php?op=Extend-Admin-SubModule&ModPath=".$ModInstall."&ModStart=".$path_adm_module."\"', 6, 'Modules', 0);";
 
 
 #autodoc $sql = array(""): Si votre module doit exécuter une ou plusieurs requêtes SQL, tapez vos requêtes ici.

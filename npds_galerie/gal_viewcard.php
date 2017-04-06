@@ -26,7 +26,7 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    global $language;
    include_once("modules/$ModPath/gal_conf.php");
    include_once("modules/$ModPath/gal_func.php");
-   include_once("modules/$ModPath/lang/$language.php");
+   include_once("modules/$ModPath/lang/galerie-$language.php");
    if (!isset($data)) { redirect_url("modules.php?ModPath=$ModPath&ModStart=gal"); }
 
    $card_data = array();

@@ -19,38 +19,7 @@ if (stristr($_SERVER['PHP_SELF'],"imgalea_priv.php")) { die(); }
 /**************************************************************************************************/
 global $language, $NPDS_Prefix;
 $ModPath="npds_galerie";
-include_once("modules/$ModPath/lang/$language.php");
-
-//Fonction d'affichage dans un popup
-$content  =  "<script type=\"text/javascript\">\n//<![CDATA[\n";
-$content .= "function picview(chemin, image, comment, iwidth, iheight)";
-$content .= "{";
-$content .=  "if (iheight>screen.height) {";
-$content .= "iheight=screen.height-100;";
-$content .= "}";
-$content .= "if (iwidth>screen.width) {";
-$content .= "iwidth=screen.width-60;";
-$content .= "}";
-$content .= " var windowTitle= comment;";
-$content .= " ";
-$content .= " var TheComment= comment;";
-$content .= " var CouleurFont = \"#FFFAEA\";";
-$content .= " var CouleurBord = \"#ffefdb\";";
-$content .= " var CouleurComment = \"#000000\";";
-$content .= " var windowHeight = iheight ;";
-$content .= " var windowWidth = iwidth ;";
-$content .= " var globalURL = chemin  ;";
-$content .= " var t = \"\";";
-$content .= " theWindow = window.open(\"\",\"_blank\",\"toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,width=\"+windowWidth+\",height=\"+windowHeight+\",screenX=0,left=0,screenY=0,top=0\");";
-$content .= " t += \"<html><head><title>\" + unescape(windowTitle) + \"</title></head><body>\\n\";   ";
-$content .= " t += \"<a href=\\\"javascript:self.close()\\\" onmouseover=\\\"window.status='fermer'\\; return true\\\">\\n\";";
-$content .= " t += \"<p align=\\\"center\\\"><img src=\\\"\" + globalURL + \"\\\" border=\\\"0\\\" alt=\\\"Cliquez sur l'image pour fermer la fenetre.\\\" /></a></p>\\n\";";
-$content .= " t += \"</body></html>\\n\";";
-$content .= " theWindow.document.clear();";
-$content .= " theWindow.document.write(t);";
-$content .= " theWindow.document.close();";
-$content .= "}";
-$content .= "\n//]]>\n</script>";
+include_once("modules/$ModPath/lang/galerie-$language.php");
 
    if (isset($user)) {
       $tab_groupe = valid_group($user);
@@ -96,15 +65,15 @@ $content .= "\n//]]>\n</script>";
    list($gallery)=sql_fetch_row(sql_query("select nom from ".$NPDS_Prefix."tdgal_gal where id='$row[1]'"));
    list($gal_acces)=sql_fetch_row(sql_query("select acces from ".$NPDS_Prefix."tdgal_gal where id='$row[1]'"));
 
-   $chemin="modules/$ModPath/imgs/".$image;
-   list($width, $height, $type, $attr) = @getimagesize("$chemin");
-   $h_i = $height+40;
-   $w_i = $width+40;
+//   $chemin="modules/$ModPath/imgs/".$image;
+//   list($width, $height, $type, $attr) = @getimagesize("$chemin");
+//   $h_i = $height+40;
+//   $w_i = $width+40;
 
-   if (file_exists($chemin)) {
-      if ($width>100) $width=100;
-      $ibid ='<img class="img-fluid card-img-top" src="modules/'.$ModPath.'/imgs/'.$image.'" border="0" />';
-   }
+//   if (file_exists($chemin)) {
+//      if ($width>100) $width=100;
+//      $ibid ='<img class="img-fluid card-img-top" src="modules/'.$ModPath.'/imgs/'.$image.'" border="0" />';
+//   }
 
    //Affichage de l'image
    $content .='<div class="card">';

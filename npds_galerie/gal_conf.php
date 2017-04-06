@@ -21,7 +21,7 @@
 $MaxSizeImg = 1000;
 
 // Dimension max des images miniatures
-$MaxSizeThumb = 200;
+$MaxSizeThumb = 300;
 
 // Nombre d'images par ligne
 $imglign = 4;
@@ -36,8 +36,8 @@ $nbtopcomment = 5;
 $nbtopvote = 5;
 
 // Personnalisation de l'affichage
-$view_alea = true;
-$view_last = true;
+$view_alea = false;
+$view_last = false;
 $aff_vote = true;
 $aff_comm = true;
 

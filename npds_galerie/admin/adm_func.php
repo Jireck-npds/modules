@@ -327,7 +327,7 @@ function cat_arbo($sel) {
          $queryY = sql_query("SELECT id,nom,acces FROM ".$NPDS_Prefix."tdgal_cat WHERE cid='".$rowX[0]."' ORDER BY nom ASC");
          while ($rowY = sql_fetch_row($queryY)) {
             if ($sel==$rowY[0]) $selected="selected"; else $selected="";
-            $ibid.='<option value="'.$rowY[0].'" $selected>&nbsp;&nbsp;'.stripslashes($rowY[1]).' ('.Get_Name_Group("",$rowY[2]).')</option>';
+            $ibid.='<option value="'.$rowY[0].'" '.$selected.'>&nbsp;&nbsp;'.stripslashes($rowY[1]).' ('.Get_Name_Group("",$rowY[2]).')</option>';
          }
       }
       return ($ibid);

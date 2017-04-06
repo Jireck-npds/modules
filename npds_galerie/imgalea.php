@@ -19,7 +19,7 @@ if (stristr($_SERVER['PHP_SELF'],"imgalea.php")) { die(); }
 /**************************************************************************************************/
 global $language, $NPDS_Prefix;
 $ModPath="npds_galerie";
-include_once("modules/$ModPath/lang/$language.php");
+include_once("modules/$ModPath/lang/galerie-$language.php");
 
    if (isset($user)) {
       $tab_groupe = valid_group($user);
