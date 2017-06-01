@@ -19,7 +19,7 @@
 global $ModInstall;
 #autodoc $name_module: Nom du module
 
-$name_module = "npds_glossaire 3.0";
+$name_module = "npds_glossaire";
 
 #autodoc $path_adm_module: chemin depuis $ModInstall #required si admin avec interface
 $path_adm_module = 'admin/glossadmin';
@@ -52,7 +52,7 @@ $sql = array("CREATE TABLE ".$NPDS_Prefix."td_glossaire (
   affiche int(1) NOT NULL default '0',
   lien varchar(255) NOT NULL default '',
   PRIMARY KEY (id)
-) TYPE=MyISAM;");
+) TYPE=MyISAM DEFAULT CHARSET=utf8;");
 
 if($path_adm_module!='') $sql[]=$req_adm;
 

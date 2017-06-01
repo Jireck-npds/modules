@@ -41,7 +41,7 @@ $sql = array("CREATE TABLE ".$NPDS_Prefix."tdgal_cat (
   nom varchar(150) NOT NULL default '',
   acces tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;",
+) TYPE=MyISAM DEFAULT CHARSET=utf8;",
 "CREATE TABLE ".$NPDS_Prefix."tdgal_com (
   id int(11) NOT NULL auto_increment,
   pic_id int(11) NOT NULL default '0',
@@ -50,7 +50,7 @@ $sql = array("CREATE TABLE ".$NPDS_Prefix."tdgal_cat (
   comhostname varchar(60) NOT NULL default '',
   comtimestamp varchar(14) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;",
+) TYPE=MyISAM DEFAULT CHARSET=utf8;",
 "CREATE TABLE ".$NPDS_Prefix."tdgal_gal (
   id int(11) NOT NULL auto_increment,
   cid int(11) NOT NULL default '0',
@@ -58,7 +58,7 @@ $sql = array("CREATE TABLE ".$NPDS_Prefix."tdgal_cat (
   date varchar(14) default NULL,
   acces tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;",
+) TYPE=MyISAM DEFAULT CHARSET=utf8;",
 "INSERT INTO ".$NPDS_Prefix."tdgal_gal VALUES (1, -1, 'Import', NULL, -127);",
 "CREATE TABLE ".$NPDS_Prefix."tdgal_img (
   id int(11) NOT NULL auto_increment,
@@ -69,7 +69,7 @@ $sql = array("CREATE TABLE ".$NPDS_Prefix."tdgal_cat (
   ordre int(11) NOT NULL default '0',
   noaff int(1) unsigned default '0',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;",
+) TYPE=MyISAM DEFAULT CHARSET=utf8;",
 "CREATE TABLE ".$NPDS_Prefix."tdgal_vot (
   id int(11) NOT NULL auto_increment,
   pic_id int(11) NOT NULL default '0',
@@ -78,7 +78,7 @@ $sql = array("CREATE TABLE ".$NPDS_Prefix."tdgal_cat (
   ratinghostname varchar(60) NOT NULL default '',
   ratingtimestamp varchar(14) default NULL,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;");
+) TYPE=MyISAM DEFAULT CHARSET=utf8;");
 
 if($path_adm_module!='') $sql[]=$req_adm;
 

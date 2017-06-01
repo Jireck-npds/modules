@@ -32,7 +32,7 @@ include ("modules/$ModPath/lang/glossaire-$language.php");
 
    GraphicAdmin($hlpfile);
    echo '<div id="adm_men">';
-   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate(Glossaire).'</h2>';
+   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate("Glossaire").'</h2>';
 //   echo '<h3>Administration</h3>';
 
 function admin_glo() {
@@ -172,6 +172,7 @@ function admin_edit($id) {
    echo '<input type="hidden" name="id" value="'.$id.'"><input type="hidden" name="subop" value="admin_modify">';
    echo '<input class="btn btn-outline-primary btn-sm" type="submit" value="'.glo_translate("Valider").'">';
 }
+settype($subop,'string');
 switch ($subop) {
  case "admin_supp":
    sql_query("DELETE FROM ".$NPDS_Prefix."td_glossaire WHERE id='$id'");

@@ -29,11 +29,11 @@ function ag_pag($total,$courante,$adjacentes,$ThisFile,$css)
    $pagination .= '<nav aria-label="">
                      <ul class="pagination pagination-sm">';
       if ($courante == 2)
-         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">&laquo;</a></li>';
+         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">◄</a></li>';
       elseif ($courante > 2)
-         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$prec.'">&laquo;</a></li>';
+         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$prec.'">◄</a></li>';
       else
-         $pagination.= '<li class="page-item"><span class="page-link">&laquo;</span></li>';
+         $pagination.= '<li class="page-item disabled"><a class="page-link" href="#">◄</a></li>';
       if ($total < 7 + ($adjacentes * 2))
       {
          $pagination.= ($courante == 1) ? '<li class="page-item active"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
@@ -49,11 +49,11 @@ function ag_pag($total,$courante,$adjacentes,$ThisFile,$css)
       {
          if($courante < 1 + ($adjacentes * 2))
          {
-            $pagination.= ($courante == 1) ? '<li class="page-item"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
+            $pagination.= ($courante == 1) ? '<li class="page-item active"><span class="page-link">1</span></li>' : '<li class="page-item"><a class="page-link" href="'.$ThisFile.'">1</a></li>';
             for ($compteur = 2; $compteur < 4 + ($adjacentes * 2); $compteur++)
             {
                if ($compteur == $courante)
-                  $pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
+                  $pagination.= '<li class="page-item active"><span class="page-link">'.$compteur.'</span></li>';
                else
                   $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
             }
@@ -69,7 +69,7 @@ function ag_pag($total,$courante,$adjacentes,$ThisFile,$css)
             for ($compteur = $courante - $adjacentes; $compteur <= $courante + $adjacentes; $compteur++)
             {
                if ($compteur == $courante)
-                  $pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
+                  $pagination.= '<li class="page-item active"><span class="page-link">'.$compteur.'</span></li>';
                else
                   $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&page='.$compteur.'">'.$compteur.'</a></li>';
             }
@@ -85,16 +85,16 @@ function ag_pag($total,$courante,$adjacentes,$ThisFile,$css)
             for ($compteur = $total - (2 + ($adjacentes * 2)); $compteur <= $total; $compteur++)
             {
                if ($compteur == $courante)
-                  $pagination.= '<li class="page-item"><span class="page-link">'.$compteur.'</span></li>';
+                  $pagination.= '<li class="page-item active"><span class="page-link">'.$compteur.'</span></li>';
                else
                   $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$compteur.'">'.$compteur.'</a></li>';
             }
          }
       }
       if ($courante < $compteur - 1)
-         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$suiv.'">&raquo;</a></li>';
+         $pagination.= '<li class="page-item"><a class="page-link" href="'.$ThisFile.'&amp;page='.$suiv.'">►</a></li>';
       else
-         $pagination.= '<li class="page-item"><span class="page-link">&raquo;</span></li>';
+         $pagination.= '<li class="page-item disabled"><a class="page-link" href="#">►</a></li>';
          $pagination.= '</ul></nav>';
    }
    return ($pagination);

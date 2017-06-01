@@ -15,29 +15,29 @@
 /************************************************************************/
 
 //agenda
-   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=calendrier*']['title']="[french]Agenda[/french][english]Diary[/english][spanish]Agenda[/spanish][german]Tagebuch[/german][chinese]日记[/chinese]+|$title+";
+   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=calendrier*']['title']="[french]Agenda[/french][english]Diary[/english][spanish]Agenda[/spanish][german]Tagebuch[/german][chinese]日记[/chinese]+";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=calendrier*']['run']="yes";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=calendrier*']['blocs']="0";
 
 //annee
-   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['title']="[french]Année[/french][english]Year[/english][spanish]Año[/spanish][german]Jahr[/german][chinese]年[/chinese]+|$title+";
+   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['title']="[french]Année[/french][english]Year[/english][spanish]Año[/spanish][german]Jahr[/german][chinese]年[/chinese]+";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['run']="yes";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=annee*']['blocs']="0";
 
 //lieu
-   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=lieu*']['title']="[french]Ville[/french][english]City[/english][spanish]Ciudad[/spanish][german]Stadt[/german][chinese]城市[/chinese]+|$title+";
+   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=lieu*']['title']="[french]Ville[/french][english]City[/english][spanish]Ciudad[/spanish][german]Stadt[/german][chinese]城市[/chinese]+";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=lieu*']['run']="yes";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=lieu*']['blocs']="0";
 
 //ajout
-   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['title']="[french]Ajouter un évènement[/french][english]Add an event[/english][spanish]Añadir un evento[/spanish][german]Event eintragen[/german][chinese]添加事件[/chinese]+|$title+";
+   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['title']="[french]Ajouter un événement[/french][english]Add an event[/english][spanish]Añadir un evento[/spanish][german]Event eintragen[/german][chinese]添加事件[/chinese]+";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['run']="yes";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['blocs']="0";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['TinyMce']=1;
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=agenda_add*']['TinyMce-theme']="short";
 
 //administration
-   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['title']="[french]Administrer votre évènement[/french][english]Manage your event[/english][spanish]Dar a su evento[/spanish][german]Geben Sie Ihre Veranstaltung[/german][chinese]给你的事件[/chinese]+|$title+";
+   $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['title']="[french]Administrer votre événement[/french][english]Manage your event[/english][spanish]Dar a su evento[/spanish][german]Geben Sie Ihre Veranstaltung[/german][chinese]给你的事件[/chinese]+";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['run']="yes";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['blocs']="0";
    $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=administration*']['TinyMce']=1;

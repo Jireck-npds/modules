@@ -26,7 +26,7 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 // DEBUT FONCTION LISTE SUJET
 function suj() {
    global $NPDS_Prefix, $ModPath, $theme, $bouton;
-   global $ThisRedo, $ThisFile, $gro;
+   global $ThisRedo, $ThisFile, $gro, $stopicid;
 /*debut theme html partie 1/2*/
 
 $inclusion = "modules/".$ModPath."/html/sujet.html";
@@ -40,7 +40,7 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
       <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_translate('Vos ajouts').'</a>
       </li>
       <li class="nav-item">
-      <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evènement').'</a>
+      <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evénement').'</a>
       </li>';
    }
 
@@ -194,8 +194,8 @@ function listsuj($sujet, $niv)
    }
    else
    {
-      $affres = '<ul><li>'.ag_translate('Evènement(s) à venir').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=0" '.$cs.'><span class="badge badge-success">'.$sup.'</span></a></li>
-      <li>'.ag_translate('Evènement(s) en cours ou passé(s)').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'><span class="badge badge-default">'.$inf.'</span></a></li></ul>';
+      $affres = '<ul><li>'.ag_translate('Evénement(s) à venir').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=0" '.$cs.'><span class="badge badge-success">'.$sup.'</span></a></li>
+      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'><span class="badge badge-default">'.$inf.'</span></a></li></ul>';
 
 /*Requete liste evenement suivant $sujet*/
       $result = sql_query("SELECT
@@ -232,7 +232,7 @@ function listsuj($sujet, $niv)
             $affres .='<p class="card-text">';
             if ($tot > 1)
             {
-               $affres .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure plusieurs jours').'</p>';
+               $affres .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
                while (list($ddate) = sql_fetch_row($result1))
                {
                   if($ddate > $now){$etat = 'badge badge-success';}
@@ -250,7 +250,7 @@ function listsuj($sujet, $niv)
                if($ddate > $now){$etat = 'badge badge-success';}
                else if($ddate == $now){$etat = 'badge badge-warning';}
                else if($ddate < $now){$etat = 'badge badge-warning';}
-               $affres .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure 1 jour').'</p>';
+               $affres .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>';
                 $affres .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
             }
             $affres .= '<div class="row">
@@ -345,7 +345,7 @@ function listsuj($sujet, $niv)
 function calend($an, $month)
 {
    global $ModPath, $NPDS_Prefix, $theme;
-   global $ThisFile;
+   global $ThisFile,$affcal;
 
 /*Debut securite*/
    settype($an,"integer");
@@ -687,6 +687,8 @@ function jour($date) {
    }
 
 //Pour la naviguation
+   settype($nb_entrees,'integer');
+
    $total_pages = ceil($nb_entrees/$nb_news);
    if($page == 1)
    {
@@ -760,7 +762,7 @@ function jour($date) {
             $affeven .= '<p class="card-text">';
             if ($tot > 1)
             {
-            $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure plusieurs jours').'</p>';
+            $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
                while (list($ddate) = sql_fetch_row($result1))
                {
                   if($ddate > $now){$etat = 'badge badge-success';}
@@ -778,7 +780,7 @@ function jour($date) {
                if($ddate > $now){$etat = 'badge badge-success';}
                else if($ddate == $now){$etat = 'badge badge-warning';}
                else if($ddate < $now){$etat = 'badge badge-warning';}
-               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure 1 jour').'</p>';
+               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>';
                $affeven .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
             }
             $affeven .= '<div class="row">
@@ -891,7 +893,7 @@ function fiche($date, $id) {
    $total = sql_num_rows($result);
    if ($total == 0)
    {
-      $vide = '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Aucun évènement trouvé').'</p>';
+      $vide = '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Aucun événement trouvé').'</p>';
    }
    else
    {
@@ -916,7 +918,7 @@ function fiche($date, $id) {
             $affres .= '</tr><tr><td>';
          if ($tot > 1)
          {
-            $imgfle .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure sur plusieurs jours').'&nbsp;:&nbsp;
+            $imgfle .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure sur plusieurs jours').'&nbsp;:&nbsp;
             <select>
             <option>'.ag_translate('Voir').'</option>';
             while (list($ddate) = sql_fetch_row($result1))
@@ -931,7 +933,7 @@ function fiche($date, $id) {
          }
          else
          {
-            $imgfle .= '<img src="modules/'.$ModPath.'/images/fle.gif" /> '.ag_translate('Cet évènement dure 1 jour').'';
+            $imgfle .= '<img src="modules/'.$ModPath.'/images/fle.gif" /> '.ag_translate('Cet événement dure 1 jour').'';
          }
          $imgfle .= '</div>';
 
@@ -990,13 +992,13 @@ function fiche($date, $id) {
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    include ('modules/'.$ModPath.'/cache.timings.php');
 echo '<div class="card"><div class="card-block">';
-   if ($SuperCache)
-   {
-   $cache_obj = new cacheManager();
-   $cache_obj->startCachingPage();
+   if ($SuperCache) {
+      $cache_obj = new cacheManager();
+      $cache_obj->startCachingPage();
    }
    if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache))
    {
+   settype($subop,'string');
    switch($subop)
    {
    default:

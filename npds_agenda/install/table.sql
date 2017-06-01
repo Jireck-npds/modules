@@ -2,11 +2,11 @@
 --
 
 CREATE TABLE IF NOT EXISTS `agend` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date default NULL,
   `liaison` int(11) NOT NULL,
   KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `agend`
@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS `agend` (
 --
 
 CREATE TABLE IF NOT EXISTS `agendsujet` (
-  `topicid` int(3) NOT NULL auto_increment,
+  `topicid` int(3) NOT NULL AUTO_INCREMENT,
   `topicimage` varchar(20) collate utf8_unicode_ci default NULL,
   `topictext` mediumtext collate utf8_unicode_ci,
   PRIMARY KEY  (`topicid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `agendsujet`
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `agendsujet` (
 --
 
 CREATE TABLE IF NOT EXISTS `agend_dem` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `titre` mediumtext collate utf8_unicode_ci NOT NULL,
   `intro` longtext collate utf8_unicode_ci NOT NULL,
   `descript` longtext collate utf8_unicode_ci NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `agend_dem` (
   `groupvoir` int(3) NOT NULL,
   `valid` int(1) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `agend_dem`

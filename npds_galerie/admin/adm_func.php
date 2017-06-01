@@ -467,7 +467,7 @@ function PrintFormConfig() {
    echo '<form action="'.$ThisFile.'" method="post" name="FormConfig">';
    echo '<input type="hidden" name="subop" value="wrtconfig">';
 
-   echo '
+   echo '<fieldset disabled>
       <div class="form-group row">
          <label class="col-sm-7 form-control-label">'.gal_translate("Dimension maximale de l'image en pixels").'&nbsp;(1024px Max)</label>
          <div class="col-sm-3">
@@ -485,7 +485,7 @@ function PrintFormConfig() {
          <label class="col-sm-7 form-control-label">'.gal_translate("Nombre d'images par ligne").'</label>
          <div class="col-sm-3">
          <input type="text" class="form-control" name="nbimlg" id="" value="'.$imglign.'" placeholder="">
-      </div></div>';
+      </div></div></fieldset>';
 
    echo '
       <div class="form-group row">
@@ -689,11 +689,14 @@ function WriteConfig($maxszimg,$maxszthb,$nbimlg,$nbimpg,$nbimcomment,$nbimvote,
    $content.= "/* Changement de nom du module version Rev16 par jpb/phr mars 2017      */\n";
    $content.= "/************************************************************************/\n\n";
    $content.= "// Dimension max des images\n";
-   $content.= "\$MaxSizeImg = ".$maxszimg.";\n\n";
+//   $content.= "\$MaxSizeImg = ".$maxszimg.";\n\n";
+   $content.= "\$MaxSizeImg = 1000;\n\n";
    $content.= "// Dimension max des images miniatures\n";
-   $content.= "\$MaxSizeThumb = ".$maxszthb.";\n\n";
+//   $content.= "\$MaxSizeThumb = ".$maxszthb.";\n\n";
+   $content.= "\$MaxSizeThumb = 300;\n\n";
    $content.= "// Nombre d'images par ligne\n";
-   $content.= "\$imglign = ".$nbimlg.";\n\n";
+//   $content.= "\$imglign = ".$nbimlg.";\n\n";
+   $content.= "\$imglign = 4;\n\n";
    $content.= "// Nombre de photos par page\n";
    $content.= "\$imgpage = ".$nbimpg.";\n\n";
    $content.= "// Nombre d'images à afficher dans le top commentaires\n";

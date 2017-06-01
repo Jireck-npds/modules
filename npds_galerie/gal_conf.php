@@ -27,7 +27,7 @@ $MaxSizeThumb = 300;
 $imglign = 4;
 
 // Nombre de photos par page
-$imgpage = 12;
+$imgpage = 4;
 
 // Nombre d'images à afficher dans le top commentaires
 $nbtopcomment = 5;

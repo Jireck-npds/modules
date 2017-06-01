@@ -67,7 +67,7 @@ if ($admin) {
    <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=export" role="button" data-original-title="'.gal_translate("Export catégorie").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></a></li>
    </ul>
    </div></div>';
-
+   settype($subop,'string');
    switch($subop) {
    case "formcat" :
      PrintFormCat();

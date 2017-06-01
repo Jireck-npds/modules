@@ -27,6 +27,8 @@ global $language, $NPDS_Prefix;
 
 //   include ("mainfile.php");
 
+include_once('functions.php');
+
 include_once("modules/$ModPath/gal_conf.php");
 include_once("modules/$ModPath/gal_func.php");
 include_once("modules/$ModPath/lang/galerie-$language.php");

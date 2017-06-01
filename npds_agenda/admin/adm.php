@@ -53,7 +53,7 @@ if ($admin) {
 
    GraphicAdmin($hlpfile);
    echo '<div id="adm_men">';
-
+   settype($subop,'string');
    switch($subop)
    {
    default:

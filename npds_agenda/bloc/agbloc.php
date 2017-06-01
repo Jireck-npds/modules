@@ -14,7 +14,7 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
    global $language, $user, $cookie, $Default_Theme, $nuke_url;
-   global $mois, $annee;
+   global $NPDS_Prefix, $mois, $annee;
    $ModPath = 'npds_agenda';
 
    include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
@@ -94,6 +94,7 @@
          $Bfetetitre[$Bday] = $Bfete.'&lt;br /&gt;';
       }
 
+   $Bafftitre=array();
    // Affiche résultat
    while(list($Bdate, $Btitre, $Bgroupvoir) = sql_fetch_row($requete))
    {
@@ -119,7 +120,7 @@
    $Brest1 = "modules.php";
    if ($Brest == $Brest1)
    {
-      $Bpagin = ''.$nuke_url.'modules.php?ModPath='.$ModPath.'&ModStart=calendrier';
+      $Bpagin = ''.$nuke_url.'modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier';
    }
    else
    {
@@ -138,7 +139,7 @@
    }
 
    $content = '<p class="text-center"><a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_prec.'&amp;annee='.$Ban_prec.'" class="mr-2"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-   <a href="modules.php?ModPath='.$ModPath.'&ModStart=calendrier&month='.$mois.'&an='.$annee.'"><span class="badge badge-default">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>
+   <a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'"><span class="badge badge-default">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>
    <a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_suivant.'&amp;annee='.$Ban_suivant.'" class="ml-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
    </p>';
    $content .= '<table class="table table-bordered table-sm">
@@ -230,14 +231,20 @@
          if ($Bce_jour == $Bjour && $mois == $Bmois_actuel && $annee == $Ban_actuel) {$Bcs = 'text-danger font-weight-bold';}else{$Bcs = 'text-muted';}
          if($Btab_jours[$Bce_jour])
          {
-   // Si jour férié sans évènement
-            if ($Bafftitre[$Bce_jour] == '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-warning';}
-            else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] == ''){$Bcla = 'table-info';}
+   // Si jour férié sans événement
+            if ($Bafftitre[$Bce_jour] == '' && $Bfetetitre[$Bce_jour] != '')
+            {
+               $Bcla = 'table-warning';
+               }
+            else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] == '')
+            {
+               $Bcla = 'table-info';
+               }
             else if ($Bafftitre[$Bce_jour] != '' && $Bfetetitre[$Bce_jour] != ''){$Bcla = 'table-info';}
 
-   // Ajoute le jour et reste sur la même page + css jour évènement
+   // Ajoute le jour et reste sur la même page + css jour événement
             $content .= '<td class="text-center '.$Bcla.'">
-            <a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>
+            <a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.aff_langue($Bfetetitre[$Bce_jour]).''.$Bafftitre[$Bce_jour].'"><span class="'.$Bcs.'">'.$Bce_jour.'</span></a>
             </td>';
          }
          else
@@ -275,15 +282,13 @@
             if($Btab_jours[$Bjour_suiv])
             {
 
-   // Si jour ferie sans évènement
+   // Si jour ferie sans événement
                if ($Bafftitre[$Bjour_suiv] == '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-warning';}
                else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] == ''){$Bcla =  'table-info';}
                else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] != ''){$Bcla = 'table-info';}
 
-   // Ajoute le jour et reste sur la même page + css jour évènement
-               $content .= '<td class="text-center '.$Bcla.'">
-               <a class="" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&subop=jour&date='.$Bdate.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a>
-               </td>';
+   // Ajoute le jour et reste sur la même page + css jour événement
+               $content .= '<td class="text-center '.$Bcla.'"><a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&subop=jour&date='.$Bdate.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="'.aff_langue($Bfetetitre[$Bjour_suiv]).''.$Bafftitre[$Bjour_suiv].'"><span class="'.$Bcs.'">'.$Bjour_suiv.'</span></a></td>';
             }
             else
             {
@@ -302,13 +307,13 @@
    if(autorisation($gro))
    {
       $content .= '<p>
-      <a class="btn btn-block btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Proposer évènement').'</a>
+      <a class="btn btn-block btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Proposer événement').'</a>
       </p>';
    }
    $content .= '<table>
    <tr>
    <td class="table-info" width="20px"></td>
-   <td class="pl-2">'.ag_translate('Jour avec évènement(s)').'</td>
+   <td class="pl-2">'.ag_translate('Jour avec événement(s)').'</td>
    </tr>
    <tr>
    <td class="table-warning"></td>

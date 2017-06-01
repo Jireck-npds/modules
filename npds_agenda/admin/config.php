@@ -14,13 +14,13 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
-$gro   = "1";
-$valid   = "3";
-$courriel   = "1";
-$revalid   = "3";
-$receveur   = "";
-$nb_admin   = "10";
-$nb_news   = "10";
-$bouton   = "1";
+$gro = "1";
+$valid = "3";
+$courriel = "1";
+$revalid = "3";
+$receveur = "";
+$nb_admin = "2";
+$nb_news = "10";
+$bouton = "1";
 
 ?>

@@ -14,9 +14,9 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
-$CACHE_TIMINGS['modules.php']   = 3500;
-$CACHE_QUERYS['modules.php']   = "^ModPath=npds_agenda&ModStart=calendrier";
-$CACHE_QUERYS['modules.php']   = "^ModPath=npds_agenda&ModStart=annee";
-$CACHE_QUERYS['modules.php']   = "^ModPath=npds_agenda&ModStart=lieu";
+$CACHE_TIMINGS['modules.php'] = 3500;
+$CACHE_QUERYS['modules.php'] = "^ModPath=npds_agenda&ModStart=calendrier";
+$CACHE_QUERYS['modules.php'] = "^ModPath=npds_agenda&ModStart=annee";
+$CACHE_QUERYS['modules.php'] = "^ModPath=npds_agenda&ModStart=lieu";
 
 ?>

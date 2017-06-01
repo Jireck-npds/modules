@@ -20,14 +20,14 @@ function menuprincipal()
    global $NPDS_Prefix, $ModPath;
    global $ThisFile;
    $version = 'V.2.0';
-   echo '<h2><img class="img_fluid col-sm-1" src="modules/npds_agenda/npds_agenda.png" alt="icon_npds_agenda"> '.ag_translate('Agenda').'<small class="float-right">'.$version.'</small></h2>
+   echo '<h2><img class="img_fluid col-sm-1" src="modules/npds_agenda/npds_agenda.png" style="max-width: 2.2em" alt="icon_npds_agenda"> '.ag_translate('Agenda').'<small class="float-right">'.$version.'</small></h2>
    <div class="card mb-2"><div class="card-block">
    <div class="mr-2"><a class="btn btn-outline-primary btn-sm" href='.$ThisFile.'>'.ag_translate('Accueil').'</a>
    <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=topicsmanager">'.ag_translate('Catégories').'</a>
    <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=configuration">'.ag_translate('Configuration').'</a>
    <a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier">'.ag_translate('Calendrier').'</a></div>';
 
-//Requete compte nbre d'évènements suivant état
+//Requete compte nbre d'événements suivant état
    $query = sql_query("SELECT count(id), valid FROM ".$NPDS_Prefix."agend_dem GROUP BY valid");
    while (list($count, $valid) = sql_fetch_row($query))
    {
@@ -55,7 +55,7 @@ function menuprincipal()
 /// DEBUT INDEX ///
 function adminagenda()
 {
-   global $NPDS_prefix, $ModPath;
+   global $NPDS_Prefix, $ModPath;
    global $ThisFile, $page, $order;
    /*Debut securite*/
    settype($page,"integer");
@@ -89,7 +89,7 @@ menuprincipal();
    if($order == '0'){$order1 = "valid = 3";}else if($order == '4'){$order1 = 'id';}else{$order1 = "valid = $order";}
 
    echo '<div class="">
-   <h4>'.ag_translate('Liste des évènements').'</h4>
+   <h4>'.ag_translate('Liste des événements').'</h4>
    <p>'.ag_translate('Trier par').'&nbsp;
    <a class="text-success" href="'.$ThisFile.'&amp;order=1">'.ag_translate('En Ligne').'</a>&nbsp;-&nbsp;
    <a class="text-muted" href="'.$ThisFile.'&amp;order=2">'.ag_translate('Hors Ligne').'</a>&nbsp;-&nbsp;
@@ -108,13 +108,13 @@ menuprincipal();
    <th class="text-center">'.ag_translate('Statut').'</th>
    <th class="text-center">'.ag_translate('Fonctions').'</th>
    </tr>
-   </thead>';
-   /*Requete liste evenements avec pagination*/
+   </thead><tbody>';
+   /*Requete liste événements avec pagination*/
    $result = sql_query("SELECT id, titre, topicid, posteur, groupvoir, valid FROM ".$NPDS_Prefix."agend_dem ORDER BY $order1 DESC, titre ASC LIMIT $start,$nb_admin");
    while(list($id, $titre, $topicid, $posteur, $groupvoir, $valid) = sql_fetch_row($result))
    {
       $titre = stripslashes(aff_langue($titre));
-      echo '<tr><tbody>
+      echo '<tr>
       <td>'.$id.'</td>
       <td>'.$titre.'</td>';
       $toplist = sql_query("SELECT topictext FROM ".$NPDS_Prefix."agendsujet WHERE topicid = $topicid");
@@ -389,7 +389,7 @@ function editevt($id, $month, $an, $debut)
       $debut = substr("$debut", 0, -1);
    }
 
-/*Requete affiche evenement suivant $id*/
+/*Requete affiche événement suivant $id*/
    $result = sql_query("SELECT titre, intro, descript, lieu, topicid, posteur, groupvoir, valid FROM ".$NPDS_Prefix."agend_dem WHERE id = $id");
    list($titre, $intro, $descript, $lieu, $topicid, $posteur, $groupvoir, $valid) = sql_fetch_row($result);
    $titre = stripslashes($titre);
@@ -450,7 +450,7 @@ function editevt($id, $month, $an, $debut)
    <input class="form-control" type="text" name="titre" value="'.$titre.'">
    </fieldset>';
    echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Résumé de l\'évènement').'</strong></label>   
+   <label for=""><strong>'.ag_translate('Résumé de l\'événement').'</strong></label>   
    <textarea class="form-control tin" cols="30" rows="4" name="intro">'.$intro.'</textarea>';
    echo aff_editeur("descript","false");
    echo '</fieldset>';
@@ -736,7 +736,7 @@ function saveevt($debut, $statut, $sujet, $groupvoir, $titre, $intro, $descript,
    }
    if ($query)
    {
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement est mis à jour').'<br /><br /><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
+      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est mis à jour').'<br /><br /><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
    }
    else
    {
@@ -780,12 +780,12 @@ function deleteevt($id, $ok=0)
       $succes = sql_query($result) or die ("erreur : ".sql_error());
       $result1 = "DELETE FROM ".$NPDS_Prefix."agend_dem WHERE id = $id";
       $succes1 = sql_query($result1) or die ("erreur : ".sql_error());
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement est maintenant effacé').'</p>';
+      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est maintenant effacé').'</p>';
       echo '<p><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
    }
    else
    {
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Etes-vous certain de vouloir supprimer cet évènement').'</p>
+      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Etes-vous certain de vouloir supprimer cet événement').'</p>
       <div class="btn-group"><a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=editevt&amp;id='.$id.'">'.ag_translate('NON').'</a>
       <a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=deleteevt&amp;id='.$id.'&amp;ok=1">'.ag_translate('OUI').'</a></div>';
       echo '<p><a class="btn btn-secondary btn-sm mt-2" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
@@ -799,7 +799,7 @@ function configuration()
    global $ModPath;
    global $ThisFile;
 
-//   menuprincipal();
+   menuprincipal();
 
    include('modules/'.$ModPath.'/admin/config.php');
    include('modules/'.$ModPath.'/cache.timings.php');
@@ -837,7 +837,7 @@ function configuration()
    {
       $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" checked>'.ag_translate('Par ville (défaut)').'</label></div>';
       $def1 = '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2">'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
-      <option></option>';
+      ';
       $nb = count($ListFiles);
       for($i = 0;$i < $nb;$i++)
       {
@@ -850,7 +850,7 @@ function configuration()
    {
       $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" />'.ag_translate('Par ville (défaut)').'</label></div>';
       $def1 .= '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2" checked>'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
-      <option></option>';
+      ';
       $nb = count($ListFiles);
       for($i = 0;$i < $nb;$i++)
       {
@@ -864,9 +864,9 @@ function configuration()
    <form action="'.$ThisFile.'" method="post" name="adminForm">';
    
    echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Ajout + Groupe').'</label>
+   <label for="">'.ag_translate('Ajout événement pour').'</label>
    <input class="form-control" type="text" name="xgro" size="3" value="'.$gro.'">
-   <small id="" class="form-text text-muted">'.ag_translate('Ajout d\'événement : 1 Tous les membres - ou groupe').'</small>
+   <small id="" class="form-text text-muted">'.ag_translate('1 : tous les membres ou n° id groupe').'</small>
    </fieldset>';
    echo '<fieldset class="form-group">
    <label for="">'.ag_translate('Validation par l\'admin').'</label>';
@@ -885,7 +885,7 @@ function configuration()
    </select>
    </fieldset>';
    echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Etre averti par mail d\'un nouvel evenement').'</label>';
+   <label for="">'.ag_translate('Etre averti par mèl d\'une proposition').'</label>';
    if($courriel == 1)
    {
    $oui = "selected=\"selected\"";
@@ -901,7 +901,7 @@ function configuration()
    </select>
    </fieldset>';
    echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Mail du receveur').'</label>
+   <label for="">'.ag_translate('Email du destinataire').'</label>
    <input class="form-control" type="text" name="xreceveur" size="30" value="'.$receveur.'">
    </fieldset>';   
    echo '<fieldset class="form-group">
@@ -921,14 +921,12 @@ function configuration()
    </select>
    </fieldset>';
    echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Nbre d\'évènements (pagination)').'</label>
+   <label for="">'.ag_translate('Nombre d\'évènement(s) par page (administration)').'</label>
    <input class="form-control" type="text" name="xnb_admin" size="3" value="'.$nb_admin.'">
-   <small id="" class="form-text text-muted">'.ag_translate('Dans la partie admin').'</small>
    </fieldset>';
    echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Nbre d\'évènements (pagination)').'</label>
+   <label for="">'.ag_translate('Nombre d\'évènement(s) par page (utilisation)').'</label>
    <input class="form-control" type="text" name="xnb_news" size="3" value="'.$nb_news.'">
-   <small id="" class="form-text text-muted">'.ag_translate('Dans la partie module').'</small>
    </fieldset>';
    echo '<fieldset class="form-group">
    <legend for="">'.ag_translate('Recherche').'</legend>
@@ -937,7 +935,6 @@ function configuration()
    echo $def;
    echo $def1;
    echo '</div></div>
-   <small id="" class="form-text text-muted">'.ag_translate('Sélectionner si nécessaire').'</small>
    </fieldset>';
    echo '<fieldset class="form-group">
    <label for="">'.ag_translate('Supercache').'</label>

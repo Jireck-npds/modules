@@ -183,7 +183,7 @@ function ListGalCat($catid) {
 /*******************************************************/
 
 function ViewGal($galid, $page){
-   global $NPDS_Prefix, $ModPath, $ThisFile, $imglign, $imgpage, $MaxSizeThumb, $aff_comm, $aff_vote, $galid, $pos;
+   global $NPDS_Prefix, $ModPath, $ThisFile, $imglign, $imgpage, $MaxSizeThumb, $aff_comm, $aff_vote, $galid, $pos,$pid;
    $reglage = 'col-lg-3';
 //   $nbcol=4;
    settype($galid,"integer");
@@ -216,29 +216,30 @@ function ViewGal($galid, $page){
            echo '<br />'.$nbcom.' '.gal_translate("commentaire(s)");
         if ($aff_vote)
            echo '<br />'.$nbvote.' '.gal_translate("vote(s)");
-        echo '</div></div>';
-        echo '</div>';
+        echo '
+        </div>
+        </div>
+        </div>';
         $pos++;
         if (is_int($pos/$imglign)) { echo '</div><div class="row">'; }
       }
       echo '</div>';
-      
       echo '<button class="btn btn-outline-primary btn-sm m-2" data-toggle="modal" data-target=".carou">'.gal_translate("Diaporama").'</button>
             <div class="modal fade carou" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
             <div class="modal-content">';
             ViewDiapo($galid, $pos, $pid);
          echo '</div>
-            </div>';          
+            </div>';
          echo '</div>';
- echo '<div class="mx-2">';       
+ echo '<div class="mx-2">';
       echo meta_lang('comment_system(galerie,'.$galid.')');
       echo '</div>';
            
       
 // Gestion des pages ok
-      $nb_pages = ceil($num / $imgpage);
-      echo '<ul class="pagination pagination-sm d-flex flex-wrap m-2">';
+//      $nb_pages = ceil($num / $imgpage);
+/*      echo '<ul class="pagination pagination-sm d-flex flex-wrap m-2">';
       if ($nb_pages > 1) {
          $nec = 1;
          if ($page < $nb_pages) {
@@ -255,17 +256,33 @@ function ViewGal($galid, $page){
            $nec++;
          }
       }
-   echo '</ul>';
+   echo '</ul>';*/
+      
+   $nbPages = ceil($num/$imgpage);
+   $current = 1;
+   if ($page >= 1) {
+      $current=$page;
+   } else if ($page < 1) {
+      $current=1;
+   } else {
+      $current = $nbPages;
+   }
+   
+    echo '<div class="ml-2">';
+        echo paginate_single('modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=gal&amp;galid='.$galid.'&amp;page=', '', $nbPages, $current, $adj=3,'',$page);
+    echo '</div>';
+   
    }
 
 }
 
 function watermark() {
+   global $nuke_url;
    echo "<script type=\"text/javascript\">\n//<![CDATA[\n";     
    echo "$(function() {
    $('.img_awesome').watermark({
-    text: 'http://npds.org',
-    textWidth: 100,
+    text: '$nuke_url',
+    textWidth: 180,
     gravity: 'se',
     opacity: 1,
     margin: 12
@@ -280,7 +297,7 @@ function watermark() {
 /*******************************************************/
 
 function ViewImg($galid, $pos, $interface) {
-   global $NPDS_Prefix, $ModPath, $ThisFile, $user, $vote_anon, $comm_anon, $post_anon, $aff_vote, $aff_comm, $admin;
+   global $NPDS_Prefix, $ModPath, $ThisFile, $user, $vote_anon, $comm_anon, $post_anon, $aff_vote, $aff_comm, $admin, $pid;
 
    settype($galid,"integer");
    settype($pos,"integer");
@@ -297,30 +314,28 @@ function ViewImg($galid, $pos, $interface) {
       echo watermark();
  
       echo '<img class="card-img-top mx-auto img-fluid img_awesome" src="modules/'.$ModPath.'/imgs/'.$row[2].'" alt="'.stripslashes($row[3]).'" />';
-  echo '<div class="card-block">';  
-  echo '<h4 class="card-title">'.stripslashes($row[3]).'</h4>';
-
+  echo '
+   <div class="card-block">
+      <h4 class="card-title">'.stripslashes($row[3]).'</h4>';
       if ($interface!="no") {
-        
          echo '<div class="text-center">';
          if ($pos > 0) {
-            $link_prec = '<a class="btn btn-outline-primary btn-sm mr-2" href="'.$ThisFile.'&amp;op=img&galid='.$galid.'&pos='.($pos-1).'"><i class="fa fa-chevron-left fa-lg"></i></a>';
+            echo '<a class="btn btn-outline-primary btn-sm mr-2" href="'.$ThisFile.'&amp;op=img&galid='.$galid.'&pos='.($pos-1).'"><i class="fa fa-chevron-left fa-lg"></i></a>';
          }
-         echo $link_prec;
          if ($pos < ($num-1)) {
-            $link_suiv = '<a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;op=img&galid='.$galid.'&pos='.($pos+1).'"><i class="fa fa-chevron-right fa-lg"></i></a>';
+            echo '<a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;op=img&galid='.$galid.'&pos='.($pos+1).'"><i class="fa fa-chevron-right fa-lg"></i></a>';
          }
-         echo $link_suiv;
-         echo '</div>';
-       
-         echo '<button class="btn btn-outline-primary btn-sm mr-3" data-toggle="modal" data-target=".carou">'.gal_translate("Diaporama").'</button>
-            <div class="modal fade carou" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+         echo '
+         </div>
+         <button class="btn btn-outline-primary btn-sm mr-3" data-toggle="modal" data-target=".carou">'.gal_translate("Diaporama").'</button>
+         <div class="modal fade carou" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-            <div class="modal-content">';
+               <div class="modal-content">';
             ViewDiapo($galid, $pos, $pid);
-         echo '</div>
+         echo '
+               </div>
             </div>
-            </div>';  
+         </div>';
          if (isset($user) || $post_anon) {
             $link_card = '<a class="" href="'.$ThisFile.'&amp;op=ecard&galid='.$galid.'&pos='.$pos.'&pid='.$row[0].'"><i class="fa fa-envelope-o fa-lg"></i></a></p>';
          } else {
@@ -335,7 +350,8 @@ function ViewImg($galid, $pos, $interface) {
          if ($aff_vote) {
             // Notation de l'image
             if (isset($user) || $vote_anon) {
-               echo '<h4 class="card-title">'.gal_translate("Noter cette image").'</h4>
+               echo '
+               <h4 class="card-title">'.gal_translate("Noter cette image").'</h4>
                <div class="card-block">
                <div class="row">';
                $i=0;$star='';
