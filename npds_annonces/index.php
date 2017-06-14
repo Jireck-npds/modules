@@ -38,6 +38,10 @@ $query="UPDATE $table_annonces SET en_ligne='2' WHERE (date<'$obsol')";
 $succes= sql_query($query);
 
 include ("modules/$ModPath/include/search_form.php");
+settype($num_ann_apub_total,'integer');
+settype($num_ann_total,'integer');
+settype($content,'string');
+settype($ibid,'integer');
 
 $result= sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
 while (list($cat, $count)= sql_fetch_row($result)) {
@@ -81,30 +85,32 @@ while ($i= sql_fetch_assoc($select)) {
       $categoriex=stripslashes($i2['categorie']);
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
-            <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann='.$num_ann[$id_catx].'"><span class="ml-3">'.$categoriex.'</span</a>
-            <span class="badge badge-pill badge-default float-right">'.$num_ann[$id_catx].'</span>
+            <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann=';
+      if(array_key_exists($id_catx,$num_ann))
+         $sous_content .= $num_ann[$id_catx];
+      $sous_content .='"><span class="ml-3">'.$categoriex.'</span>
+            </a>
+            <span class="badge badge-pill badge-default float-right">';
+      if(array_key_exists($id_catx, $num_ann))
+         $sous_content .= $num_ann[$id_catx];
+      $sous_content.= '</span>
          </div>';
-      $cumu_num_ann += $num_ann[$id_catx];
-/*
-
-      if ($num_ann[$id_cat]>0)
-      if (!$num_ann[$id_cat]) $num_ann[$id_cat]=0;
-      if (!$num_ann_apub[$id_cat]) $num_ann_apub[$id_cat]=0;
-      if (!$num_ann_archive[$id_cat]) $num_ann_archive[$id_cat]=0;
-   echo "<span class=\"badge badge-pill badge-default float-right\">$num_ann[$id_cat]</span></h6>";
-*/
+      if(array_key_exists($id_catx, $num_ann))
+         $cumu_num_ann += $num_ann[$id_catx];
    }
-   
-   $oo = trim(implode("|", $allcat),'|');
 
-   if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann))
+   $oo = trim(implode('|', $allcat),'|');
+   if(array_key_exists($id_cat, $num_ann)) $ibid = $num_ann[$id_cat]+$cumu_num_ann; else $ibid = $cumu_num_ann;
+   if ($cumu_num_ann!=($ibid))
+
+//   if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann))
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
             <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie=&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'"><span class="ml-3">'.ann_translate("Autres").'</span></a>
             <span class="badge badge-pill badge-default float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
          </div>';
-   $content .= '<a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.($num_ann[$id_cat]+$cumu_num_ann).'">'.$categorie.'</a>
-         <span class="badge badge-pill badge-default mr-1 float-right">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
+   $content .= '<a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.$ibid.'">'.$categorie.'</a>
+         <span class="badge badge-pill badge-default mr-1 float-right">'.$ibid.'</span>
       </h6>
       <div id="catb3_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="headingb3_'.$id_cat.'">';
 /*
@@ -133,7 +139,8 @@ if (!$num_ann_archive[$id_cat]) $num_ann_archive[$id_cat]=0;
 echo $content;
 if (($admin) and $num_ann_apub_total>0)
    echo '<hr /><p><a class="btn btn-outline-warning btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm">'.$num_ann_apub_total.' '.ann_translate("annonce(s) à valider").'</a></p>';
-   
-   echo '</div></div>';
+   echo '
+      </div>
+   </div>';
 include ("footer.php");
 ?>

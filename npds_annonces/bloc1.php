@@ -19,10 +19,9 @@
 $ModPath='npds_annonces';
 
 include ("modules/$ModPath/annonce.conf.php");
+settype($num_ann_total,'integer');
 
-
-if ($title=='')	
-$title ='[french]Petites Annonces[/french] [english]Offers[/english]';	
+if ($title=='') $title ='[french]Petites Annonces[/french] [english]Offers[/english]';
 $title = aff_langue("$title");
 
 global $long_chain;
@@ -53,17 +52,26 @@ while ($i= sql_fetch_assoc($select)) {
    while ($i2=sql_fetch_array($select2)) {
       $id_catx=$i2['id_cat'];
       $allcat[]=$i2['id_cat'];
-      $categoriex=stripslashes($i2[categorie]);
+      $categoriex=stripslashes($i2['categorie']);
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
-            <a data-toggle="tooltip" data-placement="top" title="[french]Cliquer pour visualiser[/french] [english]Click to view[/english]" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann='.$num_ann[$id_catx].'"><span class="ml-3">'.$categoriex.'</span></a>
-            <span class="badge badge-pill badge-default float-right">'.$num_ann[$id_catx].'</span>
+            <a data-toggle="tooltip" data-placement="top" title="[french]Cliquer pour visualiser[/french] [english]Click to view[/english]" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_catx.'&amp;categorie='.urlencode($categoriex).'&amp;num_ann=';
+      if(array_key_exists($id_catx,$num_ann))
+         $sous_content .= $num_ann[$id_catx];
+      $sous_content .='"><span class="ml-3">'.$categoriex.'</span>
+            </a>
+            <span class="badge badge-pill badge-default float-right">';
+      if(array_key_exists($id_catx, $num_ann))
+         $sous_content .= $num_ann[$id_catx];
+      $sous_content.= '</span>
          </div>';
-      $cumu_num_ann += $num_ann[$id_catx];
+      if(array_key_exists($id_catx, $num_ann))
+         $cumu_num_ann += $num_ann[$id_catx];
    }
 
-   $oo = trim(implode("|", $allcat),'|');
-
+   $oo = trim(implode('|', $allcat),'|');
+   if(array_key_exists($id_cat, $num_ann)) $ibid = $num_ann[$id_cat]+$cumu_num_ann; else $ibid = $cumu_num_ann;
+   if ($cumu_num_ann!=($ibid))
 
    if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann))
       $sous_content .='
@@ -71,8 +79,8 @@ while ($i= sql_fetch_assoc($select)) {
             <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'"><span class="ml-3">[french]Autres[/french] [english]Other[/english]</span></a>
             <span class="badge badge-pill badge-default float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
          </div>';
-   $content .= '<a href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.($num_ann[$id_cat]+$cumu_num_ann).'">'.$categorie.'</a>
-         <span class="badge badge-pill badge-default mr-1 float-right">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
+   $content .= '<a href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.$ibid.'">'.$categorie.'</a>
+         <span class="badge badge-pill badge-default mr-1 float-right">'.$ibid.'</span>
       </h6>
       <div id="catbb3_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="headingb3_'.$id_cat.'">';
    $content .= $sous_content;
@@ -80,15 +88,15 @@ while ($i= sql_fetch_assoc($select)) {
       </div>
    </div>';
 }
-   $content .='
+$content .='
    <p class="text-center"><a href="modules.php?ModPath=npds_annonces&amp;ModStart=index" class="btn btn-outline-primary btn-sm">[french]Consulter[/french] [english]Consult[/english]</a>';
 
 if ($user)
    $content .=' <a href="modules.php?ModPath=npds_annonces&amp;ModStart=annonce_form" class="btn btn-outline-primary btn-sm">[french]Ajouter[/french] [english]Add[/english]</a>';
-   $content .='
+$content .='
    </p>';
 if ($admin) 
    $content .='
    <p class="text-center"><a class="btn btn-outline-primary btn-sm" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath=npds_annonces&amp;ModStart=admin/adm"><i class="fa fa-cogs" aria-hidden="true"></i> [french]Admin[/french] [english]Admin[/english]</a></p>';
-   $content = aff_langue($content);
+$content = aff_langue($content);
 ?>

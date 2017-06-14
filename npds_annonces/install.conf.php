@@ -57,24 +57,24 @@ $list_fich = '';
 $sql='';
 $sql = array("CREATE TABLE ".$NPDS_Prefix."g_annonces (
   id bigint(20) NOT NULL auto_increment,
-  id_user bigint(20) default NULL,
-  id_cat mediumint(11) default NULL,
-  tel varchar(20) NOT NULL default '',
-  tel_2 varchar(20) NOT NULL default '',
-  code varchar(5) NOT NULL default '',
-  ville varchar(40) NOT NULL default '',
-  date varchar(20) NOT NULL default '',
+  id_user bigint(20) DEFAULT NULL,
+  id_cat mediumint(11) DEFAULT NULL,
+  tel varchar(20) NOT NULL DEFAULT '',
+  tel_2 varchar(20) NOT NULL DEFAULT '',
+  code varchar(5) NOT NULL DEFAULT '',
+  ville varchar(40) NOT NULL DEFAULT '',
+  date varchar(20) NOT NULL DEFAULT '',
   text mediumtext NOT NULL,
-  en_ligne tinyint(1) NOT NULL default '0',
-  prix decimal(10,2) NOT NULL default '0.00',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;",
+  en_ligne tinyint(1) NOT NULL DEFAULT '0',
+  prix decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (id)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;",
 "CREATE TABLE ".$NPDS_Prefix."g_categories (
   id_cat mediumint(11) NOT NULL auto_increment,
-  id_cat2 mediumint(11) NOT NULL default '0',
-  categorie varchar(30) NOT NULL default '',
-  PRIMARY KEY  (id_cat)
-) TYPE=MyISAM;");
+  id_cat2 mediumint(11) NOT NULL DEFAULT '0',
+  categorie varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (id_cat)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
 if($path_adm_module!='') $sql[]=$req_adm;
 

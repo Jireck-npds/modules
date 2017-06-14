@@ -33,6 +33,8 @@ if (file_exists('modules/'.$ModPath.'/admin/pages.php')) {
 if (isset($user)) {
    settype($id,"integer");
    settype($id_cat,"integer");
+   settype($op,'string');
+   settype($succes,'string');
    if ($op=="Modifier") {
       $tel=trim(removeHack($tel));
       $tel_2=trim(removeHack($tel_2));

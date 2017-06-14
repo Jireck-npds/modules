@@ -35,6 +35,14 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
    }
 
    settype($num_ann,"integer");
+      if (!isset($min))
+      $min=0;
+   settype ($min, "integer");
+   settype ($max, "integer");
+
+   
+   
+   
    $categorie=removeHack(StripSlashes($categorie));
    $inf=$min+1;
    if (($min+$max)>=$num_ann) {
@@ -55,10 +63,6 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 
    include ("modules/$ModPath/include/annonce.php");
 
-   if (!isset($min))
-      $min=0;
-   settype ($min, "integer");
-   settype ($max, "integer");
 
    $query="SELECT * FROM $table_annonces WHERE id_cat$q AND en_ligne='1' ORDER BY id DESC LIMIT $min,$max";
 

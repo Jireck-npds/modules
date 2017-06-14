@@ -18,8 +18,8 @@
 /************************************************************************/
 
 // For More security
-if (!stristr($_SERVER['PHP_SELF'],"modules.php")) { die(); }
-if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script") || stristr($ModPath, "cookie") || stristr($ModPath, "iframe") || stristr($ModPath, "applet") || stristr($ModPath, "object") || stristr($ModPath, "meta") || stristr($ModStart, "script") || stristr($ModStart, "cookie") || stristr($ModStart, "iframe") || stristr($ModStart, "applet") || stristr($ModStart, "object") || stristr($ModStart, "meta")) {
+if (!stristr($_SERVER['PHP_SELF'],'modules.php')) { die(); }
+if (strstr($ModPath,'..') || strstr($ModStart,'..') || stristr($ModPath, 'script') || stristr($ModPath, 'cookie') || stristr($ModPath, 'iframe') || stristr($ModPath, 'applet') || stristr($ModPath, 'object') || stristr($ModPath, 'meta') || stristr($ModStart, 'script') || stristr($ModStart, 'cookie') || stristr($ModStart, 'iframe') || stristr($ModStart, 'applet') || stristr($ModStart, 'object') || stristr($ModStart, 'meta')) {
    die();
 }
 // For More security
@@ -30,6 +30,7 @@ if (file_exists('modules/'.$ModPath.'/admin/pages.php')) {
 
 include ("modules/$ModPath/annonce.conf.php");
 include ("modules/$ModPath/lang/annonces-$language.php");
+settype($op,'string');
    if ($op=="Soumettre") {
       if (autorisation(1)) {
          if (($id_user!='') and ($prix!='')) {
@@ -164,14 +165,14 @@ include ("modules/$ModPath/lang/annonces-$language.php");
       <div class="form-group row">
          <label for="code" class="col-sm-4 form-control-label">'.ann_translate("Code postal").'</label>
          <div class="col-sm-8">
-            <input type="text" name="code" class="form-control" id="" value="" placeholder="">
-			<small id="" class="form-text text-muted">format 00000</small>
+            <input type="text" name="code" class="form-control" id="code" value="" placeholder="">
+            <small id="" class="form-text text-muted">format 00000</small>
          </div>
       </div>
       <div class="form-group row">
          <label for="ville" class="col-sm-4 form-control-label">'.ann_translate("Ville").'</label>
          <div class="col-sm-8">
-            <input type="text" name="ville" class="form-control" id="" value="" placeholder="">
+            <input type="text" name="ville" class="form-control" id="ville" value="" placeholder="">
          </div>
       </div>
       <div class="form-group row">
@@ -179,8 +180,9 @@ include ("modules/$ModPath/lang/annonces-$language.php");
          <div class="col-sm-8">
             <select class="custom-select" name="id_cat">';
    $select = sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
+   settype($sel,'string');
    while($e= sql_fetch_assoc($select)) {
-      echo "<option value='".$e['id_cat']."'";
+      echo '<option value="'.$e['id_cat'].'"';
       if ($sel=='') {
          $sel='selected="selected"';
          echo $sel;
@@ -208,12 +210,13 @@ include ("modules/$ModPath/lang/annonces-$language.php");
 
    //prix
    if ($aff_prix) {
+   settype($prix,'string');// en attendant de savoir vraiment ce qui peut et doit arrivé pour cette valeur
    echo '
    <div class="form-group row">
-      <label for="" class="col-sm-4 form-control-label">'.ann_translate("Prix en").' '.aff_langue($prix_cur).' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+      <label for="prix" class="col-sm-4 form-control-label">'.ann_translate("Prix en").' '.aff_langue($prix_cur).' <span class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
       <div class="col-sm-8">
          <div class="input-group">
-            <input type="text" name="prix" class="form-control" required="required" id="" value="'.$prix.'" placeholder="">
+            <input type="text" name="prix" class="form-control" required="required" id="prix" value="'.$prix.'" placeholder="" />
             <div class="input-group-addon">.00</div>
          </div>
       </div>

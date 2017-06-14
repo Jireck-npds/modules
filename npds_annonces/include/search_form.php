@@ -18,23 +18,22 @@
 /************************************************************************/
 
 // For More security
-if (!stristr($_SERVER['PHP_SELF'],"modules.php")) { die(); }
-if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script") || stristr($ModPath, "cookie") || stristr($ModPath, "iframe") || stristr($ModPath, "applet") || stristr($ModPath, "object") || stristr($ModPath, "meta") || stristr($ModStart, "script") || stristr($ModStart, "cookie") || stristr($ModStart, "iframe") || stristr($ModStart, "applet") || stristr($ModStart, "object") || stristr($ModStart, "meta")) {
+if (!stristr($_SERVER['PHP_SELF'],'modules.php')) { die(); }
+if (strstr($ModPath,'..') || strstr($ModStart,'..') || stristr($ModPath, 'script') || stristr($ModPath, 'cookie') || stristr($ModPath, 'iframe') || stristr($ModPath, 'applet') || stristr($ModPath, 'object') || stristr($ModPath, 'meta') || stristr($ModStart, 'script') || stristr($ModStart, 'cookie') || stristr($ModStart, 'iframe') || stristr($ModStart, 'applet') || stristr($ModStart, 'object') || stristr($ModStart, 'meta')) {
    die();
 }
-
-
-global $language, $NPDS_Prefix;
 // For More security
 
+global $language, $NPDS_Prefix;
+   settype($search,'string');
    echo '
-   <form class="form-horizontal" method="post" action="modules.php">
+   <form method="post" action="modules.php">
       <input type="hidden" name="ModPath" value="'.$ModPath.'" />
       <input type="hidden" name="ModStart" value="search" />
       <div class="form-group row">
          <label for="search" class="form-control-label col-md-5 lead">'.ann_translate("Rechercher dans les annonces").'</label>
          <div class="col-md-7">
-            <input type="text" class="form-control" name="search" value="'.$search.'" />
+            <input type="text" class="form-control" id="search" name="search" value="'.$search.'" />
          </div>
       </div>
       <div class="form-group row">

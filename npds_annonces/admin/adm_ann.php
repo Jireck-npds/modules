@@ -28,9 +28,9 @@ $f_meta_nom ='npds_annonces';
 admindroits($aid,$f_meta_nom);
 //<== controle droit
 
-
 include ("modules/$ModPath/annonce.conf.php");
 include ("modules/$ModPath/lang/annonces-$language.php");
+settype($action,'string');
 
 if ($editeur)
    $max=1;
@@ -44,12 +44,10 @@ if ($action=="Valider") {
    $code=trim(removeHack($code));
    $ville=addslashes(trim(removeHack($ville)));
    $text=removeHack(stripslashes(FixQuotes($xtext)));
-   $prix=str_replace(",",".",$prix);
+   $prix=str_replace(',','.',$prix);
    settype($prix, "double");
 
-   $query="UPDATE $table_annonces";
-   $query.=" SET id_cat='$Xid_cat', tel='$tel', tel_2='$tel_2', code='$code', ville='$ville', date='".time()."', text='$text', en_ligne='1', prix='$prix'";
-   $query.=" WHERE id='$id'";
+   $query="UPDATE $table_annonces SET id_cat='$Xid_cat', tel='$tel', tel_2='$tel_2', code='$code', ville='$ville', date='".time()."', text='$text', en_ligne='1', prix='$prix' WHERE id='$id'";
    $succes= sql_query($query);
 }
 if ($action=="Supprimer") {
@@ -65,17 +63,18 @@ if ($action=="Supprimer") {
 
    echo '<div id="adm_men">';
    echo aff_langue($mess_acc);
-   echo '<h3>Administration des annonces</h3>';
-   echo '<p><a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Pour préparer une image").'" class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize"><i class="fa fa-picture-o" aria-hidden="true"></i> '.ann_translate("Outil").'</a></p>';
+   echo '
+   <h3>Administration des annonces</h3>
+   <p><a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Pour préparer une image").'" class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&ModStart=photosize"><i class="fa fa-picture-o" aria-hidden="true"></i> '.ann_translate("Outil").'</a></p>';
    if (!isset($id_cat_sel)) {
    
       if(!strstr($id_cat, '|')) {
          $q ="='$id_cat'";
-         settype($id_cat,"integer");
+         settype($id_cat,'integer');
       } else {
          $q =" REGEXP '[[:<:]]".str_replace('|', '[[:>:]]|[[:<:]]',$id_cat)."[[:>:]]'";
       }
-      
+
       $id_cat_sel=$id_cat;
       $select= sql_query("SELECT categorie FROM $table_cat WHERE id_cat$q");
       list($categorie)= sql_fetch_row($select);
@@ -112,7 +111,7 @@ if ($action=="Supprimer") {
       $prix = $values['prix'];
 
 //recup données utilisateur de l'annonce
-      $query_2="SELECT uname, email FROM ".$NPDS_Prefix."users WHERE uid=$id_user";
+      $query_2="SELECT uname, email FROM ".$NPDS_Prefix."users WHERE uid='$id_user'";
       $succes_2= sql_query($query_2);
       list ($nom, $mail)= sql_fetch_row($succes_2);
 
@@ -129,8 +128,8 @@ if ($action=="Supprimer") {
          <input type="hidden" name="sel" value="'.$sel.'" />';
 
 //id de l'annonce
-      echo '<p class="lead">';
-      echo ''.ann_translate("Annonce").' ID : <span class="badge badge-default">'.$id.'</span>';
+      echo '
+      <p class="lead">'.ann_translate("Annonce").' ID : <span class="badge badge-default">'.$id.'</span>';
       if ($values['en_ligne']=="1") {
          echo '<span class="badge badge-success float-right">'.ann_translate("En ligne").'</span>';
       } elseif ($values['en_ligne']=="0") {
@@ -176,9 +175,7 @@ if ($action=="Supprimer") {
          <div class="col-sm-8">
          <input type="text" class="form-control" id="" name="ville" placeholder="'.$ville.'" value="'.$ville.'">
          </div>
-      </div>';
-//cat de l'annonce
-      echo '
+      </div>
       <div class="form-group row">
          <label for="" class="col-sm-4 form-control-label">'.ann_translate("Catégorie").' <i class="fa fa-asterisk text-danger" aria-hidden="true"></i></label>
          <div class="col-sm-8">

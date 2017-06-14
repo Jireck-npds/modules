@@ -84,6 +84,7 @@ if (!array_search($table_annonces,$tables)) {
    <p><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_cat" class="btn btn-outline-primary btn-sm">'.ann_translate("Ajouter ou modifier une catégorie").'</a></p>
    <hr />';
 
+   $num_ann_apub=array();$num_ann_archive=array();$num_ann=array();
    $result= sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
    while (list($cat, $count)= sql_fetch_row($result)) {
       $num_ann[$cat]=$count;
@@ -97,7 +98,6 @@ if (!array_search($table_annonces,$tables)) {
       $num_ann_archive[$cat]=$count;
    }
    $content='';
-   $num_ann_apub=array();
    $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
    while ($i= sql_fetch_assoc($select)) {
       $allcat=array('');
@@ -116,35 +116,35 @@ if (!array_search($table_annonces,$tables)) {
          $id_catx=$i2['id_cat'];
          $allcat[]=$i2['id_cat'];
          $categoriex=stripslashes($i2['categorie']);
-//                  if (array_key_exists($id_catx,$num_ann))
-
-         $cumu_num_ann += $num_ann[$id_catx];
-//         if (array_key_exists($id_catx,$num_ann_apub))
-         $cumu_num_ann_apub += $num_ann_apub[$id_catx];
-         
-         $cumu_num_ann_archive += $num_ann_archive[$id_catx];
+         if (array_key_exists($id_catx,$num_ann))
+            $cumu_num_ann += $num_ann[$id_catx];
+         if (array_key_exists($id_catx,$num_ann_apub))
+            $cumu_num_ann_apub += $num_ann_apub[$id_catx];
+         if (array_key_exists($id_catx,$num_ann_archive))
+            $cumu_num_ann_archive += $num_ann_archive[$id_catx];
          $sous_content .='
             <div class="my-2 mx-3 px-1">
                <h5>
-                  <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&ModPath='.$ModPath.'&ModStart=admin/adm_ann&id_cat='.$id_catx.'"><span class="ml-1 pl-4">'.$categoriex.'</span></a>
+                  <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_catx.'"><span class="ml-1 pl-4">'.$categoriex.'</span></a>
                   <span class="float-right">
-                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la sous-catégorie").'" class="badge badge-default mr-2">'.$num_ann_archive[$id_catx].'</span>
+                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la sous-catégorie").'" class="badge badge-default mr-2">';
+         if (array_key_exists($id_catx,$num_ann_archive))
+            $sous_content .= $num_ann_archive[$id_catx];
+            $sous_content .='</span>
                      <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces à valider dans la sous-catégorie").'" class="badge badge-danger mr-2">';
-//                     if (array_key_exists($id_catx,$num_ann_apub)) $sous_content .= $num_ann_apub[$id_catx];
-                     
-                      $sous_content .= $num_ann_apub[$id_catx];
-                     $sous_content .='</span>
+         if (array_key_exists($id_catx,$num_ann_apub))
+            $sous_content .= $num_ann_apub[$id_catx];
+            $sous_content .='</span>
                      <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces en ligne dans la sous-catégorie").'" class="badge badge-success">';
-//                     if (array_key_exists($id_catx,$num_ann)) $sous_content .= $num_ann[$id_catx];
-
-                     $sous_content .= $num_ann[$id_catx];
-                     $sous_content .='</span>
+         if (array_key_exists($id_catx,$num_ann))
+            $sous_content .= $num_ann[$id_catx];
+            $sous_content .='</span>
                   </span>
                </h5>
             </div>';
       }
-      $oo = trim(implode("|", $allcat),'|');
-//      if (array_key_exists($id_cat,$num_ann) or array_key_exists($id_cat,$num_ann_apub)){
+      $oo = trim(implode('|', $allcat),'|');
+      if (array_key_exists($id_cat,$num_ann) or array_key_exists($id_cat,$num_ann_apub)){
       if ($cumu_num_ann!=($num_ann[$id_cat]+$cumu_num_ann) or $cumu_num_ann_apub!=($num_ann_apub[$id_cat]+$cumu_num_ann_apub))
          $sous_content .='
             <div class="my-2 mx-3 px-1">
@@ -156,13 +156,28 @@ if (!array_search($table_annonces,$tables)) {
                   </span>
                </h5>
             </div>';
-            //}
-      $content .=  '
+            }
+      $content .= '
             <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$oo.'">'.$categorie.'</a>
             <span class=" float-right">
-               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la catégorie").'" class="badge badge-default mr-2">'.($num_ann_archive[$id_cat]+$cumu_num_ann_archive).'</span>
-               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces à valider dans la catégorie").'" class="badge badge-danger mr-2">'.($num_ann_apub[$id_cat]+$cumu_num_ann_apub).'</span>
-               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces en ligne dans la catégorie").'" class="badge badge-success">'.($num_ann[$id_cat]+$cumu_num_ann).'</span>
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la catégorie").'" class="badge badge-default mr-2">';
+      if (array_key_exists($id_cat,$num_ann_archive))
+         $content .= ($num_ann_archive[$id_cat]+$cumu_num_ann_archive);
+      else
+         $content .= $cumu_num_ann_archive;
+      $content .= '</span>
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces à valider dans la catégorie").'" class="badge badge-danger mr-2">';
+      if (array_key_exists($id_cat,$num_ann_apub))
+         $content .= ($num_ann_apub[$id_cat]+$cumu_num_ann_apub);
+      else
+         $content .= $cumu_num_ann_apub;
+      $content .= '</span>
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces en ligne dans la catégorie").'" class="badge badge-success">';
+      if (array_key_exists($id_cat,$num_ann))
+         $content .= ($num_ann[$id_cat]+$cumu_num_ann);
+      else
+         $content .= $cumu_num_ann;
+      $content .= '</span>
             </span>
          </h5>
          </div>

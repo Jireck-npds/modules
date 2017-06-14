@@ -17,6 +17,8 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 
+settype($title,'string');
+
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=index*']['title']="[french]Petites Annonces[/french][english]Offers[/english]+|$title+";
 $PAGES['modules.php?ModPath='.$ModPath.'&ModStart=index*']['run']="yes";
 
