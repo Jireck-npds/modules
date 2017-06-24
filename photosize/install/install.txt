@@ -1,11 +1,11 @@
 ######################################################################################
 ##
 ## Nom:  Photosize
-## Version: 2.1
-## Date:  2008/2011
+## Version: 2.2 pour rev16
+## Date:  2008/2017
 ## Auteurs: phr/jpb
 ##
-## Revu par phr avril 2011
+## Revu avril 2017
 ## Description: Outil pour webmaster pour le redimensionnement des photos pour illustration de vos articles
 ## 
 ## Niveau d'installation : Facile
@@ -15,26 +15,26 @@
 #######################################################################################
 ##
 ## INSTALLATION
-## 1. Décompresser l'archive dans le dossier modules de votre site
-## 2. C'est tout ce qu'il y a à faire
+## 1. DÃ©compresser l'archive dans le dossier modules de votre site
+## 2. C'est tout ce qu'il y a Ã  faire
 ## 
 ##
 ## UTILISATION DU MODULE
 ##
-## Dans le bloc admin un lien vers photosize sera visible, il vous suffit de cliquer dessus!
-## Vous pouvez l'implémenter dans votre site pour les forums par exemple....
-## <a href=modules.php?ModPath=photosize&amp;ModStart=photosize>Photosize</a>
+## 
+## Vous pouvez implÃ©menter un lien dans le bloc admin par exemple ou ailleurs si vous le souhaitez dans votre site pour les forums par exemple....
+## <a href="modules.php?ModPath=photosize&ModStart=photosize">Photosize</a>
 ##
 ##
 ## Que fait le module ?
 ##
 ## Il vous redimensionne et renomme la photo de telle sorte que vous n'aurez pas de doublons.
-## Il tague votre photo
-## Modification du Tag : crée votre photo wm.png sous la racine à la place de celle qui a été réalisée pour infocapagde.
-## Attention le format doit être .png
+## 
+## 
+## Attention le format doit Ãªtre .jpg
 ##
 #######################################################################################
 ##
-## Tutorial Photosize 2.1
-## Réalisation : phr
+## Tutorial Photosize 2.2
+## 
 #######################################################################################

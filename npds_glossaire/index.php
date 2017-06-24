@@ -35,7 +35,7 @@ function glohead() {
 
    include("header.php");
    echo '<div class="card"><div class="card-block">';
-   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate(Glossaire).'</h2>';
+   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate('Glossaire').'</h2>';
 
    $acounter = sql_query("SELECT count(*) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0'");
    list($acount) = sql_fetch_row($acounter);
@@ -132,6 +132,8 @@ function categ_glo($gcat, $debut) {
    if ($SuperCache) {
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
+   } else {
+      $cache_obj = new SuperCacheEmpty();
    }
    if (($cache_obj->genereting_output==1) or ($cache_obj->genereting_output==-1) or (!$SuperCache)) {
       
@@ -175,6 +177,8 @@ function rech_lettre($lettre, $gcat, $debut) {
    if ($SuperCache) {
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
+   } else {
+      $cache_obj = new SuperCacheEmpty();
    }
    if (($cache_obj->genereting_output==1) or ($cache_obj->genereting_output==-1) or (!$SuperCache)) {
       
@@ -226,6 +230,8 @@ function rech_terme($type, $terme, $debut) {
    if ($SuperCache) {
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
+   } else {
+      $cache_obj = new SuperCacheEmpty();
    }
    if (($cache_obj->genereting_output==1) or ($cache_obj->genereting_output==-1) or (!$SuperCache)) {
       
@@ -356,6 +362,8 @@ function pagination ($top, $debut, $topsuivant, $nb_affichage, $nbe) {
    }
 }
 // SWITCH AFFICHAGE PAGE
+settype($op,'string');
+settype($debut,'string');
 switch($op) {
    case "submit_terme":
       if (!R_spambot($asb_question, $asb_reponse, $content)) {

@@ -996,6 +996,9 @@ echo '<div class="card"><div class="card-block">';
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
    }
+   else {
+      $cache_obj = new SuperCacheEmpty();
+   }
    if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache))
    {
    settype($subop,'string');

@@ -42,7 +42,7 @@ settype($num_ann_apub_total,'integer');
 settype($num_ann_total,'integer');
 settype($content,'string');
 settype($ibid,'integer');
-
+$num_ann=array();
 $result= sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
 while (list($cat, $count)= sql_fetch_row($result)) {
 $num_ann[$cat]=$count;

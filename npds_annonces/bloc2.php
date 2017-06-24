@@ -24,6 +24,7 @@ if ($title=='') $title="[french]Petites Annonces[/french] [english]Offers[/engli
 $title = aff_langue($title);
 $result = sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
 settype($num_ann_total,'integer');
+$num_ann=array();
 while (list($cat, $count) = sql_fetch_row($result)) {
    $num_ann[$cat]=$count;
    $num_ann_total+=$count;

@@ -32,7 +32,7 @@ include ("modules/$ModPath/annonce.conf.php");
 include ("modules/$ModPath/lang/annonces-$language.php");
 
 // Création automatique des tables
-$result=sql_list_tables();
+/*$result=sql_list_tables();
 while (list($table)=sql_fetch_row($result)) {
    $tables[]=$table;
 }
@@ -61,7 +61,7 @@ if (!array_search($table_annonces,$tables)) {
      KEY id (id)
      )";
    $result = sql_query($sql_query);
-}
+}*/
 // Création automatique des tables
 
    $result= sql_query("SELECT id FROM $table_annonces WHERE en_ligne='1'");
@@ -152,7 +152,12 @@ if (!array_search($table_annonces,$tables)) {
                   <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_cat.'"><span class="ml-1 pl-4">'.ann_translate("Autres").'</span></a>
                   <span class=" float-right">
                      <span class="badge badge-danger mr-2">'.(($num_ann_apub[$id_cat]-$cumu_num_ann_apub)+($cumu_num_ann_apub)).'</span>
-                     <span class="badge badge-success">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
+                     <span class="badge badge-success">';
+         if (array_key_exists($id_cat,$num_ann))
+            $sous_content .= (($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann));
+         else
+            $sous_content .= $cumu_num_ann;
+         $sous_content .= '</span>
                   </span>
                </h5>
             </div>';

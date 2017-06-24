@@ -39,7 +39,7 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
             <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_translate('Vos ajouts').'</a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evènement').'</a>
+            <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evénement').'</a>
          </li>';
    }
 

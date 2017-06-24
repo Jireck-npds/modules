@@ -88,7 +88,8 @@ function cal($month, $an, $debut)
    <a href="'.$ThisFile.'&amp;month='.$mois_suivant.'&amp;an='.$an_suivant.'&amp;debut='.$debut.'" class="ml-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
    </h4>';
 
-   echo '<table class="table table-bordered table-sm">
+   echo '
+   <table class="table table-bordered table-sm">
     <thead class="thead-default">
    <tr>
    <th class="text-center">'.ag_translate('Sem').'</th>
@@ -253,15 +254,17 @@ function ajout($month, $an, $debut)
 //Debut securite
    settype($month,"integer");
    settype($an,"integer");
+   settype($fin,"string");
    $debut = removeHack($debut);
    $fin = removeHack($fin);
 // Fin securite
 
-   echo '<form method="post" action="modules.php" name="adminForm">
-   <input type="hidden" name="ModPath" value="'.$ModPath.'">
-   <input type="hidden" name="ModStart" value="'.$ModStart.'">
-   <input type="hidden" name="debut" value="'.$debut.'">';
-   echo '<fieldset class="form-group">';
+   echo '
+   <form method="post" action="modules.php" name="adminForm">
+      <input type="hidden" name="ModPath" value="'.$ModPath.'" />
+      <input type="hidden" name="ModStart" value="'.$ModStart.'" />
+      <input type="hidden" name="debut" value="'.$debut.'" />
+      <fieldset class="form-group">';
    if ($debut != '')
    {
    echo '<label><strong>'.ag_translate('Jour(s) sélectionné(s)').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>';
@@ -285,36 +288,36 @@ function ajout($month, $an, $debut)
 
 /*Requete liste categorie*/
    $toplist = sql_query("SELECT topicid, topictext FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext");
-   echo '<option value="">'.ag_translate('Choix catégorie').'</option>';
+   echo '
+   <option value="">'.ag_translate('Choix catégorie').'</option>';
    while(list($topicid, $topics) = sql_fetch_row($toplist))
    {
       $topics = stripslashes(aff_langue($topics));
-      if ($topicid == $topic)
-      {
-         $sel = "selected ";
-      }
-      echo '<option '.$sel.' value="'.$topicid.'">'.$topics.'</option>';
-      $sel = "";
+      if ($topicid == $topic) $sel = 'selected="selected"';
+      echo '
+      <option '.$sel.' value="'.$topicid.'">'.$topics.'</option>';
+      $sel = '';
    }
-   echo '</select>
-   </fieldset>';
-
-   echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Titre').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
-   <input type="hidden" name="groupvoir" value="0">
-   <input class="form-control" name="titre">
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Résumé de l\'évènement').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
-   <textarea class="tin form-control" rows="" name="desc"></textarea>
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Description complète').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
-   <textarea class="tin form-control" name="longdesc" rows=""></textarea>';
-   echo aff_editeur("longdesc", "true");
-   echo '</fieldset>';
-   echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Lieu').'</strong><span class="text-danger mx-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>';
+   echo '
+   </select>
+   </fieldset>
+   <fieldset class="form-group">
+      <label for=""><strong>'.ag_translate('Titre').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+      <input type="hidden" name="groupvoir" value="0">
+      <input class="form-control" name="titre">
+   </fieldset>
+   <fieldset class="form-group">
+      <label for=""><strong>'.ag_translate('Résumé de l\'événement').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+      <textarea class="tin form-control" rows="" name="desc"></textarea>
+   </fieldset>
+   <fieldset class="form-group">
+      <label for=""><strong>'.ag_translate('Description complète').'</strong><span class="text-danger ml-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>
+      <textarea class="tin form-control" name="longdesc" rows=""></textarea>';
+   echo aff_editeur('longdesc', '');
+   echo '
+   </fieldset>
+   <fieldset class="form-group">
+      <label for=""><strong>'.ag_translate('Lieu').'</strong><span class="text-danger mx-2"><i class="fa fa-asterisk" aria-hidden="true"></i></span></label>';
    if ($bouton == '1')
    {
       echo '<input class="form-control" type="text" name="lieu">';
@@ -330,24 +333,21 @@ function ajout($month, $an, $debut)
       }
       echo '</select>';
    }
-   echo '</fieldset>';
-   echo '<p><small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span> '.ag_translate('Saisie obligatoire').'</small></p>';   
    echo '
-   <input type="hidden" name="member" value="'.$cookie[1].'">
-   <input type="hidden" name="subop" value="catcreer">
-   <button type="submit" class="btn btn btn-outline-primary btn-sm"><i class="fa fa-check"></i> '.ag_translate('Valider').'</button>
-   </form>';
-
-   
-   echo '<div class="float-right"><a class="btn btn-secondary btn-sm" href="javascript:history.back()">'.ag_translate('Retour').'</a></div>';
+   </fieldset>
+      <p><small class="text-danger"><i class="fa fa-asterisk" aria-hidden="true"></i></span> '.ag_translate('Saisie obligatoire').'</small></p>
+      <input type="hidden" name="member" value="'.$cookie[1].'" />
+      <input type="hidden" name="subop" value="catcreer" />
+      <button type="submit" class="btn btn btn-outline-primary btn-sm"><i class="fa fa-check"></i> '.ag_translate('Valider').'</button>
+   </form>
+   <div class="float-right"><a class="btn btn-secondary btn-sm" href="javascript:history.back()">'.ag_translate('Retour').'</a></div>';
 }
 // FIN AJOUT
 
 // DEBUT VALID AJOUT
 function catcreer ($debut, $topicid, $groupvoir, $titre, $desc, $longdesc, $lieu, $statut, $member)
 {
-   global $ModPath, $ModStart, $NPDS_Prefix;
-   global $ThisFile, $valid, $menu, $courriel, $receveur;
+   global $ModPath, $ModStart, $NPDS_Prefix, $ThisFile, $valid, $menu, $courriel, $receveur;
    /*Debut securite*/
    settype($topicid,"integer");
    settype($groupvoir,"integer");
@@ -390,9 +390,9 @@ function catcreer ($debut, $topicid, $groupvoir, $titre, $desc, $longdesc, $lieu
 /*Envoi mail si actif dans config*/
    if ($courriel == 1 || $receveur != '')
    { 
-   $sujet = ag_translate('Evènement nouveau dans agenda');
+   $sujet = ag_translate('Evénement nouveau dans agenda');
    $sujet=html_entity_decode($sujet, ENT_COMPAT, 'UTF-8');
-   $message = ag_translate('Un évènement nouveau est à valider dans agenda').'.<br /><br />';
+   $message = ag_translate('Un événement nouveau est à valider dans agenda').'.<br /><br />';
    include("signat.php");
    send_email($receveur,$sujet,$message,'',true,"html");
    }
@@ -402,7 +402,7 @@ function catcreer ($debut, $topicid, $groupvoir, $titre, $desc, $longdesc, $lieu
    }
    else if ($valid == 1)
    {
-   echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Votre nouvel évènement à bien été ajouté à l\'agenda').'</p>';
+   echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Votre nouvel événement à bien été ajouté à l\'agenda').'</p>';
    }
    }
    }
@@ -440,13 +440,18 @@ include('header.php');
 
 /*Parametres utilises par le script*/
    $ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
-   $ThisRedo = 'modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'';
+   $ThisRedo = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
 
 echo '<div class="card"><div class="card-block">';
-echo '<h4><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Proposer un évènement').'</h4>';
+echo '<h4><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Proposer un événement').'</h4>';
 
 /*Si membre appartient au bon groupe*/
-
+   settype($subop,'string');
+   settype($month,'string');
+   settype($an,'integer');
+   settype($debut,'string');
+   
+   
    if(autorisation($gro)) {
    switch($subop) {
    default:

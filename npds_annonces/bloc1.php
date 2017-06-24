@@ -26,14 +26,12 @@ $title = aff_langue("$title");
 
 global $long_chain;
 if (!$long_chain) {$long_chain=20;}
-
+$num_ann=array();
 $result = sql_query("SELECT id_cat, COUNT(en_ligne) FROM $table_annonces WHERE en_ligne='1' GROUP BY id_cat");
 while (list($cat, $count) = sql_fetch_row($result)) {
    $num_ann[$cat]=$count;
    $num_ann_total+=$count;
 }
-
-
 $content = '<p class="text-center"><span class="badge badge-pill badge-default">'.$num_ann_total.'</span> [french]annonce(s)[/french] [english]offer(s)[/english] [french]publiée(s)[/french] [english]published[/english]</span>';
 $select = sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
 while ($i= sql_fetch_assoc($select)) {
