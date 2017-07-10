@@ -23,11 +23,12 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 include ('modules/'.$ModPath.'/admin/pages.php');
 include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
 global $pdst, $language;
+settype($lettre,'string');
+settype($niv,'integer');
 
 // DEBUT FONCTION LISTE SUJET
 function suj() {
-   global $NPDS_Prefix, $ModPath, $theme, $bouton;
-   global $ThisRedo, $ThisFile, $gro;
+   global $NPDS_Prefix, $ModPath, $theme, $bouton, $ThisRedo, $ThisFile, $gro;
    /*debut theme html partie 1/2*/
 //   $inclusion = false;
 
@@ -39,7 +40,7 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
    if(autorisation($gro)) {
       $ajeven = '
          <li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_translate('Vos ajouts').'</a></li>
-         <li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Evènement').'</a></li>';
+         <li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Evénement').'</a></li>';
    }
 
 //Accès direct à un sujet   
@@ -55,13 +56,9 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
       $accesuj .= '<option value="'.$stopicid.'">'.$topictext.'</option>';
    }
    if($bouton == '1')
-   {
       $rech = ag_translate('Par ville');
-   }
    else
-   {
-      $rech = ''.ag_translate('Par').' '.$bouton.'';
-   }
+      $rech = ag_translate('Par').' '.$bouton;
    $accesuj .= '</select></li>';
 
 // fin Accès direct à un sujet
@@ -86,64 +83,58 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
 // FIN LISTE SUJET
 
 // DEBUT LISTE EVENEMENT PAR CHOIX
-function lieu($lettre, $niv)
-{
-   global $ModPath, $NPDS_Prefix, $theme, $cookie;
-   global $ThisFile, $nb_news, $tipath, $bouton, $page;
+function lieu($lettre, $niv) {
+   global $ModPath, $NPDS_Prefix, $theme, $cookie, $ThisFile, $nb_news, $tipath, $bouton, $page;
    require_once('modules/'.$ModPath.'/pag_fonc.php');
 
-/*Debut securite*/
-   settype($page,"integer");
-   settype($niv,"integer");
+   settype($page,'integer');
+   settype($niv,'integer');
+   settype($suite,'string');
+   settype($alph,'string');
+   settype($cond,'string');
+
+   /*Debut securite*/
    $lettre = removeHack($lettre);
-/*Fin securite*/
+   /*Fin securite*/
 
    suj();
    
 /*debut theme html partie 1/2*/
-//   $inclusion = false;
 
-   $inclusion = "modules/".$ModPath."/html/lieu.html";
+   $inclusion = 'modules/'.$ModPath.'/html/lieu.html';
 
    /*fin theme html partie 1/2*/
    /*Recherche*/
-   if ($bouton == '1')
-   {
-      if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ''.ag_translate('pour la lettre').' <span class="badge badge-default">'.$lettre.'</span>';}
-      $rech = '<span class="ml-1">'.ag_translate('par ville').'</span> '.$suite.'';
-      $alphabet = array ("A","B","C","D","E","F","G","H","I","J","K","L","M",
-      "N","O","P","Q","R","S","T","U","V","W","X","Y","Z","".ag_translate("Autre(s)")."");
+   if ($bouton == '1') {
+      if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ag_translate('pour la lettre').' <span class="badge badge-default">'.$lettre.'</span>';}
+      $rech = '<span class="ml-1">'.ag_translate('par ville').'</span> '.$suite;
+      $alphabet = array ('A','B','C','D','E','F','G','H','I','J','K','L','M',
+      'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',ag_translate("Autre(s)"));
       $num = count($alphabet);
       $counter = 0;
-      while (list(, $ltr) = each($alphabet))
-      {
+      while (list(, $ltr) = each($alphabet)) {
          if ($ltr != ag_translate("Autre"))
-         {
             $alph .= '<a href="'.$ThisFile.'&amp;lettre='.$ltr.'">'.$ltr.'</a>';
-         }
          else
-         {
             $alph .= '<a href="'.$ThisFile.'&amp;lettre=!AZ">'.$ltr.'</a>';
-         }
          /*Remplacer 1 pour saut de ligne*/
          if ($counter == round($num/1))
-            $alph .= " ]<br />[ ";
+            $alph .= ' ]<br />[ ';
          elseif ($counter != $num)
-            $alph .= " | ";
+            $alph .= ' | ';
          $counter++;
       }
    }
-   else
-   {
+   else {
       include('modules/'.$ModPath.'/recherche/'.$bouton.'.php');
       if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ' '.ag_translate('pour').' '.$lettre.'';}
       $rech = ''.ag_translate('Par').' '.$bouton.' '.$suite.'';
       if($lettre != ''){$cond = "AND ut.lieu = '$lettre'";}
-      $alph .= '<select class="custom-select" onchange="window.location=(\''.$ThisFile.'&amp;lettre='.$na[$i].'\'+this.options[this.selectedIndex].value)">'
+      $alph .= '
+      <select class="custom-select" onchange="window.location=(\''.$ThisFile.'&amp;lettre='.$na[$i].'\'+this.options[this.selectedIndex].value)">'
       .'<option></option>';
-      foreach($try as $na)
-      {
-         if($lettre == $na){$af = ' selected';}else{$af = '';}
+      foreach($try as $na) {
+         if($lettre == $na) $af = ' selected="selected"'; else $af = '';
          $alph .= '<option value="'.$na.'"'.$af.'>'.$na.'</option>';
       }
       $alph .= '</select>';
@@ -162,12 +153,8 @@ function lieu($lettre, $niv)
          AND ut.valid = '1' 
          AND us.date >= '$now' 
       GROUP BY us.liaison");
-   while(list($groupvoir) = sql_fetch_row($req1))
-   {
-      if(autorisation($groupvoir))
-      {
-         $sup++;
-      }
+   while(list($groupvoir) = sql_fetch_row($req1)) {
+      if(autorisation($groupvoir)) $sup++;
    }
    /*Total pour naviguation*/
    $req1 = sql_query("SELECT 
@@ -181,34 +168,26 @@ function lieu($lettre, $niv)
          AND ut.valid = '1' 
          AND us.date < '$now' 
       GROUP BY us.liaison");
-   while(list($groupvoir) = sql_fetch_row($req1))
-   {
-      if(autorisation($groupvoir))
-      {
-         $inf++;
-      }
+   while(list($groupvoir) = sql_fetch_row($req1)) {
+      if(autorisation($groupvoir)) $inf++;
    }
-   if ($sup == ''){$sup = '0';}
-   if ($inf == ''){$inf = '0';}
-   if($niv == '0')
-   {
+//   $sup='';$inf='';
+   if ($sup == '') $sup = '0';
+   if ($inf == '') $inf = '0'; 
+   if($niv == '0') {
       $cs = 'class="text-danger"';
-      $nb_entrees = ''.$sup.'';
+      $nb_entrees = $sup;
       $cond1 = "date >= '$now'";
    }
-   else if($niv == '1')
-   {
+   else if($niv == '1') {
       $cs1 = 'class="text-danger"';
-      $nb_entrees = ''.$inf.'';
+      $nb_entrees = $inf;
       $cond1 = "date < '$now'";
    }
 
 //Pour la navigation
    $total_pages = ceil($nb_entrees/$nb_news);
-   if($page == 1)
-   {
-      $page_courante = 1;
-   }
+   if($page == 1) $page_courante = 1;
    else
    {
       if ($page < 1)
@@ -226,8 +205,8 @@ function lieu($lettre, $niv)
    else
    {
       $affeven = '<ul>
-      <li>'.ag_translate('Evènement(s) à venir').'<a class="badge badge-success ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=0">'.$sup.'</a></li>
-      <li>'.ag_translate('Evènement(s) en cours ou passé(s)').'<a class="badge badge-default ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=1">'.$inf.'</a></li>
+      <li>'.ag_translate('Evénement(s) à venir').'<a class="badge badge-success ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=0">'.$sup.'</a></li>
+      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').'<a class="badge badge-default ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=1">'.$inf.'</a></li>
       </ul>';
       $affeven .= '';
       /*Requete liste evenement suivant $date*/
@@ -277,7 +256,7 @@ function lieu($lettre, $niv)
             $affeven .='<p class="card-text">';
             if ($tot > 1)
             {
-               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure plusieurs jours').'</p>';
+               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
                while (list($ddate) = sql_fetch_row($result1))
                {
                   if($ddate > $now){$etat = 'badge badge-success';}
@@ -295,22 +274,20 @@ function lieu($lettre, $niv)
                else if($ddate == $now){$etat = 'badge badge-warning';}
                else if($ddate < $now){$etat = 'badge badge-warning';}
                $newdate = formatfrancais($ddate);
-               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement dure 1 jour').'</p>';
-               $affeven .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';            
-            }         
-      
+               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>';
+               $affeven .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
+            }
 
-            $affeven .= '<p class="card-text">';
-
-            $affeven .= '<div class="row">
-            <div class="col-md-2">'.ag_translate('Résumé').'</div>
-            <div class="col-md-10">'.$intro.'</div>
-            </div>';
-
-            $affeven .= '<div class="row">
-            <div class="col-md-2">'.ag_translate('Lieu').'</div>
-            <div class="col-md-10">'.$lieu.'</div>
-            </div>';
+            $affeven .= '
+            <p class="card-text">
+               <div class="row">
+                  <div class="col-md-2">'.ag_translate('Résumé').'</div>
+                  <div class="col-md-10">'.$intro.'</div>
+               </div>
+               <div class="row">
+                  <div class="col-md-2">'.ag_translate('Lieu').'</div>
+                  <div class="col-md-10">'.$lieu.'</div>
+               </div>';
 //début modal fiche
 $affeven .= '<div class="row">
             <div class="col-md-12">
@@ -329,12 +306,9 @@ $affeven .= '<div class="row">
             <div class="modal-body">
       <h5 class="'.$etat.'"><strong>';
             if ($tot > 1)
-            {
-     $affeven .= $datepourmonmodal;
-            }
-            else{
-     $affeven .= $newdate;
-            }
+               $affeven .= $datepourmonmodal;
+            else
+              $affeven .= $newdate;
      $affeven .= '</strong></h5>
             <div class="row">
             <div class="col-md-2">'.ag_translate('Résumé').'</div>
@@ -389,10 +363,13 @@ $affeven .= '<div class="row">
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    include ('modules/'.$ModPath.'/cache.timings.php');
    echo '<div class="card"><div class="card-block">';
-   if ($SuperCache)
-   {
+
+   if ($SuperCache) {
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
+   }
+   else {
+      $cache_obj = new SuperCacheEmpty();
    }
    if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache))
    {

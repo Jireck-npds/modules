@@ -96,13 +96,14 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
 
 
 // DEBUT LISTE EVENEMENT
-function listsuj($sujet, $niv)
-{   global $NPDS_Prefix, $ModPath, $theme, $cookie;
-   global $ThisFile, $nb_news, $tipath, $page;
+function listsuj($sujet, $niv) {
+   global $NPDS_Prefix, $ModPath, $theme, $cookie, $ThisFile, $nb_news, $tipath, $page;
    /*Debut securite*/
    settype($sujet,"integer");
    settype($niv,"integer");
    settype($page,"integer");
+   settype($cs1,"string");
+   
    /*Fin securite*/
    require_once('modules/'.$ModPath.'/pag_fonc.php');
    suj();
@@ -125,12 +126,8 @@ function listsuj($sujet, $niv)
          AND ut.valid = '1'
          AND us.date >= '$now'
       GROUP BY us.liaison");
-   while(list($groupvoir) = sql_fetch_row($req1))
-   {
-      if(autorisation($groupvoir))
-      {
-         $sup++;
-      }
+   while(list($groupvoir) = sql_fetch_row($req1)) {
+      if(autorisation($groupvoir)) $sup++;
    }
 
 /*Total pour pagination*/
@@ -145,23 +142,17 @@ function listsuj($sujet, $niv)
          AND ut.valid = '1'
          AND us.date < '$now'
       GROUP BY us.liaison");
-   while(list($groupvoir) = sql_fetch_row($req1))
-   {
-      if(autorisation($groupvoir))
-      {
-         $inf++;
-      }
+   while(list($groupvoir) = sql_fetch_row($req1)) {
+      if(autorisation($groupvoir)) $inf++;
    }
    if ($sup == ''){$sup = '0';}
    if ($inf == ''){$inf = '0';}
-   if($niv == '0')
-   {
+   if($niv == '0') {
       $cs = 'class="text-danger"';
       $nb_entrees = ''.$sup.'';
       $cond = "date >= '$now'";
    }
-   else if($niv == '1')
-   {
+   else if($niv == '1') {
       $cs1 = 'class="text-danger"';
       $nb_entrees = ''.$inf.'';
       $cond = "date < '$now'";
@@ -350,6 +341,7 @@ function calend($an, $month)
 /*Debut securite*/
    settype($an,"integer");
    settype($month,"integer");
+   $afftitre=array();
 /*Fin securite*/
 
 /*Recuperation du jour, mois, et annee actuel*/
@@ -430,8 +422,7 @@ function calend($an, $month)
    {
 
 /*Si membre appartient au bon groupe*/
-      if(autorisation($groupvoir))
-      {
+      if(autorisation($groupvoir)) {
          $titre = stripslashes(aff_langue($titre));
 
 /*Transforme aaaa/mm/jj en jj*/
@@ -502,30 +493,29 @@ function calend($an, $month)
       if (01 == $jour && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger font-weight-bold';}else{$cs = 'text-muted';}
 
 /*Si ce premier dimanche est "reserve"*/
-      if($tab_jours[1])
-      {
+      if($tab_jours[1]) {
 
 /*Si jour ferie sans evenement*/
-         if ($afftitre[$tab_jours[1]] == '' && $fetetitre[$tab_jours[1]] != ''){$cla = 'table-warning';}
-         else if ($afftitre[$tab_jours[1]] != '' && $fetetitre[$tab_jours[1]] == ''){$cla = 'table-info';}
-         else if ($afftitre[$tab_jours[1]] != '' && $fetetitre[$tab_jours[1]] != ''){$cla = 'table-info';}
-         $affcal .= '<td class="text-center '.$cla.'">
-         <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.$fetetitre[$tab_jours[1]].''.$afftitre[1].'"><span class="'.$cs.'">1</span></a>
+         if ($afftitre[$tab_jours[1]] == '' && $fetetitre[$tab_jours[1]] != '') $cla = 'table-warning';
+         else if ($afftitre[$tab_jours[1]] != '' && $fetetitre[$tab_jours[1]] == '') $cla = 'table-info';
+         else if ($afftitre[$tab_jours[1]] != '' && $fetetitre[$tab_jours[1]] != '') $cla = 'table-info';
+         $affcal .= '
+         <td class="text-center '.$cla.'">
+            <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.$fetetitre[$tab_jours[1]].''.$afftitre[1].'"><span class="'.$cs.'">1</span></a>
          </td>';
       }
-      else
-      {
-
+      else {
 /*Css jour libre*/
-         $affcal .= '<td class="text-center">
-         <span class="'.$cs.'">1</span>
+         $affcal .= '
+         <td class="text-center">
+            <span class="'.$cs.'">1</span>
          </td>';
       }
-      $affcal .= '</tr>
+      $affcal .= '
+      </tr>
       <tr>';
    }
-   else
-   {
+   else {
 
 /*Calcul numero semaine +0 pour enlever le 0 de 01,02,...*/
       $semaine1 = $semaine + 0;
@@ -534,14 +524,12 @@ function calend($an, $month)
    $affcal .= '<th scope="row" class="text-center">'.$semaine1.'</th>';
 
 /*7 premiers jour du mois*/
-   for ($i = 1; $i < 8; $i++)
-   {
+   for ($i = 1; $i < 8; $i++) {
 
 /*Si case calendrier vide*/
-      if ($i < $premier_jour)
-      {
-         $affcal .= '<td class="text-center">&nbsp;</td>';
-      }
+      if ($i < $premier_jour) 
+         $affcal .= '
+         <td class="text-center">&nbsp;</td>';
       else
       {
 
@@ -557,19 +545,23 @@ function calend($an, $month)
          {
 
 /*Si jour ferie sans evenement*/
-            if ($afftitre[$ce_jour] == '' && $fetetitre[$ce_jour] != ''){$cla = 'table-warning';}
+            if (!array_key_exists($ce_jour, $afftitre) && $fetetitre[$ce_jour] != ''){$cla = 'table-warning';}
             else if ($afftitre[$ce_jour] != '' && $fetetitre[$ce_jour] == ''){$cla = 'table-info';}
             else if ($afftitre[$ce_jour] != '' && $fetetitre[$ce_jour] != ''){$cla = 'table-info';}
-            $affcal .= '<td class="text-center '.$cla.'">
-            <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.$fetetitre[$ce_jour].''.$afftitre[$ce_jour].'"><span class="'.$cs.'">'.$ce_jour.'</span></a>
+            $affcal .= '
+            <td class="text-center '.$cla.'">
+            <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'.$fetetitre[$ce_jour];
+            if(array_key_exists($ce_jour, $afftitre))
+               $affcal .= $afftitre[$ce_jour];
+            $affcal .= '"><span class="'.$cs.'">'.$ce_jour.'</span></a>
             </td>';
          }
-         else
-         {
+         else {
 
 /*Css libre*/
-            $affcal .= '<td class="text-center">
-            <span class="'.$cs.'">'.$ce_jour.'</span>
+            $affcal .= '
+            <td class="text-center">
+               <span class="'.$cs.'">'.$ce_jour.'</span>
             </td>';
          }
       }
@@ -608,11 +600,14 @@ function calend($an, $month)
             {
 
 /*Si jour ferie sans evenement*/
-               if ($afftitre[$jour_suiv] == '' && $fetetitre[$jour_suiv] != ''){$cla = 'table-warning';}
+               if (!array_key_exists($jour_suiv, $afftitre) && $fetetitre[$jour_suiv] != ''){$cla = 'table-warning';}
                else if ($afftitre[$jour_suiv] != '' && $fetetitre[$jour_suiv] == ''){$cla = 'table-info';}
                else if ($afftitre[$jour_suiv] != '' && $fetetitre[$jour_suiv] != ''){$cla = 'table-info';}
                $affcal .= '<td class="text-center '.$cla.'">
-               <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" title="'.$fetetitre[$jour_suiv].''.$afftitre[$jour_suiv].'" data-placement="bottom"><span class="'.$cs.'">'.$jour_suiv.'</span></a>
+               <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" title="'.$fetetitre[$jour_suiv];
+            if(array_key_exists($jour_suiv, $afftitre))
+               $affcal .= $afftitre[$jour_suiv];
+            $affcal .='" data-placement="bottom"><span class="'.$cs.'">'.$jour_suiv.'</span></a>
                </td>';
             }
             else
@@ -650,7 +645,7 @@ function calend($an, $month)
 function jour($date) {
    global $ModPath, $NPDS_Prefix, $theme, $cookie;
    global $ThisFile, $nb_news, $tipath, $page;
-
+   $affeven='';
 /*Debut securite*/
    settype($page,"integer");
    $date = removeHack($date);
@@ -669,6 +664,7 @@ function jour($date) {
    $now = date('Y-m-d');
 
 /*Total pour naviguation*/
+   settype($nb_entrees,'integer');
    $req1 = sql_query("SELECT
          ut.groupvoir
       FROM
@@ -678,16 +674,11 @@ function jour($date) {
          us.date = '$date'
          AND us.liaison = ut.id
          AND valid = '1'");
-   while(list($groupvoir) = sql_fetch_row($req1))
-   {
-      if(autorisation($groupvoir))
-      {
-         $nb_entrees++;
-      }
+   while(list($groupvoir) = sql_fetch_row($req1)) {
+      if(autorisation($groupvoir)) $nb_entrees++;
    }
 
 //Pour la naviguation
-   settype($nb_entrees,'integer');
 
    $total_pages = ceil($nb_entrees/$nb_news);
    if($page == 1)
@@ -709,11 +700,8 @@ function jour($date) {
    $bandeau = '<a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;month='.$retour[0].'&amp;an='.$retour[1].'">'.ag_translate('Retour au calendrier').'</a>';
    $lejour = $datetime;
    if ($nb_entrees == 0)
-   {
       $affeven = '<p><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Rien de prévu ce jour').'</p>';
-   }
-   else
-   {
+   else {
    
 /*Requete liste evenement suivant $date*/
       $result = sql_query("SELECT
@@ -736,12 +724,13 @@ function jour($date) {
          $intro = stripslashes(aff_langue($intro));
          $lieu = stripslashes(aff_langue($lieu));
          $topictext = stripslashes(aff_langue($topictext));
-         $affeven .= '<div class="card my-3">
-         <div class="card-block"><p class="card-text">';
+         $affeven .= '
+         <div class="card my-3">
+            <div class="card-block">
+               <p class="card-text">';
 
 /*Si membre appartient au bon groupe*/
-         if(autorisation($groupvoir))
-         {
+         if(autorisation($groupvoir)) {
 
 /*Si evenement plusieurs jours*/
             $result1 = sql_query("SELECT date FROM ".$NPDS_Prefix."agend WHERE liaison = '$liaison' ORDER BY date DESC");
@@ -750,21 +739,14 @@ function jour($date) {
             $affeven .= '<h4 class="card-title">'.$titre.'</h4>';
 
             if ($posteur == $cookie[1])
-            {
                $affeven .= '<a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                <a class="btn btn-outline-danger btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
-
-               }
             else
-            {
-            $affeven .= '<p>'.ag_translate('Posté par').'&nbsp;'.$posteur.'</p>';
-            }
+               $affeven .= '<p>'.ag_translate('Posté par').'&nbsp;'.$posteur.'</p>';
             $affeven .= '<p class="card-text">';
-            if ($tot > 1)
-            {
-            $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
-               while (list($ddate) = sql_fetch_row($result1))
-               {
+            if ($tot > 1) {
+               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
+               while (list($ddate) = sql_fetch_row($result1)) {
                   if($ddate > $now){$etat = 'badge badge-success';}
                   else if($ddate == $now){$etat = 'badge badge-warning';}
                   else if($ddate < $now){$etat = 'badge badge-warning';}
@@ -773,8 +755,7 @@ function jour($date) {
                   $datepourmonmodal .= '<span class="'.$etat.'">'.$newdate.'</span>';
                }
             }
-            else
-            {
+            else {
                list($ddate) = sql_fetch_row($result1);
                $newdate = formatfrancais($ddate);
                if($ddate > $now){$etat = 'badge badge-success';}
@@ -783,16 +764,18 @@ function jour($date) {
                $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>';
                $affeven .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
             }
-            $affeven .= '<div class="row">
-            <div class="col-md-2">'.ag_translate('Résumé').'</div>
-            <div class="col-md-10">'.$intro.'</div>
-            </div>';
-            $affeven .= '<div class="row">
-            <div class="col-md-2">'.ag_translate('Lieu').'</div>
-            <div class="col-md-10">'.$lieu.'</div>
+            $affeven .= '
+            <div class="row">
+               <div class="col-md-2">'.ag_translate('Résumé').'</div>
+               <div class="col-md-10">'.$intro.'</div>
+            </div>
+            <div class="row">
+               <div class="col-md-2">'.ag_translate('Lieu').'</div>
+               <div class="col-md-10">'.$lieu.'</div>
             </div>';
 //événement du calendrier 
-            $affeven .= '<div class="row">
+            $affeven .= '
+            <div class="row">
             <div class="col-md-12">
             <button type="button" class="btn btn-secondary btn-sm my-2" data-toggle="modal" data-target="#'.$id.'">
             '.ag_translate('Voir la fiche').'
@@ -807,36 +790,33 @@ function jour($date) {
             </button>
             </div>
             <div class="modal-body">
-            <h5 class="'.$etat.'"><strong>';
+               <h5 class="'.$etat.'"><strong>';
             if ($tot > 1)
-            {
-     $affeven .= $datepourmonmodal;
-            }
-            else{
-     $affeven .= $newdate;
-            
-            }
-     $affeven .= '</strong></h5>
-            <div class="row">
-            <div class="col-md-2">'.ag_translate('Résumé').'</div>
-            <div class="col-md-10">'.$intro.'</div>
-            </div>
-            <div class="row">
-            <div class="col-md-2">'.ag_translate('Description').'</div>
-            <div class="col-md-10">'.$descript.'</div>
-            </div>           
-            <div class="row">
-            <div class="col-md-2">'.ag_translate('Lieu').'</div>
-            <div class="col-md-10">'.$lieu.'</div>
-            </div>
+               $affeven .= $datepourmonmodal;
+            else
+               $affeven .= $newdate;
+           $affeven .= '</strong></h5>
+               <div class="row">
+                  <div class="col-md-2">'.ag_translate('Résumé').'</div>
+                  <div class="col-md-10">'.$intro.'</div>
+               </div>
+               <div class="row">
+                  <div class="col-md-2">'.ag_translate('Description').'</div>
+                  <div class="col-md-10">'.$descript.'</div>
+               </div>
+               <div class="row">
+                  <div class="col-md-2">'.ag_translate('Lieu').'</div>
+                  <div class="col-md-10">'.$lieu.'</div>
+               </div>
             </div>
             <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 </div>
-</div></div>';
+</div>';
       $affeven .= '</div></div>';
    }
    }
@@ -940,11 +920,11 @@ function fiche($date, $id) {
 /*Requete liste categorie*/
          $result2 = sql_query("SELECT topicimage, topictext FROM ".$NPDS_Prefix."agendsujet WHERE topicid = '$topicid'");
          list($topicimage, $topictext) = sql_fetch_row($result2);
-         $titrefiche = ''.stripslashes(aff_langue($titre)).'';
-         $imgsuj = '<img src="'.$tipath.''.$topicimage.'" /><br />'.stripslashes(aff_langue($topictext)).'';
-         $resume = ''.str_replace("\n","<br />",stripslashes(aff_langue($intro))).'';
-         $detail = ''.stripslashes(aff_langue($descript)).'';
-         $lieu = ''.stripslashes(aff_langue($lieu)).'';
+         $titrefiche = stripslashes(aff_langue($titre));
+         $imgsuj = '<img src="'.$tipath.''.$topicimage.'" /><br />'.stripslashes(aff_langue($topictext));
+         $resume = str_replace("\n","<br />",stripslashes(aff_langue($intro)));
+         $detail = stripslashes(aff_langue($descript));
+         $lieu = stripslashes(aff_langue($lieu));
       }
    }
 
@@ -977,15 +957,16 @@ function fiche($date, $id) {
 /// FIN FONCTION ///
 ////////////////////
 
-
    include ('modules/'.$ModPath.'/admin/pages.php');
    global $pdst, $language;
    include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
+   settype($subop,'string');
+   settype($an,'integer');
+   settype($month,'integer');
 
-
-/*Parametres utilises par le script*/
-   $ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
-   $ThisRedo = 'modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'';
+/*Paramètres utilisés par le script*/
+   $ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart;
+   $ThisRedo = 'modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart;
    $tipath = 'modules/'.$ModPath.'/images/categories/';
    include('header.php');
    include('modules/'.$ModPath.'/admin/config.php');
@@ -996,32 +977,25 @@ echo '<div class="card"><div class="card-block">';
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
    }
-   else {
-      $cache_obj = new SuperCacheEmpty();
+   else $cache_obj = new SuperCacheEmpty();
+
+   if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
+      switch($subop) {
+      default:
+      calend($an, $month);
+         break;
+      case 'listsuj':
+      listsuj($sujet, $niv);
+         break;
+      case 'jour':
+      jour($date);
+         break;
+      case 'fiche':
+      fiche($date, $id);
+         break;
+      }
    }
-   if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache))
-   {
-   settype($subop,'string');
-   switch($subop)
-   {
-   default:
-   calend($an, $month);
-      break;
-   case 'listsuj':
-   listsuj($sujet, $niv);
-      break;
-   case 'jour':
-   jour($date);
-      break;
-   case 'fiche':
-   fiche($date, $id);
-      break;
-   }
-   }
-   if ($SuperCache)
-   {
-   $cache_obj->endCachingPage();
-   }
+   if ($SuperCache) $cache_obj->endCachingPage();
 echo '</div></div>';
 include("footer.php");
 ?>

@@ -37,23 +37,28 @@ if ($admin) {
    $tipath = 'modules/'.$ModPath.'/images/categories/';
 
    $tabMois = array();
-   $tabMois[1] = ''.ag_translate('Janvier').'';
-   $tabMois[2] = ''.ag_translate('Février').'';
-   $tabMois[3] = ''.ag_translate('Mars').'';
-   $tabMois[4] = ''.ag_translate('Avril').'';
-   $tabMois[5] = ''.ag_translate('Mai').'';
-   $tabMois[6] = ''.ag_translate('Juin').'';
-   $tabMois[7] = ''.ag_translate('Juillet').'';
-   $tabMois[8] = ''.ag_translate('Août').'';
-   $tabMois[9] = ''.ag_translate('Septembre').'';
-   $tabMois[10] = ''.ag_translate('Octobre').'';
-   $tabMois[11] = ''.ag_translate('Novembre').'';
-   $tabMois[12] = ''.ag_translate('Décembre').'';
+   $tabMois[1] = ag_translate('Janvier');
+   $tabMois[2] = ag_translate('Février');
+   $tabMois[3] = ag_translate('Mars');
+   $tabMois[4] = ag_translate('Avril');
+   $tabMois[5] = ag_translate('Mai');
+   $tabMois[6] = ag_translate('Juin');
+   $tabMois[7] = ag_translate('Juillet');
+   $tabMois[8] = ag_translate('Août');
+   $tabMois[9] = ag_translate('Septembre');
+   $tabMois[10] = ag_translate('Octobre');
+   $tabMois[11] = ag_translate('Novembre');
+   $tabMois[12] = ag_translate('Décembre');
    /*css perso admin en attendant evolution page.php*/
 
    GraphicAdmin($hlpfile);
    echo '<div id="adm_men">';
    settype($subop,'string');
+   settype($month,'integer');
+   settype($an,'integer');
+   settype($debut,'string');
+   settype($ok,'string');
+
    switch($subop)
    {
    default:

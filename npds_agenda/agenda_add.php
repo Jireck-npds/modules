@@ -450,6 +450,7 @@ echo '<h4><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Prop
    settype($month,'string');
    settype($an,'integer');
    settype($debut,'string');
+   settype($statut,'string');
    
    
    if(autorisation($gro)) {

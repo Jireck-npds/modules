@@ -41,7 +41,7 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
             <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_translate('Vos ajouts').'</a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evènement').'</a>
+            <a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus" aria-hidden="true"></i> '.ag_translate('Evénement').'</a>
          </li>';
    }
 
@@ -128,7 +128,7 @@ function vosajouts()
 
 /*Ordre par defaut*/
    if($order == '0'){$order1 = 'valid = 3 DESC';}else if($order == '4'){$order1 = 'titre ASC';}else{$order1 = "valid = $order DESC";}
-   echo '<h4>'.ag_translate('Liste de vos évènements').'</h4>';
+   echo '<h4>'.ag_translate('Liste de vos événements').'</h4>';
    echo '<p>'.ag_translate('Trier par').'
    <a class="btn btn-outline-success btn-sm mr-1" href="'.$ThisFile.'&amp;order=1">'.ag_translate('En Ligne').'</a>
    <a class="btn btn-secondary btn-sm mr-1" href="'.$ThisFile.'&amp;order=2">'.ag_translate('Hors Ligne').'</a>
@@ -207,7 +207,7 @@ function suppevt($id, $ok=0)
          echo ''.sql_error().'<br />';
          return;
       }
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet évènement est maintenant effacé').'</p>
+      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est maintenant effacé').'</p>
       <div class=""><a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></div>';
    }
    else
@@ -217,7 +217,7 @@ function suppevt($id, $ok=0)
       $tot = sql_num_rows(sql_query("SELECT id FROM ".$NPDS_Prefix."agend_dem WHERE id = '$id' AND posteur = '$cookie[1]'"));
       if ($tot != 0)
       {
-         echo '<p class="lead text-danger font-weight-bold">'.ag_translate('Etes-vous certain de vouloir supprimer cet évènement').'</p>
+         echo '<p class="lead text-danger font-weight-bold">'.ag_translate('Etes-vous certain de vouloir supprimer cet événement').'</p>
          <div class="btn-group"><a class="btn btn-outline-primary btn-sm mr-2" href="'.$ThisFile.'">'.ag_translate('NON').'</a>
          <a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=suppevt&amp;id='.$id.'&amp;ok=1">'.ag_translate('OUI').'</a></div>';
       }
@@ -262,7 +262,7 @@ function editevt($id, $month, $an, $debut)
    $intro = stripslashes($intro);
    $descript = stripslashes($descript);
    $lieu = stripslashes($lieu);
-   echo '<h4 class="lead">'.ag_translate('Editer un évènement').'</h4>';
+   echo '<h4 class="lead">'.ag_translate('Editer un événement').'</h4>';
    echo '<ul>
    <li>'.ag_translate('Etape 1 : Sélectionner vos dates').'</li>
    <li>'.ag_translate('Etape 2 : Remplisser le formulaire').'</li>
@@ -306,7 +306,7 @@ function editevt($id, $month, $an, $debut)
    <input class="form-control" rows="1" name="titre" value="'.$titre.'">
    </fieldset>';
    echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Résumé de l\'évènement').'&nbsp;<span class="text-danger">*</span></strong></label>
+   <label for=""><strong>'.ag_translate('Résumé de l\'événement').'&nbsp;<span class="text-danger">*</span></strong></label>
    <textarea class="tin form-control" rows="2" name="desc">'.$intro.'</textarea>
    </fieldset>';
    echo '<fieldset class="form-group">
@@ -335,8 +335,8 @@ function editevt($id, $month, $an, $debut)
       echo '</fieldset>';
    echo '
    <input type="hidden" name="subop" value="validedit" />
-   <input type="submit" class="btn btn-outline-primary btn-sm" value="'.ag_translate('Modifier l\'Evènement').'" />
-    <a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=suppevt&amp;id='.$id.'">'.ag_translate('Supprimer cet évènement').'</a>
+   <input type="submit" class="btn btn-outline-primary btn-sm" value="'.ag_translate('Modifier l\'Evénement').'" />
+    <a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=suppevt&amp;id='.$id.'">'.ag_translate('Supprimer cet événement').'</a>
    </form>
    <div class=""><a class="btn btn-secondary btn-sm float-right" href="javascript:history.back()">'.ag_translate('Retour').'</a></div>';
    echo '<div></div>';
@@ -605,9 +605,9 @@ function validedit ($id, $debut, $topicid, $titre, $desc, $longdesc, $lieu)
          /*Envoie mail si actif dans config*/
          if ($courriel == 1 || $receveur != '')
          {
-            $sujet = ag_translate('Modification évènement pour agenda');
+            $sujet = ag_translate('Modification événement pour agenda');
             $sujet=html_entity_decode($sujet, ENT_COMPAT, 'UTF-8');
-            $message = ag_translate('Un évènement modifié est à valider pour agenda').'.<br /><br />';
+            $message = ag_translate('Un événement modifié est à valider pour agenda').'.<br /><br />';
             include("signat.php");
             send_email($receveur,$sujet, $message, "", true, "html");
          }

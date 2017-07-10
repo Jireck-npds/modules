@@ -376,17 +376,15 @@ function editevt($id, $month, $an, $debut)
    include('modules/'.$ModPath.'/admin/config.php');
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    
-   if ($debut == '')
-   {
+   if ($debut == '') {
       $month = date("m", time());
       $an = date("Y", time());
 /*Requete affiche date suivant $id*/
       $result = sql_query("SELECT id, date FROM ".$NPDS_Prefix."agend WHERE liaison = '$id'");
-      while(list($sid, $date) = sql_fetch_row($result))
-      {
-         $debut .= ''.$date.',';
+      while(list($sid, $date) = sql_fetch_row($result)) {
+         $debut .= $date.',';
       }
-      $debut = substr("$debut", 0, -1);
+      $debut = substr($debut, 0, -1);
    }
 
 /*Requete affiche événement suivant $id*/
@@ -396,25 +394,24 @@ function editevt($id, $month, $an, $debut)
    $intro = stripslashes($intro);
    $descript = stripslashes($descript);
    $lieu = stripslashes($lieu);
-   echo '<h4>'.ag_translate('Editer').' : '.$titre.'</h4>
-   '.ag_translate('Posté par').' '.$posteur;
-   echo '<form name="adminForm" action="'.$ThisFile.'" method="post">';
-   echo '<fieldset class="form-group my-2">
-   <label class="mr-2" for=""><strong>'.ag_translate('Statut').'</strong></label>';
-   if($valid == 1)
-   {
-      $onligne = "selected=\"selected\"";
-   }
-   else if($valid == 2)
-   {
-      $offligne = "selected=\"selected\"";
-   }
-   echo '<select class="custom-select" name="statut" size="1">
-   <option class="text-success" value="1" '.$onligne.'>'.ag_translate('En Ligne').'</option>
-   <option class="text-danger" value="2" '.$offligne.'>'.ag_translate('Hors Ligne').'</option>
-   </select>
-   </fielset>';
-   echo '<fieldset class="form-group">
+   settype($onligne,'string');
+   settype($offligne,'string');
+   echo '
+   <h4>'.ag_translate('Editer').' : '.$titre.'</h4>
+   '.ag_translate('Posté par').' '.$posteur.'
+   <form name="adminForm" action="'.$ThisFile.'" method="post">
+      <fieldset class="form-group my-2">
+      <label class="mr-2" for=""><strong>'.ag_translate('Statut').'</strong></label>';
+   if($valid == 1) $onligne = 'selected="selected"';
+   else if($valid == 2) $offligne = 'selected="selected"';
+
+   echo '
+      <select class="custom-select" name="statut" size="1">
+         <option class="text-success" value="1" '.$onligne.'>'.ag_translate('En Ligne').'</option>
+         <option class="text-danger" value="2" '.$offligne.'>'.ag_translate('Hors Ligne').'</option>
+      </select>
+   </fielset>
+   <fieldset class="form-group">
    <label>'.ag_translate('Jour(s) sélectionné(s)').' :</label>';
    echo '<ul class="list-inline">';
    $name = explode(",",$debut);
@@ -436,7 +433,7 @@ function editevt($id, $month, $an, $debut)
       $categorie['topictext'] = stripslashes($categorie['topictext']);
       echo '<option value=\''.$categorie['topicid'].'\'';
       if($categorie['topicid'] == $topicid)
-      echo 'selected=\'selected\'';
+         echo 'selected="selected"';
       echo '>'.aff_langue(''.$categorie['topictext'].'').'</option>';
    }
    echo '</select>
@@ -444,22 +441,22 @@ function editevt($id, $month, $an, $debut)
    echo '<fieldset class="form-group">
    <label for=""><strong>'.ag_translate('Groupe').'</strong></label>
    <input class="form-control" type="text" name="groupvoir" value="'.$groupvoir.'" size="3">
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for=""><strong>'.ag_translate('Titre').'</strong></label>
-   <input class="form-control" type="text" name="titre" value="'.$titre.'">
-   </fieldset>';
-   echo '<fieldset class="form-group">
+   </fieldset>
+   <fieldset class="form-group">
+      <label for=""><strong>'.ag_translate('Titre').'</strong></label>
+      <input class="form-control" type="text" name="titre" value="'.$titre.'">
+   </fieldset>
+   <fieldset class="form-group">
    <label for=""><strong>'.ag_translate('Résumé de l\'événement').'</strong></label>   
    <textarea class="form-control tin" cols="30" rows="4" name="intro">'.$intro.'</textarea>';
    echo aff_editeur("descript","false");
-   echo '</fieldset>';
-   echo '<fieldset class="form-group">
+   echo '</fieldset>
+   <fieldset class="form-group">
    <label for=""><strong>'.ag_translate('Description').'</strong></label>
    <textarea class="form-control tin" name="descript" cols="50" rows="20" style="width: 90%;">'.$descript.'</textarea>';
    echo aff_editeur("descript","false");
-   echo '</fieldset>';
-   echo '<fieldset class="form-group">
+   echo '</fieldset>
+   <fieldset class="form-group">
    <label class="mr-2" for=""><strong>'.ag_translate('Lieu').'</strong></label>';
    if ($bouton == '1')
    {
@@ -794,10 +791,10 @@ function deleteevt($id, $ok=0)
 // FIN SUPPRIMER
 
 // DEBUT CONFIGURATION
-function configuration()
-{
+function configuration() {
    global $ModPath;
    global $ThisFile;
+   settype($list_tri,'string');
 
    menuprincipal();
 
@@ -807,13 +804,11 @@ function configuration()
 /*Ouvre le repertoire*/
    $imgrep = 'modules/'.$ModPath.'/recherche';
    $dp = opendir($imgrep);
-   while ( $file = readdir($dp) )
-   {
-
+   settype($i,'integer');
+   while ( $file = readdir($dp) ) {
 /*Enleve les fichiers . et ..*/
       if ($file != '.' && $file != '..' && $file != 'index.html' && $file != 'message-english.php' && $file != 'message-french.php')
       {
-
 /*On passe les datas dans un tableau*/
          $ListFiles[$i] = $file;
          $i++;
@@ -822,32 +817,22 @@ function configuration()
    closedir($dp);
 
 /*Tri par ordre decroissant*/
-   if(count($ListFiles) != 0)
-   {
-      if($list_tri == 'DESC')
-      {
-         rsort($ListFiles);
-      }
-      else
-      {
-         sort($ListFiles);
-      }
+   if(count($ListFiles) != 0) {
+      if ($list_tri == 'DESC') rsort($ListFiles);
+      else sort($ListFiles);
    }
-   if ($bouton == '1')
-   {
+   if ($bouton == '1') {
       $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" checked>'.ag_translate('Par ville (défaut)').'</label></div>';
       $def1 = '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2">'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
       ';
       $nb = count($ListFiles);
-      for($i = 0;$i < $nb;$i++)
-      {
-         $name = ''.substr($ListFiles[$i], 0, -4).'';
+      for($i = 0;$i < $nb;$i++) {
+         $name = substr($ListFiles[$i], 0, -4);
          $def1 .= '<option value="'.$name.'">'.$name.'</option>';
       }
       $def1 .= '</select></label></div>';
    }
-   else
-   {
+   else {
       $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" />'.ag_translate('Par ville (défaut)').'</label></div>';
       $def1 .= '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2" checked>'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
       ';
@@ -860,90 +845,79 @@ function configuration()
       }
       $def1 .= '</select></label></div>';
    }
-   echo '<h4>'.ag_translate('Configuration').'</h4>  
-   <form action="'.$ThisFile.'" method="post" name="adminForm">';
-   
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Ajout événement pour').'</label>
-   <input class="form-control" type="text" name="xgro" size="3" value="'.$gro.'">
-   <small id="" class="form-text text-muted">'.ag_translate('1 : tous les membres ou n° id groupe').'</small>
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Validation par l\'admin').'</label>';
-   if($valid == 1)
-   {
-   $onligne = "selected=\"selected\"";
-   }
-   if($valid == 3)
-   {
-   $avalider = "selected=\"selected\"";
-   }
    echo '
-   <select class="custom-select" name="xvalid" size="1">
-   <option value="3" '.$avalider.'>'.ag_translate('Oui').'</option>
-   <option value="1" '.$onlignee.'>'.ag_translate('Non').'</option>
-   </select>
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Etre averti par mèl d\'une proposition').'</label>';
-   if($courriel == 1)
-   {
-   $oui = "selected=\"selected\"";
-   }
-   if($courriel == 0)
-   {
-   $non = "selected=\"selected\"";
-   }
+   <h4>'.ag_translate('Configuration').'</h4>
+   <form action="'.$ThisFile.'" method="post" name="adminForm">
+      <fieldset class="form-group">
+         <label for="">'.ag_translate('Ajout événement pour').'</label>
+         <input class="form-control" type="text" name="xgro" size="3" value="'.$gro.'" />
+         <small id="" class="form-text text-muted">'.ag_translate('1 : tous les membres ou n° id groupe').'</small>
+      </fieldset>
+      <fieldset class="form-group">
+         <label for="">'.ag_translate('Validation par l\'admin').'</label>';
+   settype($onligne,'string');
+   settype($avalider,'string');
+   if($valid == 1) $onligne = 'selected="selected"';
+   if($valid == 3) $avalider = 'selected="selected"';
    echo '
-   <select class="custom-select" name="xcourriel" size="1">
-   <option value="1" '.$oui.'>'.ag_translate('Oui').'</option>
-   <option value="0" '.$non.'>'.ag_translate('Non').'</option>
-   </select>
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Email du destinataire').'</label>
-   <input class="form-control" type="text" name="xreceveur" size="30" value="'.$receveur.'">
-   </fieldset>';   
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Validation après modification').'</label>';
-   if($revalid == 1)
-   {
-   $reonligne = "selected=\"selected\"";
-   }
-   if($revalid == 3)
-   {
-   $reavalider = "selected=\"selected\"";
-   }
+         <select class="custom-select" name="xvalid" size="1">
+            <option value="3" '.$avalider.'>'.ag_translate('Oui').'</option>
+            <option value="1" '.$onligne.'>'.ag_translate('Non').'</option>
+         </select>
+   </fieldset>
+   <fieldset class="form-group">
+      <label for="">'.ag_translate('Etre averti par mèl d\'une proposition').'</label>';
+   settype($oui,'string');
+   settype($non,'string');
+   if($courriel == 1) $oui = 'selected="selected"';
+   if($courriel == 0) $non = 'selected="selected"';
    echo '
-   <select class="custom-select" name="xrevalid" size="1">
-   <option value="3" '.$reavalider.'>'.ag_translate('Oui').'</option>
-   <option value="1" '.$reonligne.'>'.ag_translate('Non').'</option>
-   </select>
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Nombre d\'évènement(s) par page (administration)').'</label>
-   <input class="form-control" type="text" name="xnb_admin" size="3" value="'.$nb_admin.'">
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Nombre d\'évènement(s) par page (utilisation)').'</label>
-   <input class="form-control" type="text" name="xnb_news" size="3" value="'.$nb_news.'">
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <legend for="">'.ag_translate('Recherche').'</legend>
-   <div class=row">
-   <div class="col-sm-10">';
+      <select class="custom-select" name="xcourriel" size="1">
+         <option value="1" '.$oui.'>'.ag_translate('Oui').'</option>
+         <option value="0" '.$non.'>'.ag_translate('Non').'</option>
+      </select>
+   </fieldset>
+   <fieldset class="form-group">
+      <label for="">'.ag_translate('Email du destinataire').'</label>
+      <input class="form-control" type="text" name="xreceveur" size="30" value="'.$receveur.'" />
+   </fieldset>
+   <fieldset class="form-group">
+      <label for="">'.ag_translate('Validation après modification').'</label>';
+   settype($reonligne,'string');
+   settype($reavalider,'string');
+   if($revalid == 1) $reonligne = 'selected="selected"';
+   if($revalid == 3) $reavalider = 'selected="selected"';
+   echo '
+      <select class="custom-select" name="xrevalid" size="1">
+         <option value="3" '.$reavalider.'>'.ag_translate('Oui').'</option>
+         <option value="1" '.$reonligne.'>'.ag_translate('Non').'</option>
+      </select>
+   </fieldset>
+   <fieldset class="form-group">
+      <label for="">'.ag_translate('Nombre d\'évènement(s) par page (administration)').'</label>
+      <input class="form-control" type="text" name="xnb_admin" size="3" value="'.$nb_admin.'" />
+   </fieldset>
+   <fieldset class="form-group">
+      <label for="">'.ag_translate('Nombre d\'évènement(s) par page (utilisation)').'</label>
+      <input class="form-control" type="text" name="xnb_news" size="3" value="'.$nb_news.'" />
+   </fieldset>
+   <fieldset class="form-group">
+      <legend for="">'.ag_translate('Recherche').'</legend>
+      <div class=row">
+      <div class="col-sm-10">';
    echo $def;
    echo $def1;
-   echo '</div></div>
-   </fieldset>';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Supercache').'</label>
-   <input class="form-control" type="text" name="xtps" size="10" value="'.$CACHE_TIMINGS['modules.php'].'">
-   <small id="" class="form-text text-muted">'.ag_translate('Temps du cache (en secondes)').'</small>
-   </fieldset>';
-   echo '<input type="hidden" name="subop" value="ConfigSave">
-   <button type="submit" class="btn btn-outline-primary btn-sm mt-2"><i class="fa fa-check-square fa-lg mr-2"></i>'.ag_translate('Valider').'</button>';
-   echo '</form>';
+   echo '</div>
+      </div>
+   </fieldset>
+   <fieldset class="form-group">
+      <label for="">'.ag_translate('Supercache').'</label>
+      <input class="form-control" type="text" name="xtps" size="10" value="'.$CACHE_TIMINGS['modules.php'].'" />
+      <small id="" class="form-text text-muted">'.ag_translate('Temps du cache (en secondes)').'</small>
+   </fieldset>
+   <input type="hidden" name="subop" value="ConfigSave" />
+   <button type="submit" class="btn btn-outline-primary btn-sm mt-2"><i class="fa fa-check-square fa-lg mr-2"></i>'.ag_translate('Valider').'</button>
+   </form>';
 }
 // FIN CONFIGURATION
 
