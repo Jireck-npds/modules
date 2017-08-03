@@ -272,7 +272,7 @@ function ajout($month, $an, $debut)
    $name = explode(",",$debut);
       for ($i = 0; $i < sizeof($name); $i++ )
       {
-         echo '<li class="list-inline-item"><span class="badge badge-default">'.formatfrancais($name[$i]).'</span><a class="text-danger mx-2" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate("Supprimer").'" href="'.$ThisFile.'&amp;subop=retire&amp;ladate='.$name[$i].'&amp;debut='.$debut.'&amp;month='.$month.'&amp;an='.$an.'"><i class="fa fa-window-close" aria-hidden="true"></i></a></li>';
+         echo '<li class="list-inline-item"><span class="badge badge-secondary">'.formatfrancais($name[$i]).'</span><a class="text-danger mx-2" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate("Supprimer").'" href="'.$ThisFile.'&amp;subop=retire&amp;ladate='.$name[$i].'&amp;debut='.$debut.'&amp;month='.$month.'&amp;an='.$an.'"><i class="fa fa-window-close" aria-hidden="true"></i></a></li>';
       }
       echo '</ul>';
    }
@@ -438,11 +438,11 @@ include('modules/'.$ModPath.'/admin/config.php');
 include_once('modules/'.$ModPath.'/ag_fonc.php');
 include('header.php');
 
-/*Parametres utilises par le script*/
+/*Paramètres utilisés par le script*/
    $ThisFile = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
    $ThisRedo = 'modules.php?ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'';
 
-echo '<div class="card"><div class="card-block">';
+echo '<div class="card"><div class="card-body">';
 echo '<h4><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Proposer un événement').'</h4>';
 
 /*Si membre appartient au bon groupe*/

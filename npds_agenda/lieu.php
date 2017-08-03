@@ -106,7 +106,7 @@ function lieu($lettre, $niv) {
    /*fin theme html partie 1/2*/
    /*Recherche*/
    if ($bouton == '1') {
-      if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ag_translate('pour la lettre').' <span class="badge badge-default">'.$lettre.'</span>';}
+      if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ag_translate('pour la lettre').' <span class="badge badge-secondary">'.$lettre.'</span>';}
       $rech = '<span class="ml-1">'.ag_translate('par ville').'</span> '.$suite;
       $alphabet = array ('A','B','C','D','E','F','G','H','I','J','K','L','M',
       'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',ag_translate("Autre(s)"));
@@ -206,7 +206,7 @@ function lieu($lettre, $niv) {
    {
       $affeven = '<ul>
       <li>'.ag_translate('Evénement(s) à venir').'<a class="badge badge-success ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=0">'.$sup.'</a></li>
-      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').'<a class="badge badge-default ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=1">'.$inf.'</a></li>
+      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').'<a class="badge badge-secondary ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=1">'.$inf.'</a></li>
       </ul>';
       $affeven .= '';
       /*Requete liste evenement suivant $date*/
@@ -241,7 +241,7 @@ function lieu($lettre, $niv) {
             $result1 = sql_query("SELECT date FROM ".$NPDS_Prefix."agend WHERE liaison = '$liaison' ORDER BY date DESC");
             $tot = sql_num_rows($result1);
             $affeven .= '<div class="card my-3">
-                         <div class="card-block">';
+                         <div class="card-body">';
             $affeven .= '<img class="img-thumbnail col-2 mb-2" src="'.$tipath.''.$topicimage.'" />';
             $affeven .= '<h4 class="card-title">'.$titre.'</h4>';
             if ($posteur == $cookie[1])
@@ -362,7 +362,7 @@ $affeven .= '<div class="row">
    include('modules/'.$ModPath.'/admin/config.php');
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    include ('modules/'.$ModPath.'/cache.timings.php');
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
 
    if ($SuperCache) {
       $cache_obj = new cacheManager();

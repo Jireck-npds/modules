@@ -170,7 +170,7 @@ function vosajouts()
       }
       else if ($valid == 2)
       {
-         echo '<td class="text-center align-top"><span class="badge badge-default">'.ag_translate('Hors Ligne').'</span></td>';
+         echo '<td class="text-center align-top"><span class="badge badge-secondary">'.ag_translate('Hors Ligne').'</span></td>';
       }
       else if ($valid == 3)
       {
@@ -655,7 +655,7 @@ include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
    include('header.php');
    include('modules/'.$ModPath.'/admin/config.php');
    require_once('modules/'.$ModPath.'/ag_fonc.php');
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
    /*Verifie si bon groupe*/
    if(!autorisation($gro))
    {

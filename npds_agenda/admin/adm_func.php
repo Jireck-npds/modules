@@ -21,7 +21,7 @@ function menuprincipal()
    global $ThisFile;
    $version = 'V.2.0';
    echo '<h2><img class="img_fluid col-sm-1" src="modules/npds_agenda/npds_agenda.png" style="max-width: 2.2em" alt="icon_npds_agenda"> '.ag_translate('Agenda').'<small class="float-right">'.$version.'</small></h2>
-   <div class="card mb-2"><div class="card-block">
+   <div class="card mb-2"><div class="card-body">
    <div class="mr-2"><a class="btn btn-outline-primary btn-sm" href='.$ThisFile.'>'.ag_translate('Accueil').'</a>
    <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=topicsmanager">'.ag_translate('Catégories').'</a>
    <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=configuration">'.ag_translate('Configuration').'</a>
@@ -47,7 +47,7 @@ function menuprincipal()
    if (empty($en_l)) { $en_l = 0; }
    if (empty($hors_l)) { $hors_l = 0; }
    if (empty($avalid)) { $avalid = 0; }
-   echo '<p class="card-text mt-2">'.ag_translate('En Ligne').'<span class="badge badge-success mx-2">'.$en_l.'</span>'.ag_translate('Hors Ligne').'<span class="badge badge-default mx-2">'.$hors_l.'</span>'.ag_translate('A valider').'<span class="badge badge-danger mx-2">'.$avalid.'</span></p>';
+   echo '<p class="card-text mt-2">'.ag_translate('En Ligne').'<span class="badge badge-success mx-2">'.$en_l.'</span>'.ag_translate('Hors Ligne').'<span class="badge badge-secondary mx-2">'.$hors_l.'</span>'.ag_translate('A valider').'<span class="badge badge-danger mx-2">'.$avalid.'</span></p>';
    echo '</div></div>';
 }
 // FIN MENU PRINCIPAL
@@ -132,7 +132,7 @@ menuprincipal();
       }
       else if ($valid == 2)
       {
-         echo '<span class="badge badge-default">'.ag_translate('Hors Ligne').'</span>';
+         echo '<span class="badge badge-secondary">'.ag_translate('Hors Ligne').'</span>';
       }
       else if ($valid == 3)
       {
@@ -170,7 +170,7 @@ function topicsmanager(){
    if (($topicimage) or ($topicimage != ""))
    {
    echo '<div class="col-md-3">
-   <div class="card-block"><p class="card-text">'.aff_langue(''.$topictext.'').'</p><a href="'.$ThisFile.'&amp;subop=topicedit&amp;topicid='.$topicid.'"><img class="card-img-top img-thumbnail" src="'.$tipath.''.$topicimage.'" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate('Cliquez pour éditer').'" /></a></div></div>';
+   <div class="card-body"><p class="card-text">'.aff_langue(''.$topictext.'').'</p><a href="'.$ThisFile.'&amp;subop=topicedit&amp;topicid='.$topicid.'"><img class="card-img-top img-thumbnail" src="'.$tipath.''.$topicimage.'" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate('Cliquez pour éditer').'" /></a></div></div>';
    }
    else
    {

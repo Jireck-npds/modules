@@ -186,7 +186,7 @@ function listsuj($sujet, $niv) {
    else
    {
       $affres = '<ul><li>'.ag_translate('Evénement(s) à venir').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=0" '.$cs.'><span class="badge badge-success">'.$sup.'</span></a></li>
-      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'><span class="badge badge-default">'.$inf.'</span></a></li></ul>';
+      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'><span class="badge badge-secondary">'.$inf.'</span></a></li></ul>';
 
 /*Requete liste evenement suivant $sujet*/
       $result = sql_query("SELECT
@@ -217,7 +217,7 @@ function listsuj($sujet, $niv) {
             $tot = sql_num_rows($result1);
 
             $affres .= '<div class="card my-3">
-                <div class="card-block">
+                <div class="card-body">
             <h4 class="card-title">'.$titre.'</h4>';
 
             $affres .='<p class="card-text">';
@@ -446,7 +446,7 @@ function calend($an, $month)
 
 /*fin theme html partie 1/2*/
    $naviguation = '<a class="mr-2" href="'.$ThisFile.'&amp;month='.$mois_prec.'&amp;an='.$an_prec.'"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-   <span class="badge badge-default">'.$mois_en_clair.' '.$an.'</span>
+   <span class="badge badge-secondary">'.$mois_en_clair.' '.$an.'</span>
    <a class="ml-2" href="'.$ThisFile.'&amp;month='.$mois_suivant.'&amp;an='.$an_suivant.'"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>';
    $affcal .= '<tr>';
 
@@ -726,7 +726,7 @@ function jour($date) {
          $topictext = stripslashes(aff_langue($topictext));
          $affeven .= '
          <div class="card my-3">
-            <div class="card-block">
+            <div class="card-body">
                <p class="card-text">';
 
 /*Si membre appartient au bon groupe*/
@@ -972,7 +972,7 @@ function fiche($date, $id) {
    include('modules/'.$ModPath.'/admin/config.php');
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    include ('modules/'.$ModPath.'/cache.timings.php');
-echo '<div class="card"><div class="card-block">';
+echo '<div class="card"><div class="card-body">';
    if ($SuperCache) {
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();

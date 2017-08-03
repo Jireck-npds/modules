@@ -107,7 +107,7 @@ function listsuj($an)
    }
    $prec = ($an - 1);
    $suiv = ($an + 1);
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
    suj();
    /*debut theme html partie 1/2*/
    $inclusion = false;
