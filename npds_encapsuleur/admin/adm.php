@@ -51,7 +51,7 @@ function AfficheHaut($ModPath, $ModStart) {
    $result = sql_query("SELECT * FROM ".$NPDS_Prefix."encapsulation ORDER BY id ASC");
    if ($result) {
       $nombre = sql_num_rows($result);
-      echo '<p class="lead"><span class="badge badge-default">'.$nombre.'</span> '.encap_translate("encapsulation(s) dans la table").'</p>';
+      echo '<p class="lead"><span class="badge badge-secondary">'.$nombre.'</span> '.encap_translate("encapsulation(s) dans la table").'</p>';
       echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.encap_translate("Pour modifier un enregistrement, cliquez sur son nom").'</p>';
       echo '<table class="table table-responsive table-bordered table-hover table-sm"><thead class="thead-default"><tr><th>Id</th><th>'.encap_translate("Nom").'</th><th>'.encap_translate("Forme").'</th><th>'.encap_translate("Adresse").'</th><th>'.encap_translate("Type").'</th><th>'.encap_translate("Display").'</th><th>'.encap_translate("Hauteur").'</th><th>'.encap_translate("Scroll").'</th><th>'.encap_translate("Bloc").'</th><th>'.encap_translate("Titre").'</th><th colspan="2" width="50">&nbsp;</th></tr></thead>';
       while ($ligne = sql_fetch_assoc($result)) {
@@ -109,7 +109,7 @@ function AddEditBas($ModPath, $ModStart, $subop){
    }  
    echo '
    <div class="card mb-2">
-      <div class="card-block">
+      <div class="card-body">
          <form action="admin.php" method="post">
             <input type="hidden" name="op" value="Extend-Admin-SubModule" />
             <input type="hidden" name="ModPath" value="'.$ModPath.'" />
@@ -236,12 +236,12 @@ function AddEditBas($ModPath, $ModStart, $subop){
                         </button>
                      </div>
                      <div class="modal-body">
-                        <p><strong>'.encap_translate("choix").' <span class="badge badge-default">-1</span></strong> = '.encap_translate("centrale seule").'<br />
-                        <strong>'.encap_translate("choix").' <span class="badge badge-default ml-1">0</span></strong> = '.encap_translate("colonne gauche").' + '.encap_translate("colonne centrale").'<br />
-                        <strong>'.encap_translate("choix").' <span class="badge badge-default ml-1">1</span></strong> = '.encap_translate("colonne gauche").' + '.encap_translate("colonne centrale").' + '.encap_translate("colonne droite").'<br />
-                        <strong>'.encap_translate("choix").' <span class="badge badge-default ml-1">2</span></strong> = '.encap_translate("colonne centrale").' + '.encap_translate("colonne droite").'<br />
-                        <strong>'.encap_translate("choix").' <span class="badge badge-default ml-1">3</span></strong> = '.encap_translate("colonne gauche").' + '.encap_translate("colonne droite").' + '.encap_translate("colonne centrale").'<br />
-                        <strong>'.encap_translate("choix").' <span class="badge badge-default ml-1">4</span></strong> = '.encap_translate("colonne centrale").' + '.encap_translate("colonne gauche").' + '.encap_translate("colonne droite").'</p>
+                        <p><strong>'.encap_translate("choix").' <span class="badge badge-secondary">-1</span></strong> = '.encap_translate("centrale seule").'<br />
+                        <strong>'.encap_translate("choix").' <span class="badge badge-secondary ml-1">0</span></strong> = '.encap_translate("colonne gauche").' + '.encap_translate("colonne centrale").'<br />
+                        <strong>'.encap_translate("choix").' <span class="badge badge-secondary ml-1">1</span></strong> = '.encap_translate("colonne gauche").' + '.encap_translate("colonne centrale").' + '.encap_translate("colonne droite").'<br />
+                        <strong>'.encap_translate("choix").' <span class="badge badge-secondary ml-1">2</span></strong> = '.encap_translate("colonne centrale").' + '.encap_translate("colonne droite").'<br />
+                        <strong>'.encap_translate("choix").' <span class="badge badge-secondary ml-1">3</span></strong> = '.encap_translate("colonne gauche").' + '.encap_translate("colonne droite").' + '.encap_translate("colonne centrale").'<br />
+                        <strong>'.encap_translate("choix").' <span class="badge badge-secondary ml-1">4</span></strong> = '.encap_translate("colonne centrale").' + '.encap_translate("colonne gauche").' + '.encap_translate("colonne droite").'</p>
                      </div>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">'.encap_translate("Fermer").'</button>

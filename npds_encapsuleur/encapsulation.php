@@ -52,7 +52,7 @@ if ($result) {
    $title  = '<h3>'.$data['titre'];
    $title .= '<a class="btn btn-secondary btn-sm float-right mb-2" href="'.$src.'" target="_blank">'.encap_translate("Pleine Page").'</a></h3>';
 
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
 
    if  ($data['display'] == 1) {
    $tit=$data['tit'];

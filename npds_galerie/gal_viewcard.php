@@ -57,7 +57,7 @@ echo '
    <div class="card">
    <div class="card-header">E-card de <a href="mailto:'.$card_data['se'].'">'.$card_data['sn'].'</a></div>
    <img class="img-fluid" src="'.$card_data['pf'].'" '.$attr.' />
-   <div class="card-block">
+   <div class="card-body">
    <h4 class="card-title">'.$card_data['su'].'</h4>';
    echo $card_data['ms'];
    echo '</div> 
@@ -71,7 +71,7 @@ echo '
    $message = '<!DOCTYPE html>';
    $message.= '<head>';
    $message.= '<title>'.gal_translate("Une E-carte pour vous").'</title>';
-   $message.= '<meta charset="utf-8" />';   
+   $message.= '<meta charset="utf-8" />';
    $message.= '<meta http-equiv="content-type" content="text/html" />';
    $message.= '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />';  
    $message.= '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
@@ -85,20 +85,20 @@ echo '
    $message.= '</head>';
    $message.= '<body>';
    $message.= '<br />';
-   $message.= '<div class="col-md-7">';   
+   $message.= '<div class="col-md-7">';
    $message.= '<div class="card">';
    $message.= '<div class="card-header">E-card de <a href="mailto:'.$card_data['se'].'">'.$card_data['sn'].'</a></div>';
    $message.= '<img class="card-img-top img-fluid" src="'.$card_data['pf'].'" '.$attr.' />';
-   $message.= '<div class="card-block">';
+   $message.= '<div class="card-body">';
    $message.= '<h4 class="card-title">'.$card_data['su'].'</h4>';
    
    $message.= $card_data['ms'];
 //   preg_replace("''", "'", $card_data['ms']);   
-   $message.= '</div>'; 
    $message.= '</div>';
-   $message.= '</div>';   
-   $message.= '<br />';   
-   $message.= '</body></html>';   
+   $message.= '</div>';
+   $message.= '</div>';
+   $message.= '<br />';
+   $message.= '</body></html>';
    echo $message;
    
    

@@ -41,7 +41,7 @@ function FabMenu() {
             echo '<a class="btn btn-secondary btn-sm  col-md-3 my-1" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=formimgs">'.gal_translate("Proposer des images").'</a>';
          }
          echo '</h5>';
-             echo '<div class="card-block">';
+             echo '<div class="card-body">';
          echo '<div class="row lead">';
          echo $ibid;
          echo '</div>';
@@ -66,7 +66,7 @@ function FabMenuCat($catid) {
       echo '<a class="breadcrumb-item" href="'.$ThisFile.'">'.gal_translate("Accueil").'</a><span class="breadcrumb-item active">'.stripslashes($cat[0]).'</span></h5>';
  if($nbsc>0) 
       echo '
-      <div class="card-block">
+      <div class="card-body">
          <div class="row lead">';
       $n = 0;
       while ($row = sql_fetch_row($query)) {
@@ -171,7 +171,7 @@ function ListGalCat($catid) {
          }
       }
    if ($ibid!='') {
-         echo '<div class="card-block"><div class="row lead">'.$ibid.'</div>';
+         echo '<div class="card-body"><div class="row lead">'.$ibid.'</div>';
       }
      echo '</div>';
    }
@@ -194,7 +194,7 @@ function ViewGal($galid, $page){
       $num = sql_num_rows(sql_query("SELECT id FROM ".$NPDS_Prefix."tdgal_img WHERE gal_id='".$galid."' and noaff='0'"));
    }
    if ($num == 0) {
-      echo '<div class="card-block"><p class="card-text lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Aucune image trouvée").'</p></div>';
+      echo '<div class="card-body"><p class="card-text lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Aucune image trouvée").'</p></div>';
    } else {
       $start = ($page - 1) * $imgpage;
       $query = sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_img WHERE gal_id='".$galid."' and noaff='0' ORDER BY ordre,id LIMIT ".$start.",".$imgpage."");
@@ -211,7 +211,7 @@ function ViewGal($galid, $page){
            $ibid = ReducePic($row[2],stripslashes($row[3]),$MaxSizeThumb);
         }
         echo '<div class="'.$reglage.'"><div class="card m-2"><a href="'.$ThisFile.'&amp;op=img&amp;galid='.$galid.'&amp;pos='.$pos.'">'.$ibid.'</a>';
-        echo '<div class="card-block">'.$row[4].' '.gal_translate("affichage(s)");
+        echo '<div class="card-body">'.$row[4].' '.gal_translate("affichage(s)");
         if ($aff_comm)
            echo '<br />'.$nbcom.' '.gal_translate("commentaire(s)");
         if ($aff_vote)
@@ -315,7 +315,7 @@ function ViewImg($galid, $pos, $interface) {
  
       echo '<img class="card-img-top mx-auto img-fluid img_awesome" src="modules/'.$ModPath.'/imgs/'.$row[2].'" alt="'.stripslashes($row[3]).'" />';
   echo '
-   <div class="card-block">
+   <div class="card-body">
       <h4 class="card-title">'.stripslashes($row[3]).'</h4>';
       if ($interface!="no") {
          echo '<div class="text-center">';
@@ -352,7 +352,7 @@ function ViewImg($galid, $pos, $interface) {
             if (isset($user) || $vote_anon) {
                echo '
                <h4 class="card-title">'.gal_translate("Noter cette image").'</h4>
-               <div class="card-block">
+               <div class="card-body">
                <div class="row">';
                $i=0;$star='';
                while ($i<=5) {
@@ -372,17 +372,17 @@ function ViewImg($galid, $pos, $interface) {
    $taille = $tailleo/1000;
    echo '<h4 class="card-title">'.gal_translate("Informations sur l'image").'</h4>';
    echo '<p><ul class="list-group">
-   <li class="list-group-item">'.gal_translate("Taille du fichier").'<span class="badge badge-default ml-auto">'.$taille.' Ko</span></li>
-   <li class="list-group-item">'.gal_translate("Dimensions").'<span class="badge badge-default ml-auto">'.$width.' x '.$height.' Pixels</span></li>';
+   <li class="list-group-item">'.gal_translate("Taille du fichier").'<span class="badge badge-secondary ml-auto">'.$taille.' Ko</span></li>
+   <li class="list-group-item">'.gal_translate("Dimensions").'<span class="badge badge-secondary ml-auto">'.$width.' x '.$height.' Pixels</span></li>';
    if ($aff_vote) {
          $rowV = sql_fetch_row(sql_query("SELECT COUNT(id), AVG(rating) FROM ".$NPDS_Prefix."tdgal_vot WHERE pic_id='".$row[0]."'"));
          $note = round($rowV[1]);$star='';
          $i=0;
          while($i<=$note) {$star.='<i class="fa fa-star mx-1"></i>';$i++;}
          
-   echo '<li class="list-group-item">'.gal_translate("Note ").$rowV[0].' '.gal_translate("vote(s)").'<span class="badge badge-default ml-auto">'.$star.'</span></li>';
+   echo '<li class="list-group-item">'.gal_translate("Note ").$rowV[0].' '.gal_translate("vote(s)").'<span class="badge badge-secondary ml-auto">'.$star.'</span></li>';
       }
-   echo '<li class="list-group-item">'.gal_translate("Affichées").'<span class="badge badge-default ml-auto">'.($row[4] + 1).' '.gal_translate("fois").'</span></li>';
+   echo '<li class="list-group-item">'.gal_translate("Affichées").'<span class="badge badge-secondary ml-auto">'.($row[4] + 1).' '.gal_translate("fois").'</span></li>';
    echo '</ul></p>';
    
 
@@ -404,8 +404,8 @@ function ViewImg($galid, $pos, $interface) {
    echo '<h4 class="card-title">'.gal_translate("Commentaire(s)").'</h4>';
 
                while ($rowC = sql_fetch_row($qcomment)) {
-                  echo '<div class="card mb-2"><div class="card-header"><strong>'.$rowC[2].'</strong><span class="badge badge-default float-right">'.gal_translate('Posté le').' '.date(translate("dateinternal"),$rowC[5]).'</span></div>';
-                  echo '<div class="card-block">'.stripslashes($rowC[3]).'</div></div>';
+                  echo '<div class="card mb-2"><div class="card-header"><strong>'.$rowC[2].'</strong><span class="badge badge-secondary float-right">'.gal_translate('Posté le').' '.date(translate("dateinternal"),$rowC[5]).'</span></div>';
+                  echo '<div class="card-body">'.stripslashes($rowC[3]).'</div></div>';
                }
 
 // Formulaire de post de commentaire
@@ -510,7 +510,7 @@ function PrintFormEcard($galid, $pos, $pid) {
       $username = $cookie[1];
       if ($username == "") { $username = $anonymous; }
       echo '<h5 class="card-header"><a href="'.$ThisFile.'">'.gal_translate("Accueil").'</a></h5>';
-      echo '<div class="card-block">';
+      echo '<div class="card-body">';
       echo "$ibid";
       echo '<br />';
       echo '<p class="card-text lead">'.gal_translate("Envoyer une E-carte de la part de").'</p>';
@@ -712,7 +712,7 @@ function PostComment($gal_id, $pos, $pic_id, $comm) {
       redirect_url($ThisRedo."&op=img&galid=$gal_id&pos=$pos");
    } else {
 
-      echo '<div class="card-block"><p class="lead text-danger"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Vous avez déjà commenté cette photo").'</p></div>';
+      echo '<div class="card-body"><p class="lead text-danger"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Vous avez déjà commenté cette photo").'</p></div>';
 
       echo '<script  type="text/javascript">';
       echo "//<![CDATA[\n";
@@ -746,7 +746,7 @@ function PostVote($gal_id, $pos, $pic_id, $value) {
       sql_query("INSERT INTO ".$NPDS_Prefix."tdgal_vot VALUES('','$pic_id','$name','$value','$host','$stamp')");
       redirect_url($ThisRedo."&op=img&galid=$gal_id&pos=$pos");
    } else {
-      echo '<div class="card-block"><p class="lead text-danger"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Vous avez déjà noté cette photo").'</p></div>';
+      echo '<div class="card-body"><p class="lead text-danger"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Vous avez déjà noté cette photo").'</p></div>';
       echo "<script  type=\"text/javascript\">\n";
       echo "//<![CDATA[\n";
       echo "function redirect() {";
@@ -802,7 +802,7 @@ function ViewAlea() {
          $ibid = ReducePic($row[2],stripslashes($row[3]),$MaxSizeThumb);
       }
       echo '<div class="'.$reglage.'"><div class="card m-2"><a href="'.$ThisFile.'&amp;op=img&amp;galid='.$row[1].'&amp;pos=-'.$row[0].'">'.$ibid.'</a>';
-      echo '<div class="card-block">'.$row[4].' '.gal_translate("affichage(s)");
+      echo '<div class="card-body">'.$row[4].' '.gal_translate("affichage(s)");
       if ($aff_comm)
          echo '<br />'.$nbcom.' '.gal_translate("commentaire(s)");
       echo '</div></div>';
@@ -856,7 +856,7 @@ function ViewLastAdd() {
          $ibid = ReducePic($row[2],stripslashes($row[3]),$MaxSizeThumb);
       }
       echo '<div class="'.$reglage.'"><div class="card m-2"><a href="'.$ThisFile.'&amp;op=img&amp;galid='.$row[1].'&amp;pos=-'.$row[0].'">'.$ibid.'</a>';
-      echo '<div class="card-block">'.$row[4].' '.gal_translate("affichage(s)");
+      echo '<div class="card-body">'.$row[4].' '.gal_translate("affichage(s)");
       if ($aff_comm)
          echo '<br />'.$nbcom.' '.gal_translate("commentaire(s)");
       echo '</div></div>';
@@ -973,7 +973,7 @@ function TopCV($typeOP, $nbtop) {
    settype($nbtop,"integer");
    echo '<h5 class="card-header"><a href="'.$ThisFile.'">'.gal_translate("Accueil").'</a></h5>';
 
-   echo '<div class="card-block">';
+   echo '<div class="card-body">';
    echo '<h5 class="card-title">';
    if ($typeOP=="comment")
       echo gal_translate("Top").' '.$nbtop.' '.gal_translate("des images les plus commentées").'</h5>';
@@ -987,9 +987,9 @@ function TopCV($typeOP, $nbtop) {
    $TableRep2=sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_vot");
    $NombreComs1=sql_num_rows($TableRep2);
    echo '<ul class="list-group">
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-default badge-pill">'.$NombreEntrees.'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-default badge-pill">'.$NombreComs.'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de notes").'<span class="badge badge-default badge-pill">'.$NombreComs1.'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-secondary badge-pill">'.$NombreEntrees.'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-secondary badge-pill">'.$NombreComs.'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de notes").'<span class="badge badge-secondary badge-pill">'.$NombreComs1.'</span></li>
    </ul>';
    echo '<hr />';
 
@@ -1013,7 +1013,7 @@ function TopCV($typeOP, $nbtop) {
       <a class="col-6 col-sm-2" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=img&galid='.($result2['gal_id']).'&pos=-'.$pic_id.'">
       <img class="img-fluid" src="modules/'.$ModPath.'/mini/'.$result2['name'].'" alt="'.$comm_vignette.'" />
       </a>
-      <span class="badge badge-default badge-pill"  data-toggle="tooltip" data-placement="left" title="'.gal_translate("Nombre de commentaires").'">'.$nb.'</span>
+      <span class="badge badge-secondary badge-pill"  data-toggle="tooltip" data-placement="left" title="'.gal_translate("Nombre de commentaires").'">'.$nb.'</span>
       </li>';
       else
          echo '
@@ -1021,7 +1021,7 @@ function TopCV($typeOP, $nbtop) {
       <a class="col-6 col-sm-2" href="modules.php?ModPath='.$ModPath.'&ModStart=gal&op=img&galid='.($result2['gal_id']).'&pos=-'.$pic_id.'">
       <img class="img-fluid" src="modules/'.$ModPath.'/mini/'.$result2['name'].'" alt="'.$comm_vignette.'" />
       </a>
-      <span class="badge badge-default badge-pill" data-toggle="tooltip" data-placement="left" title="'.gal_translate("Nombre de vote(s)").'">'.$nb.'</span>
+      <span class="badge badge-secondary badge-pill" data-toggle="tooltip" data-placement="left" title="'.gal_translate("Nombre de vote(s)").'">'.$nb.'</span>
       </li>';
    }
    }
@@ -1039,7 +1039,7 @@ function TopCV($typeOP, $nbtop) {
    settype($nbtop,"integer");
    echo '<h5 class="card-header"><a href="'.$ThisFile.'">'.gal_translate("Accueil").'</a></h5>';
 
-   echo '<div class="card-block">';
+   echo '<div class="card-body">';
    echo '<h5 class="card-title">';
    if ($typeOP=="comment")
       echo gal_translate("Top").' '.$nbtop.' '.gal_translate("des images les plus commentées").'</h5>';
@@ -1053,9 +1053,9 @@ function TopCV($typeOP, $nbtop) {
    $TableRep2=sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_vot");
    $NombreComs1=sql_num_rows($TableRep2);
    echo '<ul class="list-group">
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-default badge-pill">'.$NombreEntrees.'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-default badge-pill">'.$NombreComs.'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de notes").'<span class="badge badge-default badge-pill">'.$NombreComs1.'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-secondary badge-pill">'.$NombreEntrees.'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-secondary badge-pill">'.$NombreComs.'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de notes").'<span class="badge badge-secondary badge-pill">'.$NombreComs1.'</span></li>
    </ul>';
    echo '<hr />';
 
@@ -1078,13 +1078,13 @@ function TopCV($typeOP, $nbtop) {
       echo '<img class="img-fluid img-thumbnail my-1" src="modules/'.$ModPath.'/mini/'.$result2['name'].'" width="'.$width.'" height="'.$height.'" alt="'.$comm_vignette.'" /></a></div>';
       
       if ($typeOP=="comment")
-         echo '<div class="col-md-9"><ul class="list-group"><li class="list-group-item list-group-item-info justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-default badge-pill">'.$nb.'</span></li>';
+         echo '<div class="col-md-9"><ul class="list-group"><li class="list-group-item list-group-item-info justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-secondary badge-pill">'.$nb.'</span></li>';
       else
-         echo '<div class="col-md-9"><ul class="list-group"><li class="list-group-item list-group-item-info justify-content-between">'.gal_translate("Nombre de vote(s)").'<span class="badge badge-default badge-pill">'.$nb.'</span></li>';
+         echo '<div class="col-md-9"><ul class="list-group"><li class="list-group-item list-group-item-info justify-content-between">'.gal_translate("Nombre de vote(s)").'<span class="badge badge-secondary badge-pill">'.$nb.'</span></li>';
       $tailleo = @filesize("modules/$ModPath/imgs/".$result2['name']);
       $taille = $tailleo/1000;
-      echo '<li class="list-group-item justify-content-between">'.gal_translate("Taille du fichier").'<span class="badge badge-default badge-pill">'.$taille.' Ko</span></li>';
-      echo '<li class="list-group-item justify-content-between">'.gal_translate("Dimensions").'<span class="badge badge-default badge-pill">'.$width.' x '.$height.' Pixels</span></li>';
+      echo '<li class="list-group-item justify-content-between">'.gal_translate("Taille du fichier").'<span class="badge badge-secondary badge-pill">'.$taille.' Ko</span></li>';
+      echo '<li class="list-group-item justify-content-between">'.gal_translate("Dimensions").'<span class="badge badge-secondary badge-pill">'.$width.' x '.$height.' Pixels</span></li>';
       echo '</ul></div>';
    }
    echo '</div>';
@@ -1173,7 +1173,7 @@ function PrintFormImgs() {
    }
    echo '<div class="card">';
    echo '<h4 class="card-header"><a href="'.$ThisFile.'">'.gal_translate("Accueil").'</a></h4>';
-   echo '<div class="card-block">';
+   echo '<div class="card-body">';
    echo '<h5 class="card-title">'.gal_translate("Proposer des images").'</h5>';
    echo '<form enctype="multipart/form-data" method="post" action="'.$ThisFile.'" name="FormImgs">';
    echo '<input type="hidden" name="op" value="addimgs">';
@@ -1245,7 +1245,7 @@ function AddImgs($imgscat,$newcard1,$newdesc1,$newcard2,$newdesc2,$newcard3,$new
    $hour = date("H"); $min = date("i"); $sec = date("s");
    echo '<div class="card">';
    echo '<h4 class="card-header"><a href="'.$ThisFile.'">'.gal_translate("Accueil").'</a></h4>';
-   echo '<div class="card-block">';
+   echo '<div class="card-body">';
    echo '<h5 class="card-title">'.gal_translate("Proposer des images").'</h5>';
 
    $soumission=false;

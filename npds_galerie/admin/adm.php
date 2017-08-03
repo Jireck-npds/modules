@@ -55,7 +55,7 @@ if ($admin) {
 
    echo '<div id="adm_men">';
    echo '<h2><img class="mr-2" src="modules/npds_galerie/npds_galerie.png" alt="icon_npds_galerie">'.gal_translate('Galeries de photos').'<small class="float-right">'.$npds_gal_version.'</small></h2>';
-   echo '<div class="card mb-2"><div class="card-block"><ul class="list-inline">
+   echo '<div class="card mb-2"><div class="card-body"><ul class="list-inline">
    <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'" role="button" data-original-title="'.gal_translate("Accueil").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-home" aria-hidden="true"></i></a></li>
    <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=config" role="button" data-original-title="'.gal_translate("Configuration").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-cogs" aria-hidden="true"></i></a></li>
    <li class="list-inline-item"><a class="btn btn-secondary my-1" href="'.$ThisFile.'&amp;subop=viewarbo" role="button" data-original-title="'.gal_translate("Arborescence").'" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-sitemap" aria-hidden="true"></i></a></li>
@@ -165,13 +165,13 @@ if ($admin) {
 
    echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.gal_translate("Tableau récapitulatif").'</p>';
    echo '<ul class="list-group">
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de catégories").'<span class="badge badge-default">'.$ncateg[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de sous-catégories").'<span class="badge badge-default">'.$nsscat[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de galeries").'<span class="badge badge-default">'.$numgal[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-default">'.$ncards[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-default">'.$ncomms[0].'</span></li> 
-   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de votes").'<span class="badge badge-default">'.$nvotes[0].'</span></li>
-   <li class="list-group-item justify-content-between">'.gal_translate("Images vues").'<span class="badge badge-default">'.$nviews[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de catégories").'<span class="badge badge-secondary">'.$ncateg[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de sous-catégories").'<span class="badge badge-secondary">'.$nsscat[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de galeries").'<span class="badge badge-secondary">'.$numgal[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre d'images").'<span class="badge badge-secondary">'.$ncards[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de commentaires").'<span class="badge badge-secondary">'.$ncomms[0].'</span></li> 
+   <li class="list-group-item justify-content-between">'.gal_translate("Nombre de votes").'<span class="badge badge-secondary">'.$nvotes[0].'</span></li>
+   <li class="list-group-item justify-content-between">'.gal_translate("Images vues").'<span class="badge badge-secondary">'.$nviews[0].'</span></li>
    </ul>
    ';
      break;

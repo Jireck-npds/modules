@@ -28,7 +28,7 @@ function PrintFormCat() {
    if ($num[0] == 0) {
       echo '<p class="lead font-weight-bold text-danger"><i class="fa fa-info-circle"></i> '.gal_translate("Aucune catégorie trouvée").'</p>';
    } else {
-      echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Nombre de catégories").'<span class="badge badge-default ml-2">'.$num[0].'</span></p>';
+      echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Nombre de catégories").'<span class="badge badge-secondary ml-2">'.$num[0].'</span></p>';
    }
 
    echo '
@@ -88,7 +88,7 @@ function PrintFormSSCat() {
    if ($num[0] == 0) {
       echo '<p class="lead"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Aucune sous-catégorie trouvée").'</p>';
    } else {
-      echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Nombre de sous-catégories").' <span class="badge badge-default">'.$num[0].'</span></p>';
+      echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Nombre de sous-catégories").' <span class="badge badge-secondary">'.$num[0].'</span></p>';
    }
 
    echo '<form action="'.$ThisFile.'" method="post" name="FormCreer">';
@@ -167,7 +167,7 @@ function PrintCreerGalery() {
    if ($num[0] == 0) {
       echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Aucune galerie trouvée").'</p>';
    } else {
-      echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Nombre de galeries").'<span class="badge badge-default ml-2">'.$num[0].'</span></p>';
+      echo '<p class="lead font-weight-bold"><i class="fa fa-info-circle mr-2"></i>'.gal_translate("Nombre de galeries").'<span class="badge badge-secondary ml-2">'.$num[0].'</span></p>';
    }
 
    echo '<form action="'.$ThisFile.'" method="post" name="FormCreer">';
@@ -767,7 +767,7 @@ function PrintArbo() {
    echo '<a class="" data-toggle="collapse" href="#gt" aria-expanded="false" aria-controls="gt">
    <i class="toggle-icon fa fa-caret-down fa-lg mr-2" data-toggle="tooltip" data-placement="top" title="'.gal_translate("Cliquer pour déplier").'"></i></a>Galerie temporaire</h5>';
    echo '</div>';
-   echo '<div class="card-block collapse" id="gt">';
+   echo '<div class="card-body collapse" id="gt">';
    
    $rowZ_img = sql_num_rows($queryZ);
       if ($rowZ_img == 0){
@@ -778,7 +778,7 @@ function PrintArbo() {
       echo '<div class="col-md-2 col-sm-4 col-xs-4">';
       echo '<a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=gal&amp;op=one-img&amp;galid=-1&amp;pos='.$rowZ_img[0].'" target="_blank"><img class="img-fluid img-thumbnail mb-1" src="modules/'.$ModPath.'/mini/'.$rowZ_img[2].'" alt="'.$rowZ_img[3].'" data-toggle="tooltip" data-placement="top"  title="'.$rowZ_img[3].'" /></a>';
       echo '</div>';
-      echo '<div class="col-md-7"><span class="badge badge-default">ref : '.$rowZ_img[2].'</span>';
+      echo '<div class="col-md-7"><span class="badge badge-secondary">ref : '.$rowZ_img[2].'</span>';
       echo '<br />'.stripslashes($rowZ_img[3]).'</div>';
       echo '<div class="col-md-3"><span class="pull-right">';
       
@@ -829,7 +829,7 @@ function PrintArbo() {
            $queryZ = sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_img WHERE gal_id='".$rowX_gal[0]."' ORDER BY ordre,id,noaff");
 
 // Image de la galerie
-           echo '<div class="card-block collapse" id="galcat'.$rowX_gal[0].'">';
+           echo '<div class="card-body collapse" id="galcat'.$rowX_gal[0].'">';
            echo '<form action="'.$ThisFile.'&amp;subop=ordre" method="post" name="FormArbo'.$rowX_gal[0].'">';
            echo '<input type="hidden" name="subop" value="ordre">';
            $i=1;
@@ -890,7 +890,7 @@ function PrintArbo() {
            $querz = sql_query("SELECT * FROM ".$NPDS_Prefix."tdgal_img WHERE gal_id='".$row_gal[0]."' ORDER BY ordre,id,noaff");
            // Image de la galerie
 
-           echo '<div class="card-block collapse" id="galscat'.$row_gal[0].'">';
+           echo '<div class="card-body collapse" id="galscat'.$row_gal[0].'">';
            echo '<form action="'.$ThisFile.'&amp;subop=ordre" method="post" name="FormArbo'.$row_gal[0].'">';
            echo '<input type="hidden" name="subop" value="ordre">';
            $i=1;
