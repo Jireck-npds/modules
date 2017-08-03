@@ -73,7 +73,7 @@ settype($op,'string');
    include ("header.php");
    echo '
    <div class="card">
-      <div class="card-block">
+      <div class="card-body">
          <p class="lead">'.aff_langue($mess_acc).'</p>
          <p><a class="btn btn-secondary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=photosize" data-toggle="tooltip" data-placement="left" title="'.ann_translate("Pour préparer une image").'"><i class="fa fa-picture-o" aria-hidden="true"></i> '.ann_translate("Outil").'</a></p>
          <p class="text-center"><button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#intro">'.ann_translate("Mode d'emploi").'</button>&nbsp;&nbsp;<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#ment">'.ann_translate("Mentions légales").'</button></p>

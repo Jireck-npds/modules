@@ -35,7 +35,7 @@ function aff_annonces($select) {
       $result = sql_query("select uname, email FROM users WHERE uid='$id_user'");
       list($nom, $mail)= sql_fetch_row($result);
 
-      $ibid='<div class="card my-3"><div class="card-block">';
+      $ibid='<div class="card my-3"><div class="card-body">';
       $ibid.='<h4 class="card-title">'.ann_translate("Annonce de").' '.$nom.', le '.$date.'</h4>';
       $ibid.='<div class="card-text row"><div class="col-md-1"><a class="btn btn-secondary btn-sm" href="mailto:'.anti_spam($mail).'"><i class="fa fa-envelope" aria-hidden="true"></i></a></div>';
       if ($tel!="")

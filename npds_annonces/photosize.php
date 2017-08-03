@@ -37,7 +37,7 @@
    if (autorisation(1)) {
       echo '
    <div class="card">
-      <div class="card-block"><h4 class="card-title">'.ann_translate("$mNom").'</h4>';
+      <div class="card-body"><h4 class="card-title">'.ann_translate("$mNom").'</h4>';
 
    //on lit chaque fichier du répertoire dans la boucle
    while (false !== ($fichier = readdir($repertoire))) {

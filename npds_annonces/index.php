@@ -29,7 +29,7 @@ include ("modules/$ModPath/annonce.conf.php");
 include ("modules/$ModPath/lang/annonces-$language.php");
 
 include ("header.php");
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
    echo '<p class="lead">'.aff_langue($mess_acc).'</p>';
    
 // Purge
@@ -63,7 +63,7 @@ while (list($cat, $count) = sql_fetch_row($result2)) {
    $num_ann_total+=$count;
 }
 
-echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Il y a").' <span class="badge badge-default">'.$num_ann_total.'</span> '.ann_translate("annonce(s)").' '.ann_translate("publiée(s)").'</p>';
+echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Il y a").' <span class="badge badge-secondary">'.$num_ann_total.'</span> '.ann_translate("annonce(s)").' '.ann_translate("publiée(s)").'</p>';
 
 $select= sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
 while ($i= sql_fetch_assoc($select)) {
@@ -90,7 +90,7 @@ while ($i= sql_fetch_assoc($select)) {
          $sous_content .= $num_ann[$id_catx];
       $sous_content .='"><span class="ml-3">'.$categoriex.'</span>
             </a>
-            <span class="badge badge-pill badge-default float-right">';
+            <span class="badge badge-pill badge-secondary float-right">';
       if(array_key_exists($id_catx, $num_ann))
          $sous_content .= $num_ann[$id_catx];
       $sous_content.= '</span>
@@ -107,10 +107,10 @@ while ($i= sql_fetch_assoc($select)) {
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
             <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie=&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'"><span class="ml-3">'.ann_translate("Autres").'</span></a>
-            <span class="badge badge-pill badge-default float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
+            <span class="badge badge-pill badge-secondary float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
          </div>';
    $content .= '<a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour visualiser").'" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.$ibid.'">'.$categorie.'</a>
-         <span class="badge badge-pill badge-default mr-1 float-right">'.$ibid.'</span>
+         <span class="badge badge-pill badge-secondary mr-1 float-right">'.$ibid.'</span>
       </h6>
       <div id="catb3_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="headingb3_'.$id_cat.'">';
 /*
@@ -124,7 +124,7 @@ while ($i= sql_fetch_assoc($select)) {
 if (!$num_ann[$id_cat]) $num_ann[$id_cat]=0;
 if (!$num_ann_apub[$id_cat]) $num_ann_apub[$id_cat]=0;
 if (!$num_ann_archive[$id_cat]) $num_ann_archive[$id_cat]=0;
-   echo '<span class="badge badge-pill badge-default float-right">'.$num_ann[$id_cat].'</span>';
+   echo '<span class="badge badge-pill badge-secondary float-right">'.$num_ann[$id_cat].'</span>';
    echo '</h6>';
 
    echo '<div id="cat_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="heading_'.$id_cat.'">';

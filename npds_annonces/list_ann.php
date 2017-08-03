@@ -53,11 +53,11 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 
    echo '
    <div class="card">
-      <div class="card-block">
+      <div class="card-body">
          <p class="lead">'.aff_langue($mess_acc).'</p>';
    include ("modules/$ModPath/include/search_form.php");
    
-   echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Il y a").' <span class="badge badge-default">'.$num_ann.'</span> '.ann_translate("annonce(s) en ligne").' : <strong>'.$categorie.'</strong></p>';
+   echo '<p class="lead"><i class="fa fa-info-circle" aria-hidden="true"></i> '.ann_translate("Il y a").' <span class="badge badge-secondary">'.$num_ann.'</span> '.ann_translate("annonce(s) en ligne").' : <strong>'.$categorie.'</strong></p>';
 
    echo '<p class="lead"><span class="badge badge-primary">'.$inf.' '.ann_translate("à").' '.$sup.'</span></p>';
 

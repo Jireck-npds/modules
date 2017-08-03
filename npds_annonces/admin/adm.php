@@ -79,7 +79,7 @@ if (!array_search($table_annonces,$tables)) {
    echo '
    <p class="lead">'.ann_translate("Annonces en ligne").'<span class="badge badge-success float-right">'.$num_ann_total.'</span></p>
    <p class="lead">'.ann_translate("Annonces à valider").'<span class="badge badge-danger float-right">'.$num_ann_apub_total.'</span></p>
-   <p class="lead">'.ann_translate("Annonces archivées").'<span class="badge badge-default float-right">'.$num_ann_archive_total.'</span></p>
+   <p class="lead">'.ann_translate("Annonces archivées").'<span class="badge badge-secondary float-right">'.$num_ann_archive_total.'</span></p>
    <hr />
    <p><a href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_cat" class="btn btn-outline-primary btn-sm">'.ann_translate("Ajouter ou modifier une catégorie").'</a></p>
    <hr />';
@@ -127,7 +127,7 @@ if (!array_search($table_annonces,$tables)) {
                <h5>
                   <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$id_catx.'"><span class="ml-1 pl-4">'.$categoriex.'</span></a>
                   <span class="float-right">
-                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la sous-catégorie").'" class="badge badge-default mr-2">';
+                     <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la sous-catégorie").'" class="badge badge-secondary mr-2">';
          if (array_key_exists($id_catx,$num_ann_archive))
             $sous_content .= $num_ann_archive[$id_catx];
             $sous_content .='</span>
@@ -165,7 +165,7 @@ if (!array_search($table_annonces,$tables)) {
       $content .= '
             <a data-toggle="tooltip" data-placement="top" title="'.ann_translate("Cliquer pour administrer").'" href="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart=admin/adm_ann&amp;id_cat='.$oo.'">'.$categorie.'</a>
             <span class=" float-right">
-               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la catégorie").'" class="badge badge-default mr-2">';
+               <span data-toggle="tooltip" data-placement="left" title="'.ann_translate("Annonces archivées dans la catégorie").'" class="badge badge-secondary mr-2">';
       if (array_key_exists($id_cat,$num_ann_archive))
          $content .= ($num_ann_archive[$id_cat]+$cumu_num_ann_archive);
       else

@@ -32,7 +32,7 @@ while (list($cat, $count) = sql_fetch_row($result)) {
    $num_ann[$cat]=$count;
    $num_ann_total+=$count;
 }
-$content = '<p class="text-center"><span class="badge badge-pill badge-default">'.$num_ann_total.'</span> [french]annonce(s)[/french] [english]offer(s)[/english] [french]publiée(s)[/french] [english]published[/english]</span>';
+$content = '<p class="text-center"><span class="badge badge-pill badge-secondary">'.$num_ann_total.'</span> [french]annonce(s)[/french] [english]offer(s)[/english] [french]publiée(s)[/french] [english]published[/english]</span>';
 $select = sql_query("SELECT * FROM $table_cat WHERE id_cat2='0' ORDER BY id_cat");
 while ($i= sql_fetch_assoc($select)) {
    $allcat=array('');
@@ -58,7 +58,7 @@ while ($i= sql_fetch_assoc($select)) {
          $sous_content .= $num_ann[$id_catx];
       $sous_content .='"><span class="ml-3">'.$categoriex.'</span>
             </a>
-            <span class="badge badge-pill badge-default float-right">';
+            <span class="badge badge-pill badge-secondary float-right">';
       if(array_key_exists($id_catx, $num_ann))
          $sous_content .= $num_ann[$id_catx];
       $sous_content.= '</span>
@@ -75,10 +75,10 @@ while ($i= sql_fetch_assoc($select)) {
       $sous_content .='
          <div class="mb-2 mx-4 my-1">
             <a data-toggle="tooltip" data-placement="top" title="Cliquer pour visualiser" href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$id_cat.'&amp;categorie='.$categorie.'&amp;num_ann='.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'"><span class="ml-3">[french]Autres[/french] [english]Other[/english]</span></a>
-            <span class="badge badge-pill badge-default float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
+            <span class="badge badge-pill badge-secondary float-right">'.(($num_ann[$id_cat]-$cumu_num_ann)+($cumu_num_ann)).'</span>
          </div>';
    $content .= '<a href="modules.php?ModPath=npds_annonces&amp;ModStart=list_ann&amp;id_cat='.$oo.'&amp;categorie='.$categorie.'&amp;num_ann='.$ibid.'">'.$categorie.'</a>
-         <span class="badge badge-pill badge-default mr-1 float-right">'.$ibid.'</span>
+         <span class="badge badge-pill badge-secondary mr-1 float-right">'.$ibid.'</span>
       </h6>
       <div id="catbb3_'.$id_cat.'" class="collapse" role="tabpanel" aria-labelledby="headingb3_'.$id_cat.'">';
    $content .= $sous_content;

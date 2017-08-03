@@ -70,7 +70,7 @@ if (isset($user)) {
    } else {
       include ("header.php");
 
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
 
    echo '<h3>'.ann_translate("Gestion de vos annonces").'</h3>';
    
@@ -108,7 +108,7 @@ if (isset($user)) {
       echo "<input type=\"hidden\" name=\"ModStart\" value=\"$ModStart\" />\n";
       echo "<input type=\"hidden\" name=\"id\" value=\"".$id."\" />\n";
 
-      echo '<p class="lead">'.ann_translate("Annonce").' <span class="badge badge-default">ID '.$id.'</span><span class="badge badge-success float-right">'.ann_translate("En ligne").'</p>';
+      echo '<p class="lead">'.ann_translate("Annonce").' <span class="badge badge-secondary">ID '.$id.'</span><span class="badge badge-success float-right">'.ann_translate("En ligne").'</p>';
    echo '
    <div class="form-group row">
     <label for="" class="col-sm-4 form-control-label">'.ann_translate("Tél fixe").'</label>

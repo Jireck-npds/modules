@@ -129,13 +129,13 @@ if ($action=="Supprimer") {
 
 //id de l'annonce
       echo '
-      <p class="lead">'.ann_translate("Annonce").' ID : <span class="badge badge-default">'.$id.'</span>';
+      <p class="lead">'.ann_translate("Annonce").' ID : <span class="badge badge-secondary">'.$id.'</span>';
       if ($values['en_ligne']=="1") {
          echo '<span class="badge badge-success float-right">'.ann_translate("En ligne").'</span>';
       } elseif ($values['en_ligne']=="0") {
          echo '<span class="badge badge-danger mt-1 float-right">'.ann_translate("En attente").'</span>';
       } else {
-      echo '<span class="badge badge-default float-right">'.ann_translate("En archive").'</span>';
+      echo '<span class="badge badge-secondary float-right">'.ann_translate("En archive").'</span>';
       }
       echo '</p>';
 

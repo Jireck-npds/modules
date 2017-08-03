@@ -27,7 +27,7 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 include ("modules/$ModPath/annonce.conf.php");
 include ("modules/$ModPath/lang/annonces-$language.php");
    include ("header.php");
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
 echo '<p class="lead">'.aff_langue($mess_acc).'</p>';
    include ("modules/$ModPath/include/search_form.php");
    include ("modules/$ModPath/include/annonce.php");
@@ -60,7 +60,7 @@ echo '<p class="lead">'.aff_langue($mess_acc).'</p>';
       } else {
          $sup=$min+$max;
       }
-      echo '<p class="lead"><i class="fa fa-circle" aria-hidden="true"></i> Annonces <span class="badge badge-primary">'.$inf.' à '.$sup.'</span> sur <span class="badge badge-default">'.$nombre.'</span> correspondant à votre recherche</p>';
+      echo '<p class="lead"><i class="fa fa-circle" aria-hidden="true"></i> Annonces <span class="badge badge-primary">'.$inf.' à '.$sup.'</span> sur <span class="badge badge-secondary">'.$nombre.'</span> correspondant à votre recherche</p>';
    }
 
    $query="SELECT * FROM $table_annonces WHERE UPPER(text) LIKE '%$search[0]%'";

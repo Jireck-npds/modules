@@ -30,7 +30,7 @@ while (list($cat, $count) = sql_fetch_row($result)) {
    $num_ann_total+=$count;
 }
 $content = '
-   <p class="text-center "><span class="badge badge-pill badge-default">'.$num_ann_total.'</span> [french]annonce(s)[/french] [english]offer(s)[/english] [french]publiée(s)[/french] [english]published[/english]</p>
+   <p class="text-center "><span class="badge badge-pill badge-secondary">'.$num_ann_total.'</span> [french]annonce(s)[/french] [english]offer(s)[/english] [french]publiée(s)[/french] [english]published[/english]</p>
    <p class="text-center"><a href="modules.php?ModPath=npds_annonces&amp;ModStart=index" class="btn btn-outline-primary btn-sm">[french]Consulter[/french] [english]Consult[/english]</a>';
 if ($user)
    $content .=' <a href="modules.php?ModPath=npds_annonces&amp;ModStart=annonce_form" class="btn btn-outline-primary btn-sm">[french]Ajouter[/french] [english]Add[/english]</a>';
