@@ -34,7 +34,7 @@ function glohead() {
    global $ModPath, $ModStart, $activ_rech, $NPDS_Prefix;
 
    include("header.php");
-   echo '<div class="card"><div class="card-block">';
+   echo '<div class="card"><div class="card-body">';
    echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate('Glossaire').'</h2>';
 
    $acounter = sql_query("SELECT count(*) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0'");
@@ -56,7 +56,7 @@ function glofoot() {
    if ($ok_submit) {
       echo '<p class="lead"><a data-toggle="collapse" href="#saisiform" aria-expanded="true" aria-controls="saisiform"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-down"></i></a> '.glo_translate("Soumettre une définition").'</p>';
       echo'<div id="saisiform" class="collapse" role="tabpanel" aria-labelledby="">
-      <div class="card-block">';
+      <div class="card-body">';
       echo '<form action="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'" method="POST" name="adminForm">';
       echo '<div class="form-group row">';
       echo '<div class="col-sm-3"><label for="">'.glo_translate("Terme").'</label></div>';
@@ -101,7 +101,7 @@ function rand_glo() {
    if ($acount != 0) {
       echo '<p class="lead"><a data-toggle="collapse" href="#qqdef" aria-expanded="true" aria-controls="qqdef"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-down"></i></a> '.glo_translate("Quelques définitions").'</p>';
       echo'<div id="qqdef" class="collapse" role="tabpanel" aria-labelledby="">
-      <div class="card-block">';
+      <div class="card-body">';
       echo '<table class="table table-sm table-hover">';
       echo '<thead><tr><th>'.glo_translate("Termes").'</th><th>'.glo_translate("Définitions").'</th></tr></thead><tbody>';
       settype($nb_affichage,"integer");
@@ -266,7 +266,7 @@ function tlist($acount) {
    $cate = stripslashes($gcat);
    echo '<p class="lead"><a data-toggle="collapse" href="#rechdo" aria-expanded="true" aria-controls="rechdo"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-up"></i></a> '.glo_translate("Sélectionner un dossier").'</p>';
    echo'<div id="rechdo" class="collapse show" role="tabpanel" aria-labelledby="">
-      <div class="card-block">';
+      <div class="card-body">';
    echo '<div class="row">
       <div class="col-sm-3">';
    if (($cate == translate("All")) OR ($cate == "")) {
@@ -298,7 +298,7 @@ function aff_forme_rech() {
    global $ModPath, $ModStart;
    echo '<p class="lead"><a data-toggle="collapse" href="#rechcho" aria-expanded="true" aria-controls="rechcho"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-up"></i></a> '.glo_translate("Rechercher par choix multiples").'</p>';
    echo'<div id="rechcho" class="collapse show" role="tabpanel" aria-labelledby="">';
-   echo '<div class="card-block">';   
+   echo '<div class="card-body">';   
    echo '<form action="modules.php?ModPath='.$ModPath.'&ModStart='.$ModStart.'" method="post">';
    echo '<div class="form-group row">';	  
    echo '<div class="col-md-2 mt-1"><label for=""><strong>'.glo_translate("Sélectionner").'</strong></div>';
@@ -316,7 +316,7 @@ function aff_forme_rech() {
 function aff_alpha($type) {
    global $ModPath, $ModStart, $gcat;
    echo '<p class="lead"><a data-toggle="collapse" href="#rechlet" aria-expanded="true" aria-controls="rechlet"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-up"></i></a> '.glo_translate("Rechercher par lettre").'</p>';
-   echo'<div id="rechlet" class="collapse show" role="tabpanel" aria-labelledby=""><div class="card-block">';
+   echo'<div id="rechlet" class="collapse show" role="tabpanel" aria-labelledby=""><div class="card-body">';
    echo '<p class="lead text-center">';
    
    $alphabet = array ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","".glo_translate("Autres")."");

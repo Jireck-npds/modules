@@ -56,7 +56,7 @@
    $selection = '<p class="card-text lead">'.phot_translate("Sélectionner sur votre ordinateur le fichier image .jpg à redimensionner").' <i>(3000 Ko max)</i></p>';
    }
    echo '</div>';
-   echo '<div class="card-block">';
+   echo '<div class="card-body">';
    $elementschemin = pathinfo($nomorigine);
    $extensionfichier = $elementschemin['extension'];
    $extensionsautorisees = array("jpeg", "jpg", "JPG", "JPEG");
