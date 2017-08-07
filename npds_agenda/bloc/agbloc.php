@@ -122,7 +122,7 @@
 
    $content = '
    <p class="text-center"><a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_prec.'&amp;annee='.$Ban_prec.'" class="mr-2"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-      <a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'"><span class="badge badge-default">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>
+      <a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&amp;month='.$mois.'&amp;an='.$annee.'"><span class="badge badge-secondary">'.$Bmois_en_clair.'&nbsp;'.$annee.'</span></a>
       <a href="'.$Bpagin.''.$Bliais.'mois='.$Bmois_suivant.'&amp;annee='.$Ban_suivant.'" class="ml-2"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
    </p>
    <table class="table table-bordered table-sm">
