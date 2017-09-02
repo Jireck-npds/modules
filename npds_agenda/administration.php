@@ -25,8 +25,7 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 
 // DEBUT FONCTION LISTE SUJET
 function suj() {
-   global $NPDS_Prefix, $ModPath, $theme, $bouton;
-   global $ThisRedo, $ThisFile, $gro;
+   global $NPDS_Prefix, $ModPath, $theme, $bouton, $ThisRedo, $ThisFile, $gro;
    /*debut theme html partie 1/2*/
 //   $inclusion = false;
 
@@ -46,26 +45,22 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
    }
 
 //Accès direct à un sujet
-
-   $accesuj = '<li class="nav-item ml-3">
+   settype($stopicid,'integer');
+   $accesuj = '
+   <li class="nav-item ml-3">
    <select class="custom-select" onchange="window.location=(\''.$ThisRedo.'&subop=listsuj&sujet='.$stopicid.'\'+this.options[this.selectedIndex].value)">
    <option>'.ag_translate('Sélectionner catégorie').'</option>';
 
 /*Requete liste sujet*/
    $result = sql_query("SELECT topicid, topictext FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext ASC");
-   while(list($stopicid, $topictext) = sql_fetch_row($result))
-   {
+   while(list($stopicid, $topictext) = sql_fetch_row($result)) {
       $topictext = stripslashes(aff_langue($topictext));
       $accesuj .= '<option value="'.$stopicid.'">'.$topictext.'</option>';
    }
    if($bouton == '1')
-   {
       $rech = ag_translate('Par ville');
-   }
    else
-   {
       $rech = ''.ag_translate('Par').'&nbsp;'.$bouton.'';
-   }
    $accesuj .= '</select></li>';
 
 // fin Accès direct à un sujet
@@ -94,10 +89,8 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
 }
 // FIN LISTE SUJET
 
-
 // DEBUT LISTE AUTEUR
-function vosajouts()
-{
+function vosajouts() {
    global $ModPath, $NPDS_Prefix, $cookie;
    global $ThisFile, $nb_news, $order, $page;
    /*Debut securite*/
@@ -112,11 +105,8 @@ function vosajouts()
    //Pour la naviguation
    $total_pages = ceil($nb_entrees/$nb_news);
    if($page == 1)
-   {
       $page_courante = 1;
-   }
-   else
-   {
+   else {
       if ($page < 1)
          $page_courante = 1;
       elseif ($page > $total_pages)
@@ -128,29 +118,32 @@ function vosajouts()
 
 /*Ordre par defaut*/
    if($order == '0'){$order1 = 'valid = 3 DESC';}else if($order == '4'){$order1 = 'titre ASC';}else{$order1 = "valid = $order DESC";}
-   echo '<h4>'.ag_translate('Liste de vos événements').'</h4>';
-   echo '<p>'.ag_translate('Trier par').'
+   echo '
+   <h4>'.ag_translate('Liste de vos événements').'</h4>
+   <p>'.ag_translate('Trier par').'
    <a class="btn btn-outline-success btn-sm mr-1" href="'.$ThisFile.'&amp;order=1">'.ag_translate('En Ligne').'</a>
    <a class="btn btn-secondary btn-sm mr-1" href="'.$ThisFile.'&amp;order=2">'.ag_translate('Hors Ligne').'</a>
    <a class="btn btn-outline-danger btn-sm mr-1" href="'.$ThisFile.'&amp;order=3">'.ag_translate('A valider').'
    <a class="btn btn-secondary btn-sm" href="'.$ThisFile.'&amp;order=4">'.ag_translate('Titre').'</a>
-   </p>';
-   echo '<table class="table table-bordered table-sm table-responsive">
-    <thead class="thead-default">
-   <tr>
-   <th class="text-center">'.ag_translate('Titre').'</th>
-   <th class="text-center">'.ag_translate('Catégorie').'</th>
-   <th class="text-center px-5">'.ag_translate('Date').'</th>
-   <th class="text-center px-3">'.ag_translate('Statut').'</th>
-   <th class="text-center px-2">'.ag_translate('Fonctions').'</th>
-   </tr>
-    </thead>';
+   </p>
+   <table class="table table-bordered table-sm table-responsive">
+      <thead class="table-dark">
+         <tr>
+            <th class="text-center">'.ag_translate('Titre').'</th>
+            <th class="text-center">'.ag_translate('Catégorie').'</th>
+            <th class="text-center px-5">'.ag_translate('Date').'</th>
+            <th class="text-center px-3">'.ag_translate('Statut').'</th>
+            <th class="text-center px-2">'.ag_translate('Fonctions').'</th>
+         </tr>
+       </thead>
+       <tbody>';
    /*Requete liste evenement suivant $cookie*/
    $result = sql_query("SELECT id, titre, topicid, valid FROM ".$NPDS_Prefix."agend_dem us WHERE posteur = '$cookie[1]' GROUP BY titre ORDER BY $order1 LIMIT $start,$nb_news");
    while(list($id, $titre, $topicid, $valid) = sql_fetch_row($result))
    {
       $titre = stripslashes(aff_langue($titre));
-      echo '<tbody><tr>
+      echo '
+      <tr>
       <td class="align-top">'.$titre.'</td>
       <td class="align-top">';
       $res = sql_query("SELECT topictext FROM ".$NPDS_Prefix."agendsujet WHERE id = '$topicid'");
@@ -661,9 +654,8 @@ include_once('modules/'.$ModPath.'/lang/agenda-'.$language.'.php');
    {
       redirect_url('index.php');
    }
-
-   switch($subop)
-   {
+   settype($subop,'string');
+   switch($subop) {
       default:
          vosajouts();
       break;

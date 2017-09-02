@@ -21,12 +21,9 @@ if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script
 }
 // For More security
 
-/// DEBUT FONCTION ///
-
 // DEBUT FONCTION LISTE SUJET
 function suj() {
-   global $NPDS_Prefix, $ModPath, $theme, $bouton;
-   global $ThisRedo, $ThisFile, $gro, $stopicid;
+   global $NPDS_Prefix, $ModPath, $theme, $bouton, $ThisRedo, $ThisFile, $gro, $stopicid;
 /*debut theme html partie 1/2*/
 
 $inclusion = "modules/".$ModPath."/html/sujet.html";
@@ -58,13 +55,9 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
       $accesuj .= '<option value="'.$stopicid.'">'.$topictext.'</option>';
    }
    if($bouton == '1')
-   {
       $rech = ag_translate('Par ville');
-   }
    else
-   {
-      $rech = ''.ag_translate('Par').' '.$bouton.'';
-   }
+      $rech = ag_translate('Par').' '.$bouton;
    $accesuj .= '</select></li>';
    
 // fin Accès direct à un sujet
@@ -93,6 +86,9 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
 /*fin theme html partie 2/2*/
 }
 // FIN LISTE SUJET
+   settype($niv,"integer");
+   settype($sup,"integer");//à voir cohérence
+   settype($inf,"integer");//à voir cohérence
 
 
 // DEBUT LISTE EVENEMENT
@@ -103,7 +99,10 @@ function listsuj($sujet, $niv) {
    settype($niv,"integer");
    settype($page,"integer");
    settype($cs1,"string");
-   
+   settype($sup,"integer");
+   settype($inf,"integer");
+   settype($datepourmonmodal,"string");
+
    /*Fin securite*/
    require_once('modules/'.$ModPath.'/pag_fonc.php');
    suj();
@@ -149,23 +148,21 @@ function listsuj($sujet, $niv) {
    if ($inf == ''){$inf = '0';}
    if($niv == '0') {
       $cs = 'class="text-danger"';
-      $nb_entrees = ''.$sup.'';
+      $nb_entrees = $sup;
       $cond = "date >= '$now'";
    }
    else if($niv == '1') {
       $cs1 = 'class="text-danger"';
-      $nb_entrees = ''.$inf.'';
+      $nb_entrees = $inf;
       $cond = "date < '$now'";
    }
 
 /*Pour la navigation*/
    $total_pages = ceil($nb_entrees/$nb_news);
-   if($page == 1)
-   {
+   if($page == 1) {
       $page_courante = 1;
    } 
-   else
-   {
+   else {
       if ($page < 1)
          $page_courante = 1;
       elseif ($page > $total_pages)
@@ -179,12 +176,10 @@ function listsuj($sujet, $niv) {
    $res = sql_query("SELECT topicimage, topictext FROM ".$NPDS_Prefix."agendsujet WHERE topicid = '$sujet'");
    list($topicimage, $topictext) = sql_fetch_row($res);
    $topictext = stripslashes(aff_langue($topictext));
-   if ($sup == '0' && $inf == '0')
-   {
+   if ($sup == '0' && $inf == '0') {
       $affres = '<p><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Vide').'</p>';
    }
-   else
-   {
+   else {
       $affres = '<ul><li>'.ag_translate('Evénement(s) à venir').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=0" '.$cs.'><span class="badge badge-success">'.$sup.'</span></a></li>
       <li>'.ag_translate('Evénement(s) en cours ou passé(s)').' <a data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv=1" '.$cs1.'><span class="badge badge-secondary">'.$inf.'</span></a></li></ul>';
 
@@ -202,198 +197,174 @@ function listsuj($sujet, $niv) {
             AND us.$cond
          GROUP BY us.liaison
          ORDER BY us.date DESC LIMIT $start,$nb_news");
-      while(list($id, $date, $liaison, $titre, $intro, $descript, $lieu, $posteur, $groupvoir) = sql_fetch_row($result))
-      {
+      while(list($id, $date, $liaison, $titre, $intro, $descript, $lieu, $posteur, $groupvoir) = sql_fetch_row($result)) {
          $titre = stripslashes(aff_langue($titre));
          $intro = stripslashes(aff_langue($intro));
          $lieu = stripslashes(aff_langue($lieu));
-
-/*Si membre appartient au bon groupe*/
-         if(autorisation($groupvoir))
-         {
-
-/*Si evenement plusieurs jours*/
+         /*Si membre appartient au bon groupe*/
+         if(autorisation($groupvoir)) {
+         /*Si evenement plusieurs jours*/
             $result1 = sql_query("SELECT date FROM ".$NPDS_Prefix."agend WHERE liaison = '$liaison' ORDER BY date DESC");
             $tot = sql_num_rows($result1);
 
-            $affres .= '<div class="card my-3">
+            $affres .= '
+            <div class="card my-3">
                 <div class="card-body">
-            <h4 class="card-title">'.$titre.'</h4>';
-
-            $affres .='<p class="card-text">';
-            if ($tot > 1)
-            {
+                  <h4 class="card-title">'.$titre.'</h4>
+                  <p class="card-text">';
+            if ($tot > 1) {
                $affres .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
-               while (list($ddate) = sql_fetch_row($result1))
-               {
-                  if($ddate > $now){$etat = 'badge badge-success';}
-                  else if($ddate == $now){$etat = 'badge badge-warning';}
-                  else if($ddate < $now){$etat = 'badge badge-warning';}
+               while (list($ddate) = sql_fetch_row($result1)) {
+                  if($ddate > $now) $etat = 'badge badge-success';
+                  else if($ddate == $now) $etat = 'badge badge-warning';
+                  else if($ddate < $now) $etat = 'badge badge-warning';
                   $newdate = formatfrancais($ddate);
                   $affres .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
                   $datepourmonmodal .= '<span class="'.$etat.'">'.$newdate.'</span>';
                }
             }
-            else
-            {
+            else {
                list($ddate) = sql_fetch_row($result1);
                $newdate = formatfrancais($ddate);
-               if($ddate > $now){$etat = 'badge badge-success';}
+               if($ddate > $now) $etat = 'badge badge-success';
                else if($ddate == $now){$etat = 'badge badge-warning';}
                else if($ddate < $now){$etat = 'badge badge-warning';}
                $affres .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>';
-                $affres .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
+               $affres .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
             }
-            $affres .= '<div class="row">
-            <div class="col-md-2">'.ag_translate('Résumé').'</div>
-            <div class="col-md-10">'.$intro.'</div>
-            </div>';
-            $affres .= '<div class="row">
-            <div class="col-md-2">'.ag_translate('Lieu').'</div>
-            <div class="col-md-10">'.$lieu.'</div>
-            </div>';
-            $affres .= '<div class="row">
-            <div class="col-md-12">
-            <button type="button" class="btn btn-secondary btn-sm my-2" data-toggle="modal" data-target="#'.$id.'">
-            '.ag_translate('Voir la fiche').'
-            </button>
-            <div class="modal fade" id="'.$id.'" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog modal-lg"" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title" id="'.$id.'Label">'.$titre.'</h4>     
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <h5 class="'.$etat.'"><strong>';
+            $affres .= '
+            <div class="row">
+               <div class="col-md-2">'.ag_translate('Résumé').'</div>
+               <div class="col-md-10">'.$intro.'</div>
+            </div>
+            <div class="row">
+               <div class="col-md-2">'.ag_translate('Lieu').'</div>
+               <div class="col-md-10">'.$lieu.'</div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <button type="button" class="btn btn-secondary btn-sm my-2" data-toggle="modal" data-target="#'.$id.'">'.ag_translate('Voir la fiche').'</button>
+                  <div class="modal fade" id="'.$id.'" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                     <div class="modal-dialog modal-lg"" role="document">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h4 class="modal-title" id="'.$id.'Label">'.$titre.'</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                           </div>
+                           <div class="modal-body">
+                              <h5 class="'.$etat.'"><strong>';
             if ($tot > 1)
-            {
-     $affres .= $datepourmonmodal;
-            }
-            else{
-     $affres .= $newdate;
-            
-            }
-     $affres .= '</strong></h5>
-            <div class="row">
-            <div class="col-md-2">'.ag_translate('Résumé').'</div>
-            <div class="col-md-10">'.$intro.'</div>
-            </div>
-            <div class="row">
-            <div class="col-md-2">'.ag_translate('Description').'</div>
-            <div class="col-md-10">'.$descript.'</div>
-            </div>
-            <div class="row">
-            <div class="col-md-2">'.ag_translate('Lieu').'</div>
-            <div class="col-md-10">'.$lieu.'</div>
-            </div>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div></div>';
-            $affres .= '<p class="card-text">';
-            if ($posteur == $cookie[1])
-            {
-               $affres .= '<a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-               <a class="btn btn-outline-danger btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
-            }
+               $affres .= $datepourmonmodal;
             else
-            {
-               $affres .= ''.ag_translate('Posté par').' '.$posteur.'';
-            }
-            $affres .= '</p>';
-            
-            $affres .= '</div></div>';
+               $affres .= $newdate;
+            $affres .= '</strong></h5>
+                              <div class="row">
+                                 <div class="col-md-2">'.ag_translate('Résumé').'</div>
+                                 <div class="col-md-10">'.$intro.'</div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-2">'.ag_translate('Description').'</div>
+                                 <div class="col-md-10">'.$descript.'</div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-2">'.ag_translate('Lieu').'</div>
+                                 <div class="col-md-10">'.$lieu.'</div>
+                              </div>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <p class="card-text">';
+            if ($posteur == $cookie[1])
+               $affres .= '
+               <a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+               <a class="btn btn-outline-danger btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+            else
+               $affres .= ag_translate('Posté par').' '.$posteur;
+            $affres .= '
+            </p>
+         </div>
+      </div>';
          }
       }
-
-/*Affiche pagination*/
+      /*Affiche pagination*/
       echo ag_pag($total_pages,$page_courante,'2',''.$ThisFile.'&amp;subop=listsuj&amp;sujet='.$sujet.'&amp;niv='.$niv.'','_mod');
    }
 
-/*debut theme html partie 2/2*/
+   /*debut theme html partie 2/2*/
    ob_start();
    include ($inclusion);
    $Xcontent = ob_get_contents();
    ob_end_clean();
-   $npds_METALANG_words = array(
-      "'!topictext!'i"=>"$topictext",
-      "'!affres!'i"=>"$affres"
-   );
+   $npds_METALANG_words = array("'!topictext!'i"=>"$topictext","'!affres!'i"=>"$affres");
    echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words),array_values($npds_METALANG_words), $Xcontent)));
-/*fin theme html partie 2/2*/
+   /*fin theme html partie 2/2*/
 
 }
 /// FIN LISTE EVENEMENT ///
 
 /// DEBUT CALENDRIER ///
-function calend($an, $month)
-{
+function calend($an, $month) {
    global $ModPath, $NPDS_Prefix, $theme;
    global $ThisFile,$affcal;
 
-/*Debut securite*/
+   /*Debut securite*/
    settype($an,"integer");
    settype($month,"integer");
    $afftitre=array();
-/*Fin securite*/
+   /*Fin securite*/
 
-/*Recuperation du jour, mois, et annee actuel*/
+   /*Recuperation du jour, mois, et annee actuel*/
    $jour_actuel = date("j", time());
    $mois_actuel = date("m", time());
    $an_actuel = date("Y", time());
    $jour = $jour_actuel;
 
-/*Si la variable mois nexiste pas, mois et annee correspondent au mois et a lannee courante*/
-   if(!isset($_GET["month"]))
-   {
+   /*Si la variable mois nexiste pas, mois et annee correspondent au mois et a lannee courante*/
+   if(!isset($_GET["month"])) {
       $month = $mois_actuel;
       $an = $an_actuel;
    }
 
-/*Mois suivant*/
+   /*Mois suivant*/
    $mois_suivant = $month + 1;
    $an_suivant = $an;
-   if ($mois_suivant == 13)
-   {
+   if ($mois_suivant == 13) {
       $mois_suivant = 1;
       $an_suivant = $an + 1;
    }
 
-/*Mois precedent*/
+   /*Mois precedent*/
    $mois_prec = $month - 1;
    $an_prec = $an;
-   if ($mois_prec == 0)
-   {
+   if ($mois_prec == 0) {
       $mois_prec = 12;
       $an_prec = $an - 1;
    }
 
 /*Affichage du mois et annee*/
    $mois_de_annee = array(
-         ''.ag_translate('JANVIER').'',
-         ''.ag_translate('FEVRIER').'',
-         ''.ag_translate('MARS').'',
-         ''.ag_translate('AVRIL').'',
-         ''.ag_translate('MAI').'',
-         ''.ag_translate('JUIN').'',
-         ''.ag_translate('JUILLET').'',
-         ''.ag_translate('AOUT').'',
-         ''.ag_translate('SEPTEMBRE').'',
-         ''.ag_translate('OCTOBRE').'',
-         ''.ag_translate('NOVEMBRE').'',
-         ''.ag_translate('DECEMBRE').'');
+         ag_translate('JANVIER'),
+         ag_translate('FEVRIER'),
+         ag_translate('MARS'),
+         ag_translate('AVRIL'),
+         ag_translate('MAI'),
+         ag_translate('JUIN'),
+         ag_translate('JUILLET'),
+         ag_translate('AOUT'),
+         ag_translate('SEPTEMBRE'),
+         ag_translate('OCTOBRE'),
+         ag_translate('NOVEMBRE'),
+         ag_translate('DECEMBRE'));
    $mois_en_clair = $mois_de_annee[$month - 1];
 
 /*Creation tableau a 31 entrees sans reservation*/
-   for($j = 1; $j < 32; $j++)
-   {
+   for($j = 1; $j < 32; $j++) {
       $tab_jours[$j] = (bool)false;
    }
 
@@ -411,27 +382,21 @@ function calend($an, $month)
          AND ut.valid = '1'");
 
 /*Recupere les jours feries*/
-      foreach (ferie ($month, $an) as $day => $fete)
-      {
-         $tab_jours[$day] = 1;
-         $fetetitre[$day] = $fete.'&lt;br /&gt;';
-      }
+   foreach (ferie ($month, $an) as $day => $fete) {
+      $tab_jours[$day] = 1;
+      $fetetitre[$day] = $fete.'&lt;br /&gt;';
+   }
 
 /*Affiche resultat*/
-   while(list($date, $titre, $groupvoir) = sql_fetch_row($requete))
-   {
-
-/*Si membre appartient au bon groupe*/
+   while(list($date, $titre, $groupvoir) = sql_fetch_row($requete)) {
+      /*Si membre appartient au bon groupe*/
       if(autorisation($groupvoir)) {
          $titre = stripslashes(aff_langue($titre));
-
-/*Transforme aaaa/mm/jj en jj*/
+      /*Transforme aaaa/mm/jj en jj*/
          $jour_reserve = (int)substr($date, 8, 2);
-
-/*Insertion des jours reserve dans le tableau*/
+      /*Insertion des jours reserve dans le tableau*/
          $tab_jours[$jour_reserve] = (bool)true;
-
-/*Recupere titre des evenements*/
+      /*Recupere titre des evenements*/
          $afftitre[$jour_reserve] .= $titre.'&lt;br /&gt;';
       }
    }
@@ -440,8 +405,7 @@ function calend($an, $month)
 
 /*debut theme html partie 1/2*/
    $inclusion = false;
-
-      $inclusion = "modules/".$ModPath."/html/calendrier.html";
+   $inclusion = 'modules/'.$ModPath.'/html/calendrier.html';
 
 
 /*fin theme html partie 1/2*/
@@ -454,24 +418,21 @@ function calend($an, $month)
    $nombre_date = mktime(0,0,0, $month, 1, $an);
    $premier_jour = date('w', $nombre_date);
    $dernier_jour = 28;
-   while (checkdate($month, $dernier_jour + 1, $an))
-   {
+   while (checkdate($month, $dernier_jour + 1, $an)) {
       $dernier_jour++;
    }
 
 /*Ajoute un 0 pour mois*/
-   if($month <= 9 && substr($month, 0, 1)!= 0)
-   {
+   if($month <= 9 && substr($month, 0, 1)!= 0) {
       $month  = '0'.$month;
    }
    $sdate = "01/$month/$an";
    $sEngDate = substr ($sdate, -4).substr ($sdate, 3, 2).substr ($sdate, 0, 2);
    $iTime = strtotime ($sEngDate);
-   $semaine = "".date ('W', $iTime)."";
+   $semaine = date ('W', $iTime);
 
 /*Si premier jour dimanche (code "0" en php)*/
-   if ($premier_jour == 0)
-   {
+   if ($premier_jour == 0) {
 
 /*Calcul numero semaine +0 pour enlever le 0 de 01,02,...*/
       $semaine0 = $semaine + 0;
@@ -519,7 +480,6 @@ function calend($an, $month)
 
 /*Calcul numero semaine +0 pour enlever le 0 de 01,02,...*/
       $semaine1 = $semaine + 0;
-      
    }
    $affcal .= '<th scope="row" class="text-center">'.$semaine1.'</th>';
 
@@ -596,22 +556,23 @@ function calend($an, $month)
             if ($jour_suiv == $jour && $month == $mois_actuel && $an == $an_actuel) {$cs = 'text-danger font-weight-bold';}else{$cs = 'text-muted';}
 
 /*Case avec class pour reserver*/
-            if($tab_jours[$jour_suiv])
-            {
+            if($tab_jours[$jour_suiv]) {
 
 /*Si jour ferie sans evenement*/
                if (!array_key_exists($jour_suiv, $afftitre) && $fetetitre[$jour_suiv] != ''){$cla = 'table-warning';}
                else if ($afftitre[$jour_suiv] != '' && $fetetitre[$jour_suiv] == ''){$cla = 'table-info';}
                else if ($afftitre[$jour_suiv] != '' && $fetetitre[$jour_suiv] != ''){$cla = 'table-info';}
                $affcal .= '<td class="text-center '.$cla.'">
-               <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" title="'.$fetetitre[$jour_suiv];
+               <a href="'.$ThisFile.'&amp;subop=jour&amp;date='.$date.'" data-toggle="tooltip" data-html="true" title="';
+               if(isset($fetetitre) and array_key_exists($jour_suiv,$fetetitre))
+                  $affcal .= aff_langue($fetetitre[$jour_suiv]);
+
             if(array_key_exists($jour_suiv, $afftitre))
                $affcal .= $afftitre[$jour_suiv];
             $affcal .='" data-placement="bottom"><span class="'.$cs.'">'.$jour_suiv.'</span></a>
                </td>';
             }
-            else
-            {
+            else {
 
 /*Css libre*/
                $affcal .= '<td class="text-center">

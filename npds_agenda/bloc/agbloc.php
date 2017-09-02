@@ -70,6 +70,7 @@
    // Création tableau à 31 entrées sans réservation
    for($j = 1; $j < 32; $j++) {
       $Btab_jours[$j] = (bool)false;
+      $Bafftitre[$j] = (bool)false;
    }
 
    // Requête pour récupérer les évévements
@@ -90,8 +91,6 @@
          $Btab_jours[$Bday] = 1;
          $Bfetetitre[$Bday] = $Bfete.'&lt;br /&gt;';
       }
-
-   $Bafftitre=array();
    // Affiche résultat
    while(list($Bdate, $Btitre, $Bgroupvoir) = sql_fetch_row($requete)) {
       // Si membre appartient au bon groupe
@@ -238,7 +237,6 @@
          <td class="text-center">&nbsp;</td>';
          }
          else {
-
             // Permet la navigation du calendrier
             $Bdate = ajout_zero($Bjour_suiv, $mois, $annee);
 
@@ -248,14 +246,14 @@
             // Case avec class pour réserver
             if($Btab_jours[$Bjour_suiv]) {
                // Si jour ferie sans événement
-               if (!array_key_exists($Bjour_suiv,$Bafftitre) && $Bfetetitre[$Bjour_suiv] != '') $Bcla = 'table-warning';
-               else if ($Bafftitre[$Bjour_suiv] != '' && !array_key_exists($Bjour_suiv,$Bfetetitre) ) $Bcla =  'table-info';
+               if (!array_key_exists($Bjour_suiv,$Bafftitre) and $Bfetetitre[$Bjour_suiv] != '') $Bcla = 'table-warning';
+               else if ($Bafftitre[$Bjour_suiv] != '' ) $Bcla =  'table-info';
                else if ($Bafftitre[$Bjour_suiv] != '' && $Bfetetitre[$Bjour_suiv] != '') $Bcla = 'table-info';
 
                // Ajoute le jour et reste sur la même page + css jour événement
                $content .= '
                <td class="text-center '.$Bcla.'"><a href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier&subop=jour&date='.$Bdate.'" data-toggle="tooltip" data-placement="bottom" data-html="true" title="';
-               if(array_key_exists($Bjour_suiv,$Bfetetitre))
+               if(isset($Bfetetitre) and array_key_exists($Bjour_suiv,$Bfetetitre))
                   $content .= aff_langue($Bfetetitre[$Bjour_suiv]);
                if(array_key_exists($Bjour_suiv,$Bafftitre))
                   $content .= $Bafftitre[$Bjour_suiv];

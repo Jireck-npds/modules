@@ -28,7 +28,7 @@ settype($niv,'integer');
 
 // DEBUT FONCTION LISTE SUJET
 function suj() {
-   global $NPDS_Prefix, $ModPath, $theme, $bouton, $ThisRedo, $ThisFile, $gro;
+   global $NPDS_Prefix, $ModPath, $theme, $bouton, $ThisRedo, $ThisFile, $gro, $stopicid;
    /*debut theme html partie 1/2*/
 //   $inclusion = false;
 
@@ -43,15 +43,14 @@ $inclusion = "modules/".$ModPath."/html/sujet.html";
          <li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Evénement').'</a></li>';
    }
 
-//Accès direct à un sujet   
+//Accès direct à un sujet
    $accesuj = '<li class="nav-item ml-3">
    <select class="custom-select" onchange="window.location=(\''.$ThisRedo.'&subop=listsuj&sujet='.$stopicid.'\'+this.options[this.selectedIndex].value)">
    <option>'.aff_langue('Accès catégorie(s)').'</option>';
 
 /*Requete liste sujet*/
    $result = sql_query("SELECT topicid, topictext FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext ASC");
-   while(list($stopicid, $topictext) = sql_fetch_row($result))
-   {
+   while(list($stopicid, $topictext) = sql_fetch_row($result)) {
       $topictext = stripslashes(aff_langue($topictext));
       $accesuj .= '<option value="'.$stopicid.'">'.$topictext.'</option>';
    }
@@ -98,9 +97,8 @@ function lieu($lettre, $niv) {
    /*Fin securite*/
 
    suj();
-   
-/*debut theme html partie 1/2*/
 
+   /*debut theme html partie 1/2*/
    $inclusion = 'modules/'.$ModPath.'/html/lieu.html';
 
    /*fin theme html partie 1/2*/
@@ -188,8 +186,7 @@ function lieu($lettre, $niv) {
 //Pour la navigation
    $total_pages = ceil($nb_entrees/$nb_news);
    if($page == 1) $page_courante = 1;
-   else
-   {
+   else {
       if ($page < 1)
          $page_courante = 1;
       elseif ($page > $total_pages)
@@ -199,16 +196,13 @@ function lieu($lettre, $niv) {
    }
    $start = ($page_courante * $nb_news - $nb_news);
    if ($sup == '0' && $inf == '0')
-   {
       $affeven = '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Vide').'</p>';
-   }
-   else
-   {
-      $affeven = '<ul>
-      <li>'.ag_translate('Evénement(s) à venir').'<a class="badge badge-success ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=0">'.$sup.'</a></li>
-      <li>'.ag_translate('Evénement(s) en cours ou passé(s)').'<a class="badge badge-secondary ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=1">'.$inf.'</a></li>
+   else {
+      $affeven = '
+      <ul>
+         <li>'.ag_translate('Evénement(s) à venir').'<a class="badge badge-success ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=0">'.$sup.'</a></li>
+         <li>'.ag_translate('Evénement(s) en cours ou passé(s)').'<a class="badge badge-secondary ml-2" data-toggle="tooltip" data-placement="bottom" title="Visualiser" href="'.$ThisFile.'&amp;subop=listsuj&amp;lettre='.$lettre.'&amp;niv=1">'.$inf.'</a></li>
       </ul>';
-      $affeven .= '';
       /*Requete liste evenement suivant $date*/
       $result = sql_query("SELECT
             us.id, us.date, us.liaison,
@@ -227,16 +221,14 @@ function lieu($lettre, $niv) {
          GROUP BY us.liaison
          ORDER BY us.date DESC
          LIMIT $start,$nb_news");
-      while(list($id, $date, $liaison, $titre, $descript, $intro, $lieu, $topicid, $posteur, $groupvoir, $topicimage, $topictext) = sql_fetch_row($result))
-      {
+      while(list($id, $date, $liaison, $titre, $descript, $intro, $lieu, $topicid, $posteur, $groupvoir, $topicimage, $topictext) = sql_fetch_row($result)) {
          $titre = stripslashes(aff_langue($titre));
          $intro = stripslashes(aff_langue($intro));
          $descript = stripslashes(aff_langue($descript));
          $lieu = stripslashes(aff_langue($lieu));
          $topictext = stripslashes(aff_langue($topictext));
          /*Si membre appartient au bon groupe*/
-         if(autorisation($groupvoir))
-         {
+         if(autorisation($groupvoir)) {
             /*Si evenement plusieurs jours*/
             $result1 = sql_query("SELECT date FROM ".$NPDS_Prefix."agend WHERE liaison = '$liaison' ORDER BY date DESC");
             $tot = sql_num_rows($result1);
@@ -244,21 +236,16 @@ function lieu($lettre, $niv) {
                          <div class="card-body">';
             $affeven .= '<img class="img-thumbnail col-2 mb-2" src="'.$tipath.''.$topicimage.'" />';
             $affeven .= '<h4 class="card-title">'.$titre.'</h4>';
-            if ($posteur == $cookie[1])
-            {            
+            if ($posteur == $cookie[1]) {
                $affeven .= '<div class="btn-group"><a class="btn btn-outline-primary btn-sm mr-2" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                <a class="btn btn-outline-danger btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a></div>';
             }
             else
-            {
                $affeven .= '<p>'.ag_translate('posté par').' '.$posteur.'</p>';
-            }         
             $affeven .='<p class="card-text">';
-            if ($tot > 1)
-            {
+            if ($tot > 1) {
                $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
-               while (list($ddate) = sql_fetch_row($result1))
-               {
+               while (list($ddate) = sql_fetch_row($result1)) {
                   if($ddate > $now){$etat = 'badge badge-success';}
                   else if($ddate == $now){$etat = 'badge badge-warning';}
                   else if($ddate < $now){$etat = 'badge badge-warning';}

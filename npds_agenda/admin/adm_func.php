@@ -161,80 +161,71 @@ function topicsmanager(){
    $result = sql_query("SELECT * FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext");
    if (sql_num_rows($result) > 0)
    {
+   settype ($count,'integer');
    echo '<h4>'.ag_translate('Sélectionnez une catégorie, cliquez pour modifier').'</h4>
    <div class="row">';
-   while(list($topicid, $topicimage, $topictext) = sql_fetch_row($result))
-   {
-   $topictext = stripslashes($topictext);
-   echo '';
-   if (($topicimage) or ($topicimage != ""))
-   {
-   echo '<div class="col-md-3">
-   <div class="card-body"><p class="card-text">'.aff_langue(''.$topictext.'').'</p><a href="'.$ThisFile.'&amp;subop=topicedit&amp;topicid='.$topicid.'"><img class="card-img-top img-thumbnail" src="'.$tipath.''.$topicimage.'" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate('Cliquez pour éditer').'" /></a></div></div>';
-   }
-   else
-   {
-   echo '<div class="col-2"><a class="" href="'.$ThisFile.'&amp;subop=topicedit&amp;topicid='.$topicid.'">'.aff_langue(''.$topictext.'').'</a></div>';
-   }
-   echo '';
+   while(list($topicid, $topicimage, $topictext) = sql_fetch_row($result)) {
+      $topictext = stripslashes($topictext);
+      if (($topicimage) or ($topicimage != '')) {
+         echo '
+      <div class="col-md-3">
+         <div class="card-body"><p class="card-text">'.aff_langue(''.$topictext.'').'</p><a href="'.$ThisFile.'&amp;subop=topicedit&amp;topicid='.$topicid.'"><img class="card-img-top img-thumbnail" src="'.$tipath.''.$topicimage.'" data-toggle="tooltip" data-placement="bottom" title="'.ag_translate('Cliquez pour éditer').'" /></a></div></div>';
+      }
+      else {
+         echo '<div class="col-2"><a class="" href="'.$ThisFile.'&amp;subop=topicedit&amp;topicid='.$topicid.'">'.aff_langue(''.$topictext.'').'</a></div>';
+      }
    $count++;
-   if ($count == 4)
-   {
-   echo '</div><div class="row">';
-   $count = 0;
-   }
+      if ($count == 4) {
+         echo '</div><div class="row">';
+         $count = 0;
+      }
    }
    echo '</div>';
    }
-   echo '<h4>'.ag_translate('Ajouter une catégorie').'</h4>
-   <form action="'.$ThisFile.'" method="post" name="adminForm">';
-   echo '<fieldset class="form-group">
-   <label for="">'.ag_translate('Titre de la catégorie').'</label>
-   <input class="form-control" type="text" name="topictext" size="40">
-   </fieldset>';   
-   echo '<fieldset class="form-group">
-   <label class="mr-2" for="">'.ag_translate('Image de la catégorie').'</label>';
+   echo '
+   <h4>'.ag_translate('Ajouter une catégorie').'</h4>
+   <form action="'.$ThisFile.'" method="post" name="adminForm">
+      <fieldset class="form-group">
+         <label for="">'.ag_translate('Titre de la catégorie').'</label>
+         <input class="form-control" type="text" name="topictext" size="40">
+      </fieldset>
+      <fieldset class="form-group">
+         <label class="mr-2" for="">'.ag_translate('Image de la catégorie').'</label>';
    imgcate($topicimage);
    echo '<small id="" class="form-text text-muted">'.ag_translate('Chemin des images').' : '.$tipath.'</small>
-   </fieldset>';
-   echo '
-   <input type="hidden" name="subop" value="topicmake">
-   <button type="submit" class="btn btn-outline-primary btn-sm">'.ag_translate('Ajouter une catégorie').'</button>
+      </fieldset>
+      <input type="hidden" name="subop" value="topicmake" />
+      <button type="submit" class="btn btn-outline-primary btn-sm">'.ag_translate('Ajouter une catégorie').'</button>
    </form>
    </div>';
 }
 
-function imgcate($topicimage)
-{
+function imgcate($topicimage) {
    global $ModPath;
    /*Ouvre le repertoire*/
    $imgrep = 'modules/'.$ModPath.'/images/categories';
    $dp = opendir($imgrep);
-   while ( $file = readdir($dp) )
-   {
-   /*Enleve les fichiers . et ..*/
-   if ($file != '.' && $file != '..' && $file != 'index.html')
-   {
-   /*On passe les datas dans un tableau*/
-   $ListFiles[$i] = $file;
-   $i++;
-   }
+   $i=0;
+   while ( $file = readdir($dp) ) {
+      /*Enleve les fichiers . et ..*/
+      if ($file != '.' && $file != '..' && $file != 'index.html') {
+         /*On passe les datas dans un tableau*/
+         $ListFiles[$i] = $file;
+         $i++;
+      }
    }
    closedir($dp);
    /*Tri par ordre decroissant*/
-   if(count($ListFiles) != 0)
-   {
-   if($list_tri == 'DESC')
-   {
-   rsort($ListFiles);
+   settype($list_tri,'string');
+   if(count($ListFiles) != 0) {
+      if($list_tri == 'DESC')
+         rsort($ListFiles);
+      else
+         sort($ListFiles);
    }
-   else
-   {
-   sort($ListFiles);
-   }
-   }
-   if ($topicimage != ''){ $val = 'value="'.$topicimage.'';}else{}
-   echo '<select class="custom-select" name="topicimage" '.$val.'">';
+   settype($val,'string');
+   if ($topicimage != '') $val = 'value="'.$topicimage.'"';
+   echo '<select class="custom-select" name="topicimage" '.$val.'>';
    $nb = count($ListFiles);
    for($i = 0;$i < $nb;$i++)
    {
