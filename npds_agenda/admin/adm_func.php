@@ -15,68 +15,57 @@
 /************************************************************************/
 
 // DEBUT MENU PRINCIPAL
-function menuprincipal()
-{
-   global $NPDS_Prefix, $ModPath;
-   global $ThisFile;
+function menuprincipal() {
+   global $NPDS_Prefix, $ModPath, $ThisFile;
    $version = 'V.2.0';
-   echo '<h2><img class="img_fluid col-sm-1" src="modules/npds_agenda/npds_agenda.png" style="max-width: 2.2em" alt="icon_npds_agenda"> '.ag_translate('Agenda').'<small class="float-right">'.$version.'</small></h2>
-   <div class="card mb-2"><div class="card-body">
-   <div class="mr-2"><a class="btn btn-outline-primary btn-sm" href='.$ThisFile.'>'.ag_translate('Accueil').'</a>
-   <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=topicsmanager">'.ag_translate('Catégories').'</a>
-   <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=configuration">'.ag_translate('Configuration').'</a>
-   <a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=calendrier">'.ag_translate('Calendrier').'</a></div>';
+   echo '
+   <h2><img class="img_fluid col-sm-1" src="modules/npds_agenda/npds_agenda.png" style="max-width: 2.2em" alt="icon_npds_agenda"> '.ag_translate('Agenda').'<small class="float-right">'.$version.'</small></h2>
+   <div class="card mb-3">
+      <div class="card-body">
+         <div class="mr-2"><a class="btn btn-outline-primary btn-sm" href='.$ThisFile.'>'.ag_translate('Accueil').'</a>
+            <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=topicsmanager">'.ag_translate('Catégories').'</a>
+            <a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=configuration">'.ag_translate('Configuration').'</a>
+            <a class="btn btn-outline-primary btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annee">'.ag_translate('Calendrier').'</a>
+         </div>';
 
-//Requete compte nbre d'événements suivant état
+   //Requete compte nbre d'événements suivant état
    $query = sql_query("SELECT count(id), valid FROM ".$NPDS_Prefix."agend_dem GROUP BY valid");
-   while (list($count, $valid) = sql_fetch_row($query))
-   {
+   while (list($count, $valid) = sql_fetch_row($query)) {
    if ($valid == 1)
-   {
-   $en_l = $count;
-   }
+      $en_l = $count;
    else if ($valid == 2)
-   {
-   $hors_l = $count;
-   }
+      $hors_l = $count;
    else if ($valid == 3)
-   {
-   $avalid = $count;
+      $avalid = $count;
    }
-   }
-   if (empty($en_l)) { $en_l = 0; }
-   if (empty($hors_l)) { $hors_l = 0; }
-   if (empty($avalid)) { $avalid = 0; }
-   echo '<p class="card-text mt-2">'.ag_translate('En Ligne').'<span class="badge badge-success mx-2">'.$en_l.'</span>'.ag_translate('Hors Ligne').'<span class="badge badge-secondary mx-2">'.$hors_l.'</span>'.ag_translate('A valider').'<span class="badge badge-danger mx-2">'.$avalid.'</span></p>';
-   echo '</div></div>';
+   if (empty($en_l)) $en_l = 0;
+   if (empty($hors_l)) $hors_l = 0;
+   if (empty($avalid)) $avalid = 0;
+   echo '
+         <p class="card-text mt-2">'.ag_translate('En Ligne').'<span class="badge badge-success mx-2">'.$en_l.'</span>'.ag_translate('Hors Ligne').'<span class="badge badge-secondary mx-2">'.$hors_l.'</span>'.ag_translate('A valider').'<span class="badge badge-danger mx-2">'.$avalid.'</span></p>
+      </div>
+   </div>';
 }
 // FIN MENU PRINCIPAL
 
 /// DEBUT INDEX ///
-function adminagenda()
-{
-   global $NPDS_Prefix, $ModPath;
-   global $ThisFile, $page, $order;
-   /*Debut securite*/
+function adminagenda() {
+   global $NPDS_Prefix, $ModPath, $ThisFile, $page, $order;
    settype($page,"integer");
    settype($order,"integer");
-   /*Fin securite*/
    include('modules/'.$ModPath.'/admin/config.php');
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    require_once('modules/'.$ModPath.'/pag_fonc.php');
 
-menuprincipal();
+   menuprincipal();
 
    /*Total pour la naviguation*/
    $nb_entrees = sql_num_rows(sql_query("SELECT * FROM ".$NPDS_Prefix."agend_dem"));
    /*Pour la naviguation*/
    $total_pages = ceil($nb_entrees/$nb_admin);
    if($page == 1)
-   {
       $page_courante = 1;
-   } 
-   else
-   {
+   else {
       if ($page < 1)
          $page_courante = 1;
       elseif ($page > $total_pages)
@@ -85,65 +74,62 @@ menuprincipal();
          $page_courante = $page;
    }
    $start = ($page_courante * $nb_admin - $nb_admin);
-   /*Ordre par defaut*/
+   //Ordre par defaut
    if($order == '0'){$order1 = "valid = 3";}else if($order == '4'){$order1 = 'id';}else{$order1 = "valid = $order";}
 
-   echo '<div class="">
+   echo '
+   <div class="">
    <h4>'.ag_translate('Liste des événements').'</h4>
+   <hr />
    <p>'.ag_translate('Trier par').'&nbsp;
    <a class="text-success" href="'.$ThisFile.'&amp;order=1">'.ag_translate('En Ligne').'</a>&nbsp;-&nbsp;
    <a class="text-muted" href="'.$ThisFile.'&amp;order=2">'.ag_translate('Hors Ligne').'</a>&nbsp;-&nbsp;
    <a class="text-danger" href="'.$ThisFile.'&amp;order=3">'.ag_translate('A valider').'</a>&nbsp;-&nbsp;
-   <a href="'.$ThisFile.'&amp;order=4">'.ag_translate('ID').'</a></p>';
-   
-   echo '
+   <a href="'.$ThisFile.'&amp;order=4">'.ag_translate('ID').'</a></p>
    <table class="table table-responsive">
-   <thead class="thead-default">
-   <tr>
-   <th>'.ag_translate('ID').'</th>
-   <th>'.ag_translate('Titre').'</th>
-   <th>'.ag_translate('Catégorie').'</th>
-   <th class="text-center">'.ag_translate('Groupe').'</th>
-   <th>'.ag_translate('Auteur').'</th>
-   <th class="text-center">'.ag_translate('Statut').'</th>
-   <th class="text-center">'.ag_translate('Fonctions').'</th>
-   </tr>
-   </thead><tbody>';
+      <thead class="thead-default">
+         <tr>
+            <th>'.ag_translate('ID').'</th>
+            <th>'.ag_translate('Titre').'</th>
+            <th>'.ag_translate('Catégorie').'</th>
+            <th class="text-center">'.ag_translate('Groupe').'</th>
+            <th>'.ag_translate('Auteur').'</th>
+            <th class="text-center">'.ag_translate('Statut').'</th>
+            <th class="text-center">'.ag_translate('Fonctions').'</th>
+         </tr>
+      </thead>
+      <tbody>';
    /*Requete liste événements avec pagination*/
    $result = sql_query("SELECT id, titre, topicid, posteur, groupvoir, valid FROM ".$NPDS_Prefix."agend_dem ORDER BY $order1 DESC, titre ASC LIMIT $start,$nb_admin");
-   while(list($id, $titre, $topicid, $posteur, $groupvoir, $valid) = sql_fetch_row($result))
-   {
+   while(list($id, $titre, $topicid, $posteur, $groupvoir, $valid) = sql_fetch_row($result)) {
       $titre = stripslashes(aff_langue($titre));
-      echo '<tr>
-      <td>'.$id.'</td>
-      <td>'.$titre.'</td>';
+      echo '
+         <tr>
+            <td>'.$id.'</td>
+            <td>'.$titre.'</td>';
       $toplist = sql_query("SELECT topictext FROM ".$NPDS_Prefix."agendsujet WHERE topicid = $topicid");
-      while(list($topictext) = sql_fetch_row($toplist))
-      {
+      while(list($topictext) = sql_fetch_row($toplist)) {
          $topictext = stripslashes(aff_langue($topictext));
-         echo '<td>'.$topictext.'</td>';
+         echo '
+            <td>'.$topictext.'</td>';
       }
-      echo '<td class="text-center">'.$groupvoir.'</td>
-      <td><a href="replypmsg.php?send='.$posteur.'">'.$posteur.'</a></td>
-      <td class="text-center">';
+      echo '
+            <td class="text-center">'.$groupvoir.'</td>
+            <td><a href="replypmsg.php?send='.$posteur.'">'.$posteur.'</a></td>
+            <td class="text-center">';
       if ($valid == 1)
-      {
          echo '<span class="badge badge-success">'.ag_translate('En Ligne').'</span>';
-      }
       else if ($valid == 2)
-      {
          echo '<span class="badge badge-secondary">'.ag_translate('Hors Ligne').'</span>';
-      }
       else if ($valid == 3)
-      {
          echo '<span class="badge badge-danger">'.ag_translate('A valider').'</span>';
-      }
-         
       echo '</td>
-      <td class="text-center"><a class="btn btn-outline-primary btn-sm mr-1" href="'.$ThisFile.'&amp;subop=editevt&amp;id='.$id.'" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=deleteevt&amp;id='.$id.'" class=""><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-      </tr>';
+            <td class="text-center"><a class="btn btn-outline-primary btn-sm mr-1" href="'.$ThisFile.'&amp;subop=editevt&amp;id='.$id.'" class=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=deleteevt&amp;id='.$id.'" class=""><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+         </tr>';
    }
-   echo '</tbody></table>';
+   echo '
+      </tbody>
+   </table>';
 
 /*Affiche pagination*/
    echo ag_pag($total_pages,$page_courante,'2',''.$ThisFile.'&amp;subop=adminagenda&amp;order='.$order.'','_admin');
@@ -413,7 +399,7 @@ function editevt($id, $month, $an, $debut)
    echo '</ul></label>
    <input type="hidden" name="debut" value="'.$debut.'">
    </fieldset>';
-   cal($id, $month, $an, $debut);
+   calo($id, $month, $an, $debut);
    echo '<fieldset class="form-group">
    <label class="mr-2" for=""><strong>'.ag_translate('Catégorie').'</strong></label>
    <select class="custom-select" name="sujet" value="'.$topicid.'">';
@@ -476,7 +462,7 @@ function editevt($id, $month, $an, $debut)
 // FIN EDITER
 
 // DEBUT AFFICHAGE CALENDRIER
-function cal($id, $month, $an, $debut)
+function calo($id, $month, $an, $debut)
 {
    global $ModPath, $NPDS_Prefix;
    global $ThisFile;
@@ -694,10 +680,8 @@ function cal($id, $month, $an, $debut)
 // FIN AFFICHAGE CALENDRIER
 
 /// DEBUT SAUVER EDITER ///
-function saveevt($debut, $statut, $sujet, $groupvoir, $titre, $intro, $descript, $lieu, $id)
-{
-   global $ModPath, $NPDS_Prefix;
-   global $ThisFile;
+function saveevt($debut, $statut, $sujet, $groupvoir, $titre, $intro, $descript, $lieu, $id) {
+   global $ModPath, $NPDS_Prefix, $ThisFile;
    /*Debut securite*/
    settype($statut,"integer");
    settype($sujet,"integer");
@@ -714,21 +698,17 @@ function saveevt($debut, $statut, $sujet, $groupvoir, $titre, $intro, $descript,
    /*Recupere id demande*/
    $result1 = "DELETE FROM ".$NPDS_Prefix."agend WHERE liaison = '$id'";
    $succes1 = sql_query($result1) or die ("erreur : ".sql_error());
-   $namel = explode(",",$debut);
+   $namel = explode(',',$debut);
    sort($namel);
-   for ($i = 0; $i < sizeof($namel); $i++)
-   {
-      /*Insertion des dates*/
+   for ($i = 0; $i < sizeof($namel); $i++) {
+      //Insertion des dates
       $query = "INSERT INTO ".$NPDS_Prefix."agend values ('', '$namel[$i]', '$id')";
       sql_query($query) or die(sql_error());
    }
    if ($query)
-   {
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est mis à jour').'<br /><br /><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
-   }
-   else
-   {
-      echo ''.sql_error().'<br />';
+      echo '<div class="alert alert-success"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est mis à jour').'</div><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a>';
+   else {
+      echo sql_error().'<br />';
       return;
    }
 }
@@ -753,27 +733,25 @@ function retire($ladate, $debut, $id, $month, $an)
 // FIN ENLEVER JOUR
 
 // DEBUT SUPPRIMER
-function deleteevt($id, $ok=0)
-{
-   global $NPDS_Prefix;
-   global $ThisFile;
+function deleteevt($id, $ok=0) {
+   global $NPDS_Prefix, $ThisFile;
    /*Debut securite*/
    settype($liaison,"integer");
    settype($ok,"integer");
    /*Fin securite*/
    menuprincipal();
-   if ($ok)
-   {
+   if ($ok) {
       $result = "DELETE FROM ".$NPDS_Prefix."agend WHERE liaison = $id";
       $succes = sql_query($result) or die ("erreur : ".sql_error());
       $result1 = "DELETE FROM ".$NPDS_Prefix."agend_dem WHERE id = $id";
       $succes1 = sql_query($result1) or die ("erreur : ".sql_error());
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est maintenant effacé').'</p>';
-      echo '<p><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
+      echo '
+      <p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement est maintenant effacé').'</p>
+      <p><a class="btn btn-secondary btn-sm" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
    }
-   else
-   {
-      echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Etes-vous certain de vouloir supprimer cet événement').'</p>
+   else {
+      echo '
+      <p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Etes-vous certain de vouloir supprimer cet événement').'</p>
       <div class="btn-group"><a class="btn btn-outline-primary btn-sm" href="'.$ThisFile.'&amp;subop=editevt&amp;id='.$id.'">'.ag_translate('NON').'</a>
       <a class="btn btn-outline-danger btn-sm" href="'.$ThisFile.'&amp;subop=deleteevt&amp;id='.$id.'&amp;ok=1">'.ag_translate('OUI').'</a></div>';
       echo '<p><a class="btn btn-secondary btn-sm mt-2" href="'.$ThisFile.'">'.ag_translate('Retour').'</a></p>';
@@ -783,138 +761,179 @@ function deleteevt($id, $ok=0)
 
 // DEBUT CONFIGURATION
 function configuration() {
-   global $ModPath;
-   global $ThisFile;
+   global $ModPath, $ThisFile;
    settype($list_tri,'string');
-
    menuprincipal();
-
    include('modules/'.$ModPath.'/admin/config.php');
    include('modules/'.$ModPath.'/cache.timings.php');
 
-/*Ouvre le repertoire*/
+   //Ouvre le repertoire
    $imgrep = 'modules/'.$ModPath.'/recherche';
    $dp = opendir($imgrep);
    settype($i,'integer');
    while ( $file = readdir($dp) ) {
-/*Enleve les fichiers . et ..*/
-      if ($file != '.' && $file != '..' && $file != 'index.html' && $file != 'message-english.php' && $file != 'message-french.php')
-      {
-/*On passe les datas dans un tableau*/
+      //Enleve les fichiers . et ..
+      if ($file != '.' && $file != '..' && $file != 'index.html' && $file != 'message-english.php' && $file != 'message-french.php') {
+         //On passe les datas dans un tableau
          $ListFiles[$i] = $file;
          $i++;
       }
    }
    closedir($dp);
 
-/*Tri par ordre decroissant*/
+   //Tri par ordre decroissant
    if(count($ListFiles) != 0) {
       if ($list_tri == 'DESC') rsort($ListFiles);
       else sort($ListFiles);
    }
+   $def1='';
    if ($bouton == '1') {
-      $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" checked>'.ag_translate('Par ville (défaut)').'</label></div>';
-      $def1 = '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2">'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
-      ';
+      $def = '
+         <label class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" name="xbouton" value="1" checked="checked" />
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">'.ag_translate('Par ville (défaut)').'</span>
+         </label>
+         <label class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" name="xbouton" value="2" />
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">'.ag_translate('Autres').'</span>
+         </label>
+         ';
+      $def1 = '
+         <select class="custom-select" name="xbouton1">';
       $nb = count($ListFiles);
       for($i = 0;$i < $nb;$i++) {
          $name = substr($ListFiles[$i], 0, -4);
-         $def1 .= '<option value="'.$name.'">'.$name.'</option>';
+         $def1 .= '
+               <option value="'.$name.'">'.$name.'</option>';
       }
-      $def1 .= '</select></label></div>';
+      $def1 .= '
+            </select>';
    }
    else {
-      $def = '<div class="form-check"><label><input class="form-check-input mr-2" type="radio" name="xbouton" value="1" />'.ag_translate('Par ville (défaut)').'</label></div>';
-      $def1 .= '<div class="form-check"><label><input class="form-check-input mt-2" type="radio" name="xbouton" value="2" checked>'.ag_translate('Autres').'<select class="custom-select ml-2" name="xbouton1">
-      ';
+      $def = '
+      <label class="custom-control custom-radio">
+         <input class="custom-control-input" type="radio" name="xbouton" value="1" />
+         <span class="custom-control-indicator"></span>
+         <span class="custom-control-description">'.ag_translate('Par ville (défaut)').'</span>
+      </label>
+      <label class="custom-control custom-radio">
+         <input class="custom-control-input" type="radio" name="xbouton" value="2" checked="checked" />
+         <span class="custom-control-indicator"></span>
+         <span class="custom-control-description">'.ag_translate('Autres').'</span>
+      </label>';
+      $def1 .= '<select class="custom-select" name="xbouton1">';
       $nb = count($ListFiles);
-      for($i = 0;$i < $nb;$i++)
-      {
-         $name = ''.substr($ListFiles[$i], 0, -4).'';
-         if ($bouton == $name){$stat = ' selected';}else{$stat = '';}
-         $def1 .= '<option value="'.$name.'"'.$stat.'>'.$name.'</option>';
+      for($i = 0;$i < $nb;$i++) {
+         $name = substr($ListFiles[$i], 0, -4);
+         if ($bouton == $name) $stat = ' selected="selected"'; else $stat = '';
+         $def1 .= '
+            <option value="'.$name.'"'.$stat.'>'.$name.'</option>';
       }
-      $def1 .= '</select></label></div>';
+      $def1 .= '
+            </select>';
    }
    echo '
    <h4>'.ag_translate('Configuration').'</h4>
+   <hr />
    <form action="'.$ThisFile.'" method="post" name="adminForm">
-      <fieldset class="form-group">
-         <label for="">'.ag_translate('Ajout événement pour').'</label>
-         <input class="form-control" type="text" name="xgro" size="3" value="'.$gro.'" />
-         <small id="" class="form-text text-muted">'.ag_translate('1 : tous les membres ou n° id groupe').'</small>
-      </fieldset>
-      <fieldset class="form-group">
-         <label for="">'.ag_translate('Validation par l\'admin').'</label>';
+      <div class="form-group row">
+         <label class="form-control-label col-sm-5" for="xgro">'.ag_translate('Ajout événement pour').'</label>
+         <div class="col-sm-7">
+            <input class="form-control" type="text" id="xgro" name="xgro" size="3" value="'.$gro.'" />
+            <span class="form-text text-muted small">'.ag_translate('1 : tous les membres ou n° id groupe').'</span>
+         </div>
+      </div>
+      <div class="form-group row">
+         <label class="form-control-label col-sm-5" for="xvalid">'.ag_translate('Validation par l\'admin').'</label>';
    settype($onligne,'string');
    settype($avalider,'string');
    if($valid == 1) $onligne = 'selected="selected"';
    if($valid == 3) $avalider = 'selected="selected"';
    echo '
-         <select class="custom-select" name="xvalid" size="1">
-            <option value="3" '.$avalider.'>'.ag_translate('Oui').'</option>
-            <option value="1" '.$onligne.'>'.ag_translate('Non').'</option>
-         </select>
-   </fieldset>
-   <fieldset class="form-group">
-      <label for="">'.ag_translate('Etre averti par mèl d\'une proposition').'</label>';
+         <div class="col-sm-7">
+            <select class="custom-select" id="xvalid" name="xvalid" size="1">
+               <option value="3" '.$avalider.'>'.ag_translate('Oui').'</option>
+               <option value="1" '.$onligne.'>'.ag_translate('Non').'</option>
+            </select>
+         </div>
+      </div>
+      <div class="form-group row">
+         <label class="form-control-label col-sm-5" for="xcourriel">'.ag_translate('Etre averti par mèl d\'une proposition').'</label>';
    settype($oui,'string');
    settype($non,'string');
    if($courriel == 1) $oui = 'selected="selected"';
    if($courriel == 0) $non = 'selected="selected"';
    echo '
-      <select class="custom-select" name="xcourriel" size="1">
-         <option value="1" '.$oui.'>'.ag_translate('Oui').'</option>
-         <option value="0" '.$non.'>'.ag_translate('Non').'</option>
-      </select>
-   </fieldset>
-   <fieldset class="form-group">
-      <label for="">'.ag_translate('Email du destinataire').'</label>
-      <input class="form-control" type="text" name="xreceveur" size="30" value="'.$receveur.'" />
-   </fieldset>
-   <fieldset class="form-group">
-      <label for="">'.ag_translate('Validation après modification').'</label>';
+         <div class="col-sm-7">
+            <select class="custom-select" id="xcourriel" name="xcourriel" size="1">
+               <option value="1" '.$oui.'>'.ag_translate('Oui').'</option>
+               <option value="0" '.$non.'>'.ag_translate('Non').'</option>
+            </select>
+         </div>
+      </div>
+      <div class="form-group row">
+         <label class="form-control-label col-sm-5" for="xreceveur">'.ag_translate('Email du destinataire').'</label>
+         <div class="col-sm-7">
+            <input class="form-control" type="email" id="xreceveur" name="xreceveur" size="30" value="'.$receveur.'" />
+         </div>
+      </div>
+      <div class="form-group row">
+         <label class="form-control-label col-sm-5" for="xrevalid">'.ag_translate('Validation après modification').'</label>';
    settype($reonligne,'string');
    settype($reavalider,'string');
    if($revalid == 1) $reonligne = 'selected="selected"';
    if($revalid == 3) $reavalider = 'selected="selected"';
    echo '
-      <select class="custom-select" name="xrevalid" size="1">
-         <option value="3" '.$reavalider.'>'.ag_translate('Oui').'</option>
-         <option value="1" '.$reonligne.'>'.ag_translate('Non').'</option>
-      </select>
-   </fieldset>
-   <fieldset class="form-group">
-      <label for="">'.ag_translate('Nombre d\'évènement(s) par page (administration)').'</label>
-      <input class="form-control" type="text" name="xnb_admin" size="3" value="'.$nb_admin.'" />
-   </fieldset>
-   <fieldset class="form-group">
-      <label for="">'.ag_translate('Nombre d\'évènement(s) par page (utilisation)').'</label>
-      <input class="form-control" type="text" name="xnb_news" size="3" value="'.$nb_news.'" />
-   </fieldset>
-   <fieldset class="form-group">
-      <legend for="">'.ag_translate('Recherche').'</legend>
-      <div class=row">
-      <div class="col-sm-10">';
-   echo $def;
-   echo $def1;
-   echo '</div>
+         <div class="col-sm-7">
+            <select class="custom-select" id="xrevalid" name="xrevalid" size="1">
+               <option value="3" '.$reavalider.'>'.ag_translate('Oui').'</option>
+               <option value="1" '.$reonligne.'>'.ag_translate('Non').'</option>
+            </select>
+         </div>
       </div>
-   </fieldset>
-   <fieldset class="form-group">
-      <label for="">'.ag_translate('Supercache').'</label>
-      <input class="form-control" type="text" name="xtps" size="10" value="'.$CACHE_TIMINGS['modules.php'].'" />
-      <small id="" class="form-text text-muted">'.ag_translate('Temps du cache (en secondes)').'</small>
-   </fieldset>
-   <input type="hidden" name="subop" value="ConfigSave" />
-   <button type="submit" class="btn btn-outline-primary btn-sm mt-2"><i class="fa fa-check-square fa-lg mr-2"></i>'.ag_translate('Valider').'</button>
+   <div class="form-group row">
+      <label class="form-control-label col-sm-5" for="xnb_admin">'.ag_translate('Nombre d\'évènement(s) par page (administration)').'</label>
+      <div class="col-sm-7">
+         <input class="form-control" type="number" id="xnb_admin" name="xnb_admin" size="3" value="'.$nb_admin.'" />
+      </div>
+   </div>
+   <div class="form-group row">
+      <label class="form-control-label col-sm-5" for="xnb_news">'.ag_translate('Nombre d\'évènement(s) par page (utilisation)').'</label>
+      <div class="col-sm-7">
+         <input class="form-control" type="number" id="xnb_news" name="xnb_news" size="3" value="'.$nb_news.'" />
+      </div>
+   </div>
+   <div class="form-group row">
+      <label class="form-control-label col-sm-5">'.ag_translate('Recherche').'</label>
+      <div class="col-sm-7">
+         <div class="custom-controls-stacked">
+         '.$def.'
+         </div>
+         '.$def1.'
+      </div>
+   </div>
+      
+      <div class="form-group row">
+         <label class="form-control-label col-sm-5" for="xtps">'.ag_translate('Supercache').'</label>
+         <div class="col-sm-7">
+            <input class="form-control" type="number" id="xtps" name="xtps" size="10" value="'.$CACHE_TIMINGS['modules.php'].'" />
+            <span class="form-text text-muted small">'.ag_translate('Temps du cache (en secondes)').'</span>
+         </div>
+      </div>
+      <div class="form-group row">
+         <input type="hidden" name="subop" value="ConfigSave" />
+         <div class="col">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check-square fa-lg mr-2"></i>'.ag_translate('Valider').'</button>
+         </div>
+      </div>
    </form>';
 }
 // FIN CONFIGURATION
 
 // DEBUT SAUVER CONFIGURATION
-function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admin, $xnb_news, $xbouton, $xbouton1, $xtps)
-{
+function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admin, $xnb_news, $xbouton, $xbouton1, $xtps) {
    global $ModPath;
    /*Debut securite*/
    settype($xgro,"integer");
@@ -928,11 +947,9 @@ function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admi
    $xreceveur = removeHack($xreceveur);
    $xbouton = removeHack($xbouton);
    /*Fin securite*/
-   if($xbouton == '1'){$fich = '1';}else{$fich = ''.$xbouton1.'';}
+   if($xbouton == '1') $fich = '1'; else $fich = $xbouton1; 
    if ($xgro == '0')
-   {
-   $xgro = '1';
-   }
+      $xgro = '1';
    menuprincipal();
    $file = fopen('modules/'.$ModPath.'/admin/config.php', 'w');
    $content = "<?php\n";
@@ -963,8 +980,7 @@ function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admi
    $content .= "?>";
    fwrite($file, $content);
    fclose($file);
-   if($xtps)
-   {
+   if($xtps) {
    $file = fopen('modules/'.$ModPath.'/cache.timings.php', 'w');
    $content = "<?php\n";
    $content .= "/************************************************************************/\n";
@@ -991,7 +1007,7 @@ function ConfigSave($xgro, $xvalid, $xcourriel, $xreceveur, $xrevalid, $xnb_admi
    fwrite($file, $content);
    fclose($file);
    }   
-   echo '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Les préférences pour l\'agenda ont été enregistrées').'</p>';
+   echo '<div class="alert alert-success"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Les préférences pour l\'agenda ont été enregistrées').'</div>';
 }
 // FIN SAUVER CONFIGURATION
 ?>

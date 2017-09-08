@@ -59,8 +59,7 @@ if ($admin) {
    settype($debut,'string');
    settype($ok,'string');
 
-   switch($subop)
-   {
+   switch($subop) {
    default:
       adminagenda();
    break;

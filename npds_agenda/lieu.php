@@ -14,10 +14,10 @@
 /* Changement de nom du module version Rev16 par jpb/phr janv 2017      */
 /************************************************************************/
 // For More security
-if (!stristr($_SERVER['PHP_SELF'],"modules.php")) { die(); }
-if (strstr($ModPath,"..") || strstr($ModStart,"..") || stristr($ModPath, "script") || stristr($ModPath, "cookie") || stristr($ModPath, "iframe") || stristr($ModPath, "applet") || stristr($ModPath, "object") || stristr($ModPath, "meta") || stristr($ModStart, "script") || stristr($ModStart, "cookie") || stristr($ModStart, "iframe") || stristr($ModStart, "applet") || stristr($ModStart, "object") || stristr($ModStart, "meta")) {
+if (!stristr($_SERVER['PHP_SELF'],"modules.php")) die();
+if (strstr($ModPath,'..') || strstr($ModStart,'..') || stristr($ModPath, 'script') || stristr($ModPath, 'cookie') || stristr($ModPath, 'iframe') || stristr($ModPath, 'applet') || stristr($ModPath, 'object') || stristr($ModPath, 'meta') || stristr($ModStart, 'script') || stristr($ModStart, 'cookie') || stristr($ModStart, 'iframe') || stristr($ModStart, 'applet') || stristr($ModStart, 'object') || stristr($ModStart, 'meta'))
    die();
-}
+
 // For More security
 
 include ('modules/'.$ModPath.'/admin/pages.php');
@@ -26,64 +26,9 @@ global $pdst, $language;
 settype($lettre,'string');
 settype($niv,'integer');
 
-// DEBUT FONCTION LISTE SUJET
-function suj() {
-   global $NPDS_Prefix, $ModPath, $theme, $bouton, $ThisRedo, $ThisFile, $gro, $stopicid;
-   /*debut theme html partie 1/2*/
-//   $inclusion = false;
-
-$inclusion = "modules/".$ModPath."/html/sujet.html";
-
-/*fin theme html partie 1/2*/
-
-/*Si membre appartient au bon groupe*/
-   if(autorisation($gro)) {
-      $ajeven = '
-         <li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration">'.ag_translate('Vos ajouts').'</a></li>
-         <li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=agenda_add"><i class="fa fa-plus mr-2" aria-hidden="true"></i>'.ag_translate('Evénement').'</a></li>';
-   }
-
-//Accès direct à un sujet
-   $accesuj = '<li class="nav-item ml-3">
-   <select class="custom-select" onchange="window.location=(\''.$ThisRedo.'&subop=listsuj&sujet='.$stopicid.'\'+this.options[this.selectedIndex].value)">
-   <option>'.aff_langue('Accès catégorie(s)').'</option>';
-
-/*Requete liste sujet*/
-   $result = sql_query("SELECT topicid, topictext FROM ".$NPDS_Prefix."agendsujet ORDER BY topictext ASC");
-   while(list($stopicid, $topictext) = sql_fetch_row($result)) {
-      $topictext = stripslashes(aff_langue($topictext));
-      $accesuj .= '<option value="'.$stopicid.'">'.$topictext.'</option>';
-   }
-   if($bouton == '1')
-      $rech = ag_translate('Par ville');
-   else
-      $rech = ag_translate('Par').' '.$bouton;
-   $accesuj .= '</select></li>';
-
-// fin Accès direct à un sujet
-   $vuannu ='<li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=annee">'.ag_translate('Vue annuelle').'</a></li>';
-   $vulieu ='<li class="nav-item"><a class="nav-link" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=lieu">'.$rech.'</a></li>';
-   
-/*debut theme html partie 2/2*/
-   ob_start();
-   include ($inclusion);
-   $Xcontent = ob_get_contents();
-   ob_end_clean();
-   $npds_METALANG_words = array(
-      "'!titre!'i"=>"<a class=\"btn btn-outline-primary btn-sm\" href=\"$ThisFile\"><i class=\"fa fa-home\" aria-hidden=\"true\"></i> ".ag_translate("Agenda")."</a>",
-      "'!ajeven!'i"=>"$ajeven",
-      "'!accesuj!'i"=>"$accesuj",
-      "'!vuannu!'i"=>"$vuannu",
-      "'!vulieu!'i"=>"$vulieu"
-   );
-   echo meta_lang(aff_langue(preg_replace(array_keys($npds_METALANG_words),array_values($npds_METALANG_words), $Xcontent)));
-/*fin theme html partie 2/2*/
-}
-// FIN LISTE SUJET
-
 // DEBUT LISTE EVENEMENT PAR CHOIX
 function lieu($lettre, $niv) {
-   global $ModPath, $NPDS_Prefix, $theme, $cookie, $ThisFile, $nb_news, $tipath, $bouton, $page;
+   global $ModPath, $NPDS_Prefix, $theme, $cookie, $ThisFile, $nb_news, $tipath, $bouton, $page, $na;
    require_once('modules/'.$ModPath.'/pag_fonc.php');
 
    settype($page,'integer');
@@ -91,55 +36,53 @@ function lieu($lettre, $niv) {
    settype($suite,'string');
    settype($alph,'string');
    settype($cond,'string');
+   settype($datepourmonmodal,'string');
 
-   /*Debut securite*/
+   //Debut securite
    $lettre = removeHack($lettre);
-   /*Fin securite*/
+   //Fin securite
 
-   suj();
-
-   /*debut theme html partie 1/2*/
+   /*theme html partie 1/2*/
    $inclusion = 'modules/'.$ModPath.'/html/lieu.html';
-
-   /*fin theme html partie 1/2*/
    /*Recherche*/
    if ($bouton == '1') {
-      if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ag_translate('pour la lettre').' <span class="badge badge-secondary">'.$lettre.'</span>';}
+      if($lettre != ''){
+         $cond = "AND ut.lieu LIKE '$lettre%'";
+         $suite = ag_translate('pour la lettre').' <span class="badge badge-secondary">'.$lettre.'</span>';
+      }
       $rech = '<span class="ml-1">'.ag_translate('par ville').'</span> '.$suite;
-      $alphabet = array ('A','B','C','D','E','F','G','H','I','J','K','L','M',
-      'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',ag_translate("Autre(s)"));
+      $alphabet = array ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',ag_translate("Autre(s)"));
       $num = count($alphabet);
-      $counter = 0;
       while (list(, $ltr) = each($alphabet)) {
-         if ($ltr != ag_translate("Autre"))
-            $alph .= '<a href="'.$ThisFile.'&amp;lettre='.$ltr.'">'.$ltr.'</a>';
+         if ($ltr != ag_translate("Autre(s)"))
+            $alph .= '<a href="'.$ThisFile.'&amp;lettre='.$ltr.'">'.$ltr.'</a> | ';
          else
             $alph .= '<a href="'.$ThisFile.'&amp;lettre=!AZ">'.$ltr.'</a>';
-         /*Remplacer 1 pour saut de ligne*/
-         if ($counter == round($num/1))
-            $alph .= ' ]<br />[ ';
-         elseif ($counter != $num)
-            $alph .= ' | ';
-         $counter++;
       }
    }
    else {
       include('modules/'.$ModPath.'/recherche/'.$bouton.'.php');
-      if($lettre != ''){$cond = "AND ut.lieu LIKE '$lettre%'";$suite = ' '.ag_translate('pour').' '.$lettre.'';}
-      $rech = ''.ag_translate('Par').' '.$bouton.' '.$suite.'';
-      if($lettre != ''){$cond = "AND ut.lieu = '$lettre'";}
+      if($lettre != '') {
+         $cond = "AND ut.lieu LIKE '$lettre%'";
+         $suite = ' '.ag_translate('pour').' '.$lettre;
+      }
+      $rech = ag_translate('Par').' '.$bouton.' '.$suite;
+      if($lettre != '') $cond = "AND ut.lieu = '$lettre'";
       $alph .= '
-      <select class="custom-select" onchange="window.location=(\''.$ThisFile.'&amp;lettre='.$na[$i].'\'+this.options[this.selectedIndex].value)">'
-      .'<option></option>';
+      <select class="custom-select" onchange="window.location=(\''.$ThisFile.'&amp;lettre='.$na.'\'+this.options[this.selectedIndex].value)">
+         <option></option>';
       foreach($try as $na) {
          if($lettre == $na) $af = ' selected="selected"'; else $af = '';
-         $alph .= '<option value="'.$na.'"'.$af.'>'.$na.'</option>';
+         $alph .= '
+         <option value="'.$na.'"'.$af.'>'.$na.'</option>';
       }
-      $alph .= '</select>';
+      $alph .= '
+      </select>';
    }
    /*Gestion naviguation en cours ou passe*/
    $now = date('Y-m-d');
    /*Total pour naviguation*/
+   settype($sup,'integer');
    $req1 = sql_query("SELECT 
          ut.groupvoir 
       FROM 
@@ -155,6 +98,7 @@ function lieu($lettre, $niv) {
       if(autorisation($groupvoir)) $sup++;
    }
    /*Total pour naviguation*/
+   settype($inf,'integer');
    $req1 = sql_query("SELECT 
          ut.groupvoir 
       FROM 
@@ -169,7 +113,6 @@ function lieu($lettre, $niv) {
    while(list($groupvoir) = sql_fetch_row($req1)) {
       if(autorisation($groupvoir)) $inf++;
    }
-//   $sup='';$inf='';
    if ($sup == '') $sup = '0';
    if ($inf == '') $inf = '0'; 
    if($niv == '0') {
@@ -195,8 +138,8 @@ function lieu($lettre, $niv) {
          $page_courante = $page;
    }
    $start = ($page_courante * $nb_news - $nb_news);
-   if ($sup == '0' && $inf == '0')
-      $affeven = '<p class="lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Vide').'</p>';
+   if ($sup == '0' and $inf == '0')
+      $affeven = '<div class="alert alert-danger lead"><i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Vide').'</div>';
    else {
       $affeven = '
       <ul>
@@ -232,17 +175,22 @@ function lieu($lettre, $niv) {
             /*Si evenement plusieurs jours*/
             $result1 = sql_query("SELECT date FROM ".$NPDS_Prefix."agend WHERE liaison = '$liaison' ORDER BY date DESC");
             $tot = sql_num_rows($result1);
-            $affeven .= '<div class="card my-3">
-                         <div class="card-body">';
-            $affeven .= '<img class="img-thumbnail col-2 mb-2" src="'.$tipath.''.$topicimage.'" />';
-            $affeven .= '<h4 class="card-title">'.$titre.'</h4>';
-            if ($posteur == $cookie[1]) {
-               $affeven .= '<div class="btn-group"><a class="btn btn-outline-primary btn-sm mr-2" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-               <a class="btn btn-outline-danger btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a></div>';
-            }
+            $affeven .= '
+            <div class="card my-3">
+               <div class="card-body">
+                  <img class="img-thumbnail col-2 mb-2" src="'.$tipath.''.$topicimage.'" />
+                  <h4 class="card-title">'.$titre.'</h4>';
+            if ($posteur == $cookie[1])
+               $affeven .= '
+                  <div class="btn-group">
+                     <a class="btn btn-outline-primary btn-sm mr-2" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=editevt&amp;id='.$liaison.'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                     <a class="btn btn-outline-danger btn-sm" href="modules.php?ModPath='.$ModPath.'&amp;ModStart=administration&amp;subop=suppevt&amp;id='.$liaison.'"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                  </div>';
             else
-               $affeven .= '<p>'.ag_translate('posté par').' '.$posteur.'</p>';
-            $affeven .='<p class="card-text">';
+               $affeven .= '
+                  <p>'.ag_translate('posté par').' '.$posteur.'</p>';
+            $affeven .='
+                  <p class="card-text">';
             if ($tot > 1) {
                $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure plusieurs jours').'</p>';
                while (list($ddate) = sql_fetch_row($result1)) {
@@ -254,15 +202,15 @@ function lieu($lettre, $niv) {
                   $datepourmonmodal .= '<span class="'.$etat.'">'.$newdate.'</span>';
                }
             }
-            else
-            {
+            else {
                list($ddate) = sql_fetch_row($result1);
-               if($ddate > $now){$etat = 'badge badge-success';}
-               else if($ddate == $now){$etat = 'badge badge-warning';}
-               else if($ddate < $now){$etat = 'badge badge-warning';}
+               if($ddate > $now) $etat = 'badge badge-success';
+               else if($ddate == $now) $etat = 'badge badge-warning';
+               else if($ddate < $now) $etat = 'badge badge-warning';
                $newdate = formatfrancais($ddate);
-               $affeven .= '<i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>';
-               $affeven .= '<div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
+               $affeven .= '
+               <i class="fa fa-info-circle mr-2" aria-hidden="true"></i>'.ag_translate('Cet événement dure 1 jour').'</p>
+               <div class="'.$etat.' mr-2 mb-2">'.$newdate.'</div>';
             }
 
             $affeven .= '
@@ -274,10 +222,9 @@ function lieu($lettre, $niv) {
                <div class="row">
                   <div class="col-md-2">'.ag_translate('Lieu').'</div>
                   <div class="col-md-10">'.$lieu.'</div>
-               </div>';
-//début modal fiche
-$affeven .= '<div class="row">
-            <div class="col-md-12">
+               </div>
+               <div class="row">
+                  <div class="col-md-12">
             <button type="button" class="btn btn-secondary btn-sm my-2" data-toggle="modal" data-target="#'.$id.'">
   '.ag_translate('Voir la fiche').'
             </button>
@@ -349,28 +296,22 @@ $affeven .= '<div class="row">
    include('modules/'.$ModPath.'/admin/config.php');
    require_once('modules/'.$ModPath.'/ag_fonc.php');
    include ('modules/'.$ModPath.'/cache.timings.php');
-   echo '<div class="card"><div class="card-body">';
 
    if ($SuperCache) {
       $cache_obj = new cacheManager();
       $cache_obj->startCachingPage();
    }
-   else {
+   else
       $cache_obj = new SuperCacheEmpty();
-   }
-   if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache))
-   {
-      switch($subop)
-      {
+   if (($cache_obj->genereting_output == 1) or ($cache_obj->genereting_output == -1) or (!$SuperCache)) {
+      switch($subop) {
          default:
+            echo suj();
             lieu($lettre, $niv);
          break;
       }
    }
    if ($SuperCache)
-   {
       $cache_obj->endCachingPage();
-   }
-echo '</div></div>';
 include("footer.php");
 ?>
