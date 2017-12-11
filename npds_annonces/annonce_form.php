@@ -221,10 +221,9 @@ settype($op,'string');
          </div>
       </div>
    </div>';
-   } else {
+   } else
       echo '
-            <input type="hidden" name="prix" value="'.$prix.'" />';
-   }
+            <input type="hidden" name="prix" value="0" />';
 
    if ($tiny_mce) {
       echo '<button type="submit" name="op" class="btn btn-outline-primary btn-sm" value="Soumettre"><i class="fa fa-check" aria-hidden="true"></i> '.ann_translate("Soumettre").'</button>';
