@@ -1,3 +1,0 @@
-<FilesMatch "\.(pl|cgi|py|php|php3|php4|php5|phtml?|shtml?)$">
-Deny from all
-</FilesMatch>
