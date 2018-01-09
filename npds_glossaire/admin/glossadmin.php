@@ -32,7 +32,7 @@ include ("modules/$ModPath/lang/glossaire-$language.php");
 
    GraphicAdmin($hlpfile);
    echo '<div id="adm_men">';
-   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate("Glossaire").'</h2>';
+   echo '<h2><img src="modules/$ModPath/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate("Glossaire").'</h2>';
 //   echo '<h3>Administration</h3>';
 
 function admin_glo() {
@@ -147,11 +147,11 @@ function admin_edit($id) {
    echo '<form action="admin.php?op=Extend-Admin-SubModule&amp;ModPath='.$ModPath.'&amp;ModStart='.$ModStart.'" method="POST" name="adminForm">';
    echo '<div class="form-group row">';
    echo '<div class="col-sm-3"><label for="">'.glo_translate("Terme").'</label></div>';
-   echo '<div class="col-sm-8"><input class="form-control" type="text" name="terme" value="'.$terme.'"></div>';
+   echo '<div class="col-sm-8"><input class="form-control" type="text" name="terme" value="'.$terme.'" /></div>';
    echo '</div>';
    echo '<div class="form-group row">';
    echo '<div class="col-sm-3"><label for="">'.glo_translate("Catégorie").'</label></div>';
-   echo '<div class="col-sm-4"><input class="form-control" type="text" name="gcategory" value="'.stripslashes($gcat).'" size="25" maxlength="30"></div>';
+   echo '<div class="col-sm-4"><input class="form-control" type="text" name="gcategory" value="'.stripslashes($gcat).'" size="25" maxlength="30" /></div>';
    echo '<div class="col-sm-4"><select class="form-control" name="sgcategory">';
    $result = sql_query("SELECT DISTINCT gcat FROM ".$NPDS_Prefix."td_glossaire ORDER BY gcat");
    while (list($dcategory) = sql_fetch_row($result)) {
@@ -169,8 +169,8 @@ function admin_edit($id) {
    echo '<div class="col-sm-3"><label for="">'.glo_translate("Site internet").'</div>';	  
    echo '<div class="col-sm-8"><input class="form-control" type="text" name="xurl" value="'.$lien.'" size="45" maxsize="255"><small id="" class="form-text text-muted">exemple : http://npds.org</small></div>';
    echo '</div>';
-   echo '<input type="hidden" name="id" value="'.$id.'"><input type="hidden" name="subop" value="admin_modify">';
-   echo '<input class="btn btn-outline-primary btn-sm" type="submit" value="'.glo_translate("Valider").'">';
+   echo '<input type="hidden" name="id" value="'.$id.'"><input type="hidden" name="subop" value="admin_modify" />';
+   echo '<input class="btn btn-outline-primary btn-sm" type="submit" value="'.glo_translate("Valider").'" />';
 }
 settype($subop,'string');
 switch ($subop) {
@@ -243,7 +243,7 @@ switch ($subop) {
    $Q = sql_query("SELECT def FROM ".$NPDS_Prefix."metalang WHERE def='".$terme."'");
    $Q = sql_fetch_assoc($Q);
    if ($Q[def]) {
-      sql_query("UPDATE ".$NPDS_Prefix."metalang SET content='<a href=\"$href\" $target data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"$terme_def\">$terme</a>' where def='$terme'");
+      sql_query("UPDATE ".$NPDS_Prefix."metalang SET content='<a href=\"$href\" $target data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"$terme_def\">$terme</a>' WHERE def='$terme'");
    } else {
       sql_query("INSERT INTO ".$NPDS_Prefix."metalang SET def='".$terme."', content='<a href=\"$href\" $target data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"$terme_def\">$terme</a>', type_meta='mot', type_uri='-', uri='', description='npds_glossaire import', obligatoire='0'");
    }
@@ -262,8 +262,9 @@ switch ($subop) {
    $content .= "/*                                                                      */\n";
    $content .= "/* This version name NPDS Copyright (c) 2001-2017 by Philippe Brunier   */\n";
    $content .= "/*                                                                      */\n";
-   $content .= "/* module npds_glossaire v 3.0 pour revolution 16                       */\n";
-   $content .= "/* by team jpb/phr 2017                                                 */\n";
+   $content .= "/* MODULE : npds_glossaire v 3.0 pour revolution 16                     */\n";      
+   $content .= "/* VERSION : 3.0 pour revolution 16                                     */\n";
+   $content .= "/* AUTEURS :  jpb/phr ( 2017 )                                          */\n";
    $content .= "/*                                                                      */\n";
    $content .= "/* This program is free software. You can redistribute it and/or modify */\n";
    $content .= "/* it under the terms of the GNU General Public License as published by */\n";
