@@ -35,7 +35,7 @@ function glohead() {
 
    include("header.php");
    echo '<div class="card"><div class="card-body">';
-   echo '<h2><img src="modules/npds_glossaire/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate('Glossaire').'</h2>';
+   echo '<h2><img src="modules/$ModPath/npds_glossaire.png" alt="icon_npds_glossaire"> '.glo_translate('Glossaire').'</h2>';
 
    $acounter = sql_query("SELECT count(*) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0'");
    list($acount) = sql_fetch_row($acounter);
@@ -96,7 +96,7 @@ function glofoot() {
 function rand_glo() {
    global $nb_affichage, $NPDS_Prefix;
    
-   $acounter = sql_query("SELECT count(*) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0'");
+   $acounter = sql_query("SELECT COUNT(*) FROM ".$NPDS_Prefix."td_glossaire WHERE affiche!='0'");
    list($acount) = sql_fetch_row($acounter);
    if ($acount != 0) {
       echo '<p class="lead"><a data-toggle="collapse" href="#qqdef" aria-expanded="true" aria-controls="qqdef"><i data-toggle="tooltip" data-placement="top" title="'.glo_translate("Cliquer pour cacher ou déployer").'" class="toggle-icon fa fa-lg fa-caret-down"></i></a> '.glo_translate("Quelques définitions").'</p>';
